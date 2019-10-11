@@ -54,9 +54,13 @@
                                                         <button class="btn btn-info" style="margin-left: 50px;" onclick="searchCartoon();return false;">查询番剧</button>
                                                     </div>
                                                 </div>
+                                                <div class="control-group">
+                                                    <div class="controls">
+                                                        <ul class="his-item"></ul>
+                                                    </div>
+                                                </div>
                                             </fieldset>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
@@ -147,6 +151,7 @@
     $(function(){
       showAttentionBtn(false)
 //      showCartoonInfo(false)
+      initHistory();
     })
 
     function showAttentionBtn(f){
@@ -157,8 +162,8 @@
       $(".cartoon-info").css("display",f? "block": "none");
     }
 
-    function searchCartoon(){
-      let id = $('#cartoonId').val();
+    function searchCartoon(bid){
+      let id = bid || $('#cartoonId').val();
 
       if(!id){
         alert("请输入ID")
@@ -256,6 +261,32 @@
         }
       });
 
+    }
+
+
+    function initHistory(){
+      $.ajax({
+        type : "get",
+        url : "/search/history/1?limit=25",
+        success : function(res) {
+          initHistoryContent(res)
+        },
+        error : function(e){
+          alert('Error')
+        }
+      });
+    }
+
+    function initHistoryContent(items){
+      let content = '';
+      for(let item of items){
+        content += `<li onclick="search(`+ item.bid +`);""><i class="icon-tags"></i> ${item.name}</li>`
+      }
+      $('.his-item').html(content)
+    }
+
+    function search(bid){
+      searchCartoon(bid)
     }
 
 </script>

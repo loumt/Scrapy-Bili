@@ -2,6 +2,7 @@
 const BaseController = require('./BaseController')
 const ResultCode = require('./../constants/ResultCode');
 const CartoonService = require('./../services/CartoonService')
+const SearchHistoryService = require('./../services/SearchHistoryService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
 const RequestHander = require('./../utils/RequestHander')
@@ -80,7 +81,11 @@ class CartoonController extends BaseController {
           }
 
           let result = utils.parse2Object(responseBody)
+          if (!result || result.code === -404) {
+            return this.notFound()
+          }
           // console.dir(result)
+
 
           //海报 result.cover
           //mid result.media_id
@@ -88,6 +93,7 @@ class CartoonController extends BaseController {
           //ratingCode result.rating.score
           //ratingCount result.rating.count
           //fans result.stat.favorites
+          await SearchHistoryService.save({bid: cartoonId, name: result.result.title, type: this.HISTORY.TYPE.CARTOON})
 
           this.success(res, result.result)
 

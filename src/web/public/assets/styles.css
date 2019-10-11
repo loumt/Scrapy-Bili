@@ -17,7 +17,17 @@ body {
     margin-left: 2.564102564102564%;
 }
 
-
+.his-item{
+    list-style:none;margin:0;
+    width: 80%;
+    line-height: 2rem;
+}
+.his-item > li{
+    display:inline;
+    border:solid 0px red;
+    margin-left: 2%;
+    cursor: pointer;
+}
 
 
 /** Login Page **/

@@ -7,5 +7,5 @@ const HistoryController = require('../controllers/HistoryController');
 const debug = require('debug')('bili:sys')
 
 module.exports = router => {
-
+  router.get("/search/history/:type", HistoryController.list())
 }

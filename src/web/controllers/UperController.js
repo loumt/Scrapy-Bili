@@ -4,6 +4,7 @@ const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
 const UperTaskService = require('./../services/UperTaskService')
 const AttentionService = require('./../services/AttentionService')
+const SearchHistoryService = require('./../services/SearchHistoryService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
 const utils = require('./../utils/utils')
@@ -85,6 +86,9 @@ class UperController extends BaseController {
           let uperInfo = {}
           //查询资料
           let infoRes = await RequestHandler(CommonURLConfigure.UP_INFO.url.replace("#MID#", bid))
+          if (!infoRes || infoRes === "") {
+            return this.notFound()
+          }
           let info = utils.parse2Object(infoRes)
 
           uperInfo.bid = bid;
@@ -92,6 +96,9 @@ class UperController extends BaseController {
           uperInfo.sign = info.data.sign;
           uperInfo.face = info.data.face;
           uperInfo.level = info.data.level;
+
+          await SearchHistoryService.save({bid: bid, name: info.data.name , type: this.HISTORY.TYPE.UPER})
+
           this.success(res, uperInfo)
         } catch (err) {
           this.logger.error(err)

@@ -13,6 +13,13 @@ class BaseController {
     this.ResultCode = ResultCode
     this.logger = logger;
     this.debug = debug;
+
+    this.HISTORY= {
+      TYPE:{
+        CARTOON: 1,
+        UPER: 2
+      }
+    }
   }
 
 

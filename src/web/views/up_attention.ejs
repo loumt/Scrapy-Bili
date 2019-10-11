@@ -110,7 +110,7 @@
     }
     let content = "";
     for (var i = 0; i < upers.length; i++) {
-      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
+      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td><td><button class="btn btn-info btn-mini" onclick="showDetail(`+ upers[i].id +`)"> <i class="icon-tasks icon-white"></i>详细</button></td></tr>`
     }
     return content;
   }
@@ -196,6 +196,12 @@
     });
 
   }
+
+
+  function showDetail(uid){
+    alert(uid)
+  }
+
 </script>
 </body>
 

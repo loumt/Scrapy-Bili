@@ -17,6 +17,27 @@ const fs = require('fs')
 class HistoryController extends BaseController {
   constructor() {
     super();
+    this.service = SearchHistoryService;
+  }
+
+  list(){
+    return [
+      this.param("type").exists(),
+      this.ValidationLimit(),
+      this.utils.checkValidationResult(),
+      async (req, res, next) => {
+        let {type} = req.params,{limit} = req.query;
+        try {
+          let history = await this.service.find({where:{type}, skip:0,limit: limit,  order: [
+            ["stime", "DESC"]
+          ]});
+          this.success(res, history)
+        } catch (err) {
+          this.logger.error(err)
+          this.systemInError(res)
+        }
+      }
+    ]
   }
 
 }

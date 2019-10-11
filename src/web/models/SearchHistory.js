@@ -22,6 +22,10 @@ let SearchHistory = sequelize.define(modelProp.name, {
     type: DataTypes.STRING,
     comment: "番剧名或者Up主昵称"
   },
+  type:{
+    type: DataTypes.INTEGER,
+    comment: "类型"
+  },
   stime: {
     type: DataTypes.DATE,
     allowNull: true,

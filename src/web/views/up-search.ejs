@@ -54,6 +54,13 @@
                                                         <button class="btn btn-info" style="margin-left: 50px;" onclick="searchUp();return false;">查询UP主</button>
                                                     </div>
                                                 </div>
+                                                <div class="control-group">
+                                                    <div class="controls">
+                                                        <ul class="his-item">
+                                                            <!--<li onclick="search();" id=""><i class="icon-tags"></i> </li>-->
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </fieldset>
                                         </form>
                                     </div>
@@ -112,6 +119,7 @@
   $(function(){
     showAttentionBtn(false)
 //    showUperInfo(false)
+    initHistory();
   })
 
   function showAttentionBtn(f){
@@ -122,8 +130,8 @@
     $(".uper-info").css("display",f? "block": "none");
   }
 
-  function searchUp(){
-    let id = $('#uperId').val();
+  function searchUp(bid){
+    let id = bid || $('#uperId').val();
 
     if(!id){
       alert("请输入ID")
@@ -190,6 +198,31 @@
       }
     });
 
+  }
+
+  function initHistory(){
+    $.ajax({
+      type : "get",
+      url : "/search/history/2?limit=25",
+      success : function(res) {
+        initHistoryContent(res)
+      },
+      error : function(e){
+        alert('Error')
+      }
+    });
+  }
+
+  function initHistoryContent(items){
+    let content = '';
+    for(let item of items){
+      content += `<li onclick="search(`+ item.bid +`);"><i class="icon-tags"></i> ${item.name}</li>`
+    }
+    $('.his-item').html(content)
+  }
+
+  function search(bid){
+    searchUp(bid)
   }
 
 </script>
