@@ -140,6 +140,13 @@ async function dynamicHandler(dynamicItem) {
         dynamic.reply = cardObject.item.reply
         dynamic.title = cardObject.item.title
         break;
+      case 64:
+        dynamic.dynamic = cardObject.dynamic
+        break;
+      case 256:
+        dynamic.title = cardObject.title
+        dynamic.content = cardObject.intro
+        break;
       case 2048:
         dynamic.content = cardObject.vest.content
         dynamic.reply = desc.comment

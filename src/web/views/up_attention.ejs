@@ -7,6 +7,7 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="assets/styles.css" rel="stylesheet" media="screen">
+    <link href="assets/icon_svg.css" rel="stylesheet" media="screen">
     <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
     <!--[if lte IE 8]>
     <script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
@@ -86,6 +87,34 @@
                     </div>
                 </div>
                 <!-- /block -->
+
+                <!-- Dynamic Modal -->
+                <div id="upDynamic" class="modal hide">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close model-dy-close" type="button">&times;</button>
+                        <h4 class="dynamic-name">Modal header</h4>
+                    </div>
+                    <div class="modal-body dynamic-contents">
+                        <div>
+                            <div style="text-indent:2em;">爱的速递啊###阿达的阿达  阿萨德 阿达阿达阿达啊的 大大啊啊是的阿达啊硕大的啊实打实大大阿达阿达啊硕大的阿萨德阿达阿达阿达阿达阿达啊大大阿达阿达阿达阿达阿萨德的大声道adad啊大大</div>
+                        </div>
+                        <div class="dynamic-props-items">
+                            <span><i class="icon-svg icon-svg-share"></i> 12</span> <span>|</span> <span><i class="icon-svg icon-svg-comment"></i> 3123</span>  <span>|</span> <span><i class="icon-svg icon-svg-like"></i> 3424</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Modal -->
+                <div id="upVideo" class="modal hide">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close model-vi-close" type="button">&times;</button>
+                        <h4>Modal header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal Example Body</p>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -110,7 +139,7 @@
     }
     let content = "";
     for (var i = 0; i < upers.length; i++) {
-      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td><td><button class="btn btn-info btn-mini" onclick="showDetail(`+ upers[i].id +`)"> <i class="icon-tasks icon-white"></i>详细</button></td></tr>`
+      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td><td><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button></td><td><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].id +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
     }
     return content;
   }
@@ -136,6 +165,14 @@
     $('#uperName').on("input propertychange",function(){
       pageJson.page = 1
       initTable()
+    })
+
+    $('.model-dy-close').click(function(){
+      $('#upDynamic').hide()
+    })
+
+    $('.model-vi-close').click(function(){
+      $('#upVideo').hide()
     })
   }
 
@@ -194,12 +231,53 @@
         console.log(e.status);
       }
     });
+  }
 
+  function getContent(type,dy){
+    if(type === 4 || type === 1 || type === 256){
+      return dy.content
+    }
+    if(type === 8 || type === 64){
+      return dy.dynamic
+    }
+    if(type === 2){
+      return dy.description
+    }
+  }
+
+  function initDynamicData(uid){
+    $.ajax({
+      type : "get",
+      contentType: "application/json;charset=UTF-8",
+      url : "/dynamic/" + uid + "?limit=5&page=1",
+      success : function(result) {
+        if(result && result.length > 0){
+
+          for(let dy of result){
+            $('.dynamic-contents').append(`<div>
+                            <div style="text-indent:2em;">` +  getContent(dy.type, dy) +`</div>
+                        </div>
+                        <div class="dynamic-props-items">
+                            <span><i class="icon-svg icon-svg-share"></i> ${dy.repost}</span> <span>|</span> <span><i class="icon-svg icon-svg-comment"></i> ${dy.reply}</span>  <span>|</span> <span><i class="icon-svg icon-svg-like"></i> ${dy.like}</span>
+                        </div>`)
+          }
+        }
+      },
+      error : function(e){
+        console.log(e.status);
+      }
+    });
   }
 
 
-  function showDetail(uid){
-    alert(uid)
+  function showDynamic(uid){
+    $('.dynamic-contents').empty();
+    initDynamicData(uid)
+    $('#upDynamic').show()
+  }
+
+  function showVideo(uid){
+    $('#upVideo').show()
   }
 
 </script>

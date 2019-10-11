@@ -11,6 +11,10 @@ body {
             padding-top: 60px;
     }
 }
+.dynamic-props-items > span{
+    margin-left: 10%;
+    font-family: Helvetica Neue, Helvetica, Arial, Microsoft Yahei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
+}
 
 .search-item {
     float: left;
