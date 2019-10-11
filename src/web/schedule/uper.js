@@ -21,7 +21,7 @@ scheduleJob('*/10 * * * * *', async () => {
   let now = DateUtil.now()
   let nowTimes = new Date().getTime()
   try{
-    let nextTask = await UperTaskService.taskInNext();
+    let nextTask = await UperTaskService.taskInUrgent();
     if(!nextTask){
       nextTask = await UperTaskService.nextTask()
     }

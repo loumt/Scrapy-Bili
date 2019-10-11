@@ -4,6 +4,10 @@ const  db = require('./../models')
 class UperTaskService extends BaseService{
   constructor(){
     super(db["UperTask"])
+    this.URGENT = {
+      YES: 1,
+      NO: 0
+    }
   }
 
   nextTask(){
@@ -21,10 +25,10 @@ class UperTaskService extends BaseService{
    * 查询下一个急迫任务
    * @return {*}
    */
-  taskInNext(){
+  taskInUrgent(){
     return this.findOne({
       where: {
-        repeat_tag : 1
+        urgent : this.URGENT.YES
       },
       order: [
         ["ctime", "ASC"]

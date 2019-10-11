@@ -2,6 +2,7 @@
 const UperTaskService = require('./../services/UperTaskService')
 const AttentionService = require('./../services/AttentionService')
 const CartoonService = require('./../services/CartoonService')
+const VUperAttentionService = require('./../services/VUperAttentionService')
 const DynamicService = require('./../services/DynamicService')
 const DateUtil = require("./../utils/DateUtil")
 
@@ -27,10 +28,10 @@ async function test(){
 
   // console.dir(result.id)
 
-  let result = await DynamicService.findAll(408496784);
-
-  for(let r of result){
-    console.log(r.ptime)
+  // let result = await DynamicService.findAll(408496784);
+  //
+  // for(let r of result){
+  //   console.log(r.ptime)
     // console.log(r.ptime.toLocaleString())
     // console.log(r.ptime.toLocaleDateString())
     // console.log(r.ptime.toUTCString())
@@ -38,9 +39,11 @@ async function test(){
     // console.log(r.ptime.toTimeString())
     // console.log(r.ptime.toLocaleTimeString())
     // DateUtil.now()
+  //   console.log(DateUtil.now(Date.parse(r.ptime)))
+  // }
 
-    console.log(DateUtil.now(Date.parse(r.ptime)))
-  }
+  let result = await VUperAttentionService.all();
+  console.dir(result.length)
 
 }
 

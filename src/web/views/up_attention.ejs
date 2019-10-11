@@ -35,6 +35,32 @@
                     </div>
                     <div class="block-content collapse in">
                         <div class="span12">
+
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <div>
+                                        <div style="float:left;">
+                                            <input class="focused" id="uperId" type="text" value="" placeholder="UP编号">
+                                        </div>
+                                        <div  class="search-item">
+                                            <input class="focused" id="uperName" type="text" value="" placeholder="UP名">
+                                        </div>
+                                        <div  class="search-item">
+                                            <select class="selector uper-fans">
+                                                <option value=""> 粉丝数(默认全部) </option>
+                                                <option value="1">一万以下</option>
+                                                <option value="2">五万以下</option>
+                                                <option value="3">十万以下</option>
+                                                <option value="4">五十万以下</option>
+                                                <option value="5">五十万至一百万</option>
+                                                <option value="6">一百万以上</option>
+                                                <option value="7">一千万以上</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
                             <table cellpadding="0" cellspacing="0" border="0"
                                    class="table table-striped table-bordered">
                                 <thead>
@@ -47,6 +73,8 @@
                                     <th>粉丝数</th>
                                     <th>关注数</th>
                                     <th>投稿数</th>
+                                    <th>播放</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody id="up-data">
@@ -82,18 +110,34 @@
     }
     let content = "";
     for (var i = 0; i < upers.length; i++) {
-      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td></tr>`
+      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
     }
     return content;
   }
 
 
   $(function(){
-
-
-
     initTable();
+    initEvent();
   });
+
+  function initEvent(){
+    $('.uper-fans').change(function(){
+      pageJson.page = 1
+      initTable()
+    })
+    $('#uperId').on("input propertychange",function(){
+      pageJson.page = 1
+      var single = $(this).val();
+      single = single.replace(/[^\d]/g, ''); // 先把非数字的都替换掉，除了数字和. -
+      $(this).val(single);
+      initTable()
+    })
+    $('#uperName').on("input propertychange",function(){
+      pageJson.page = 1
+      initTable()
+    })
+  }
 
 
 
@@ -102,13 +146,25 @@
       limit: pageJson.limit,
       page: pageJson.page
     }
+    let url = "/attentions" + "?limit=" + options.limit + "&page=" + options.page
+
+    let uperId = $('#uperId').val();
+    let uperName = $('#uperName').val();
+    let fanScope = $('.uper-fans').val();
+    if(uperId && uperId!==""){
+      url += "&uperId=" + uperId
+    }
+    if(uperName && uperName!==""){
+      url += "&uperName=" + uperName
+    }
+    if(fanScope && fanScope!==""){
+      url += "&fanScope=" + fanScope
+    }
 
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/attentions" + "?limit=" + options.limit + "&page=" + options.page,
-      //数据，json字符串
-//        data : JSON.stringify(options),
+      url,
       //请求成功
       success : function(result) {
         $('#up-data').html(builderTbody(result.rows))
@@ -119,6 +175,26 @@
         console.log(e.status);
       }
     });
+  }
+
+  function deleteAttention(_this){
+    let id = $(_this).attr('id');
+    if(!id)return;
+
+    $.ajax({
+      type : "delete",
+      contentType: "application/json;charset=UTF-8",
+      url : "/attentions/" + id,
+      success : function(result) {
+        alert("删除成功")
+        $('#up-data').empty();
+        initTable()
+      },
+      error : function(e){
+        console.log(e.status);
+      }
+    });
+
   }
 </script>
 </body>

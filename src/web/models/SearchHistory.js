@@ -2,11 +2,11 @@ const {DataTypes} = require('sequelize');
 const {sequelize,Sequelize} = require('./../lib/SequlizeConnection');
 
 const modelProp = {
-  name: 'UperTask',
-  tableName: 'bl_uper_task'
+  name: 'SearchHistory',
+  tableName: 'bl_search_history'
 }
 
-let UperTask = sequelize.define(modelProp.name, {
+let SearchHistory = sequelize.define(modelProp.name, {
   id: {
     type: DataTypes.BIGINT,
     unique: true,
@@ -16,33 +16,22 @@ let UperTask = sequelize.define(modelProp.name, {
   },
   bid: {
     type: DataTypes.BIGINT,
-    allowNull: false,
-    unique: true
+    allowNull: false
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    comment: "番剧名或者Up主昵称"
   },
-  repeat_tag: {
-    type: DataTypes.TINYINT,
-    defaultValue: 0,
-    comment : "重复标记"
-  },
-  urgent: {
-    type: DataTypes.TINYINT,
-    defaultValue: 0,
-    comment : "急迫的任务,1时定时器优先"
-  },
-  ctime:{
+  stime: {
     type: DataTypes.DATE,
     allowNull: true,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    comment: '创建时间'
+    comment: '查询时间'
   }
 }, {
   timestamps: false,
   tableName: modelProp.tableName,
-  comment: 'UP主定时任务表'
+  comment: '查询历史表'
 });
 
-module.exports = UperTask;
+module.exports = SearchHistory;

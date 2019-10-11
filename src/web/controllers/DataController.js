@@ -16,7 +16,6 @@ const fs = require('fs')
 class DataController extends BaseController {
   constructor() {
     super();
-    _.isNumber()
   }
 
   async buildCartoonExcelData() {

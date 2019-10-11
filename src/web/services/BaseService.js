@@ -1,6 +1,9 @@
+const Sequelize = require('sequelize')
+
 class BaseService {
   constructor(model) {
     this.model = model;
+    this.Op = Sequelize.Op
   }
 
   all() {

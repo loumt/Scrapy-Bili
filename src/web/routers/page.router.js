@@ -6,7 +6,7 @@
 const NavigationController = require('../controllers/NavigationController');
 
 module.exports = router => {
-  router.get("/", (req,res,next)=>{res.render("uper")})
+  router.get("/", (req,res,next)=>{res.render("up_attention")})
   router.get("/home", (req,res,next)=>{res.render("home")})
   router.get("/buttons", (req,res,next)=>{res.render("buttons")})
   router.get("/calendar", (req,res,next)=>{res.render("calendar")})

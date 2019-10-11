@@ -50,9 +50,8 @@
                                                 <div class="control-group">
                                                     <label class="control-label" for="focusedInput">UP主ID</label>
                                                     <div class="controls">
-                                                        <input class="input-xlarge focused" id="uperId" placeholder="请输入UP主ID " type="text" value="295238487">
+                                                        <input class="input-xlarge focused" id="uperId" placeholder="请输入UP主ID " type="text" value="">
                                                         <button class="btn btn-info" style="margin-left: 50px;" onclick="searchUp();return false;">查询UP主</button>
-                                                        <button class="btn btn-danger add-attention" onclick="add2AttentionUp();return false;">加入关注</button>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -66,7 +65,7 @@
                 </div>
             </div>
 
-            <div class="row-fluid uper-info">
+            <div class="row-fluid uper-info" style="display: none">
                 <!-- block -->
                 <div class="block">
                     <div class="navbar navbar-inner block-header">
@@ -89,7 +88,10 @@
                                     <label class="label label-info">签名 </label><em class="sign"></em>
                                 </div>
                                 <div>
-                                    <a class="btn uper-link" href="" target="_blank"> Go </a>
+                                    <a class="btn uper-link" href="" target="_blank"><i class="icon-share-alt"></i>  跳转到主页 </a>
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger add-attention" onclick="add2AttentionUp();return false;"><i class="icon-star icon-white"></i>加入关注</button>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +111,7 @@
 
   $(function(){
     showAttentionBtn(false)
-    showUperInfo(false)
+//    showUperInfo(false)
   })
 
   function showAttentionBtn(f){

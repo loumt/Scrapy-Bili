@@ -35,6 +35,39 @@
                     </div>
                     <div class="block-content collapse in">
                         <div class="span12">
+                            <form class="form-horizontal">
+                                <fieldset>
+                                    <div>
+                                        <div style="float:left;">
+                                            <input class="focused" id="cartoonId" type="text" value="" placeholder="UP编号">
+                                        </div>
+                                        <div  class="search-item">
+                                            <input class="focused" id="cartoonName" type="text" value="" placeholder="番名">
+                                        </div>
+                                        <div  class="search-item">
+                                            <select class="selector rating-code">
+                                                <option value=""> 评分(默认全部) </option>
+                                                <option value="1">7.0以下</option>
+                                                <option value="2">7.0~8.0</option>
+                                                <option value="3">8.0~9.0</option>
+                                                <option value="4">9.0~9.5</option>
+                                                <option value="5">9.5以上</option>
+                                            </select>
+                                        </div>
+                                        <div  class="search-item">
+                                            <select class="selector fans">
+                                                <option value=""> 追番人数(默认全部) </option>
+                                                <option value="1">十万以上</option>
+                                                <option value="2">五十万以上</option>
+                                                <option value="3">一百万以上</option>
+                                                <option value="4">五百万以上</option>
+                                                <option value="5">一千万以上</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+
                             <table cellpadding="0" cellspacing="0" border="0"
                                    class="table table-striped table-bordered">
                                 <thead>
@@ -45,7 +78,7 @@
                                     <th>评分</th>
                                     <th>评分人数</th>
                                     <th>追番人数</th>
-                                    <th>更新时间</th>
+                                    <th>数据更新时间</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -84,7 +117,7 @@
     }
     let content = "";
     for(var i =0;i< cartoons.length; i++){
-      content += ` <tr><td>${cartoons[i].mid}</td><td>${cartoons[i].name}</td><td>${cartoons[i].originName}</td><td>${cartoons[i].ratingCode}</td><td>${cartoons[i].ratingCount}</td><td>${cartoons[i].fans}</td><td>${utc2beijing(cartoons[i].utime)}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" mid =${cartoons[i].id}>删除</button></td></tr>`
+      content += ` <tr><td>${cartoons[i].mid}</td><td>${cartoons[i].name}</td><td>${cartoons[i].originName}</td><td>${cartoons[i].ratingCode}</td><td>${cartoons[i].ratingCount}</td><td>${cartoons[i].fans}</td><td>${utc2beijing(cartoons[i].utime)}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" mid =${cartoons[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
     }
     return content;
   }
@@ -92,8 +125,30 @@
 
   $(function(){
     initTable();
+    initEvent();
   });
 
+  function initEvent(){
+    $('#cartoonId').on("input propertychange",function(){
+      pageJson.page = 1
+      var single = $(this).val();
+      single = single.replace(/[^\d]/g, '');
+      $(this).val(single);
+      initTable()
+    })
+    $('#cartoonName').on("input propertychange",function(){
+      pageJson.page = 1
+      initTable()
+    })
+    $('.rating-code').change(function(){
+      pageJson.page = 1
+      initTable()
+    })
+    $('.fans').change(function(){
+      pageJson.page = 1
+      initTable()
+    })
+  }
 
 
   function initTable(){
@@ -102,10 +157,29 @@
       page: pageJson.page
     }
 
+    let url = "/cartoons" + "?limit=" + options.limit + "&page=" + options.page
+    let cartoonId = $('#cartoonId').val();
+    let cartoonName = $('#cartoonName').val();
+    let ratingScope = $('.rating-code').val();
+    let fanScope = $('.fans').val();
+    if(cartoonId && cartoonId!==""){
+      url += "&cartoonId=" + cartoonId
+    }
+    if(cartoonName && cartoonName!==""){
+      url += "&cartoonName=" + cartoonName
+    }
+    if(fanScope && fanScope!==""){
+      url += "&fanScope=" + fanScope
+    }
+    if(ratingScope && ratingScope!==""){
+      url += "&ratingScope=" + ratingScope
+    }
+
+
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/cartoons" + "?limit=" + options.limit + "&page=" + options.page,
+      url,
       //数据，json字符串
 //        data : JSON.stringify(options),
       //请求成功

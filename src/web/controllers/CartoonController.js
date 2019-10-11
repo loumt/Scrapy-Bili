@@ -12,18 +12,48 @@ class CartoonController extends BaseController {
   constructor() {
     super();
     this.service = CartoonService
+    this.scope = {
+      fan: {
+        1: {[this.service.Op.gte]: 100000},
+        2: {[this.service.Op.gte]: 500000},
+        3: {[this.service.Op.gte]: 1000000},
+        4: {[this.service.Op.gte]: 5000000},
+        5: {[this.service.Op.gte]: 10000000}
+      },
+      ratingCode: {
+        1: {[this.service.Op.lte]: 7.0},
+        2: {[this.service.Op.gte]: 7.0, [this.service.Op.lte]: 8.0},
+        3: {[this.service.Op.gte]: 8.0, [this.service.Op.lte]: 9.0},
+        4: {[this.service.Op.gte]: 9.0, [this.service.Op.lte]: 9.5},
+        5: {[this.service.Op.gte]: 9.5}
+      }
+    }
   }
 
   getCartoonList() {
     return [
+      this.query("cartoonId").optional().toInt(),
+      this.query("cartoonName").optional().toString(),
+      this.query("fanScope").optional().toInt(),
+      this.query("ratingScope").optional().toInt(),
       this.ValidationLimit(),
       this.ValidationPage(),
       this.utils.checkValidationResult(),
       async (req, res, next) => {
-        let {limit, page} = req.query
+        let {limit, page, cartoonId, cartoonName, fanScope, ratingScope } = req.query
         let skip = limit * (page - 1)
         try {
-          let attentions = await this.service.findAndCountAll({limit, skip});
+          let option = {limit, skip, where: {}}
+          if(cartoonId) { option.where.mid = { [this.service.Op.like]: `%${cartoonId}%` } }
+          if(cartoonName) { option.where.name = { [this.service.Op.like]: `%${cartoonName}%`} }
+          if(fanScope) {
+            option.where.fans =  this.scope.fan[fanScope]
+          }
+          if(ratingScope) {
+            option.where.ratingCode =  this.scope.ratingCode[ratingScope]
+          }
+
+          let attentions = await this.service.findAndCountAll(option);
           attentions.page = page;
           attentions.limit = limit;
           this.success(res, attentions)

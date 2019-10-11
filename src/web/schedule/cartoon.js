@@ -1,18 +1,11 @@
-const cheerio = require('cheerio')
-const https = require('https')
-const axios = require('axios')
-const request = require('request')
-const rp = require('request-promise')
 const logger = require('./../utils/log4js').system()
 const utils = require('./../utils/utils')
 const debug = require('debug')('bili:schedule')
-const dateformat = require('dateformat')
 const CommonURLConfigure = require('./../constants/CommonURLConfigure')
 const userAgents = require('./../lib/UserAgent')
 const RequestHandler =require('./../utils/RequestHander')
 const {scheduleJob} = require('node-schedule')
 const DateUtil = require('./../utils/DateUtil')
-const UperService =require('./../services/UperService')
 const CartoonService =require('./../services/CartoonService')
 
 debug("CarToon Schedule ...... ")
@@ -25,6 +18,9 @@ scheduleJob('0 */3 * * * *', async () => {
 
   try{
     let cartoon = await CartoonService.nextTask();
+    if(!cartoon || cartoon.mid){
+      return;
+    }
 
     let cartoonResponse = await RequestHandler(CommonURLConfigure.CARTOON_DETAIL.url.replace("#MID#", cartoon.mid))
     await cartoonResponseHandler(cartoon.id, cartoonResponse)
