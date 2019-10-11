@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UP</title>
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="assets/styles.css" rel="stylesheet" media="screen">
+    <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+    <!--[if lte IE 8]>
+    <script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+
+<body>
+
+<% include common/header.ejs %>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <% include common/navigation.ejs %>
+
+        <div class="span9" id="content">
+            <div class="row-fluid">
+                <!-- block -->
+                <div class="block">
+                    <div class="navbar navbar-inner block-header">
+                        <div class="muted pull-left"></div>
+                    </div>
+
+                    <div class="block-content collapse in">
+                        <div class="span12">
+
+                            <!-- Body -->
+                            <div class="block">
+                                <div class="navbar navbar-inner block-header">
+                                    <div class="muted pull-left">1. 本站所有UP主数据</div>
+                                </div>
+                                <div class="block-content collapse in">
+                                    <div class="span12">
+                                        <button class="btn btn-primary btn" onclick="out(2);">导出</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Body -->
+
+
+                            <!-- Body -->
+                            <div class="block">
+                                <div class="navbar navbar-inner block-header">
+                                    <div class="muted pull-left">2. 关注的UP主数据</div>
+                                </div>
+                                <div class="block-content collapse in">
+                                    <div class="span12">
+                                        <button class="btn btn-primary btn" onclick="out(3);">导出</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Body -->
+
+
+                            <!-- Body -->
+                            <div class="block">
+                                <div class="navbar navbar-inner block-header">
+                                    <div class="muted pull-left">3. 关注的番剧数据</div>
+                                </div>
+                                <div class="block-content collapse in">
+                                    <div class="span12">
+                                        <button class="btn btn-primary btn" onclick="out(1);">导出</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Body -->
+                            <!-- Body -->
+                            <div class="block">
+                                <div class="navbar navbar-inner block-header">
+                                    <div class="muted pull-left">4. UP主数据包含 1. up主信息 2.动态 3.视频</div>
+                                </div>
+                                <div class="block-content collapse in">
+                                    <div class="span12">
+                                            <div style="float: left">
+                                                <input type="text" id="bid" placeholder="UP编号">
+                                            </div>
+                                            <div style="float: left; margin-left: 15px;">
+                                                <button class="btn btn-primary btn" onclick="checkOut(4);">导出</button>
+                                            </div>
+                                    </div>
+                                    <div class="span12">
+                                        <div>
+                                            <label class="label label-info">
+                                                UP主
+                                            </label>
+                                            <span id="up-name"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Body -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /block -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--/.fluid-container-->
+<script src="vendors/jquery-1.9.1.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/scripts.js"></script>
+<script>
+  $(function () {
+    $("#bid").on("input propertychange",searchUper)
+  });
+  function out(type) {window.location.href = '/export?type=' + type}
+
+  let canCheckout = false;
+  function checkOut(type){
+    let bid = $('#bid').val();
+    if(!bid){
+      return alert('请输入编号')
+    }
+    if(!/^\d{1,15}$/.test(bid)){
+      return alert('编号为数字串')
+    }
+    if(!canCheckout){
+      return alert('本站未找到用户,不可导出')
+    }
+    window.location.href = '/export?type=' + type + "&bid=" + bid
+  }
+
+  function searchUper(){
+    let bid = $('#bid').val();
+    if(!bid){
+      return;
+    }
+    $.ajax({
+      type : "get",
+      url : "/upers/" + bid,
+      success : function(res) {
+        if(res){
+          canCheckout = true;
+          $('#up-name').text(res.name)
+        }else{
+          canCheckout= false;
+          $('#up-name').text("未找到")
+        }
+      },
+      error : function(e){}
+    });
+  }
+</script>
+</body>
+
+</html>

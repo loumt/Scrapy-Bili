@@ -1,0 +1,4 @@
+src/web/node_modules
+src/web/package-lock.json
+package-lock.json
+log/*.log

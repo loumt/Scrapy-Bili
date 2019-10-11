@@ -1,0 +1,12 @@
+{
+  "name": "scrapy-bili",
+  "version": "1.0.0",
+  "description": "Scrapy Web And App",
+  "scripts": {
+    "web": "node ./src/web/app.js",
+    "web-dev": "node ./src/web/dev.js"
+  },
+  "dependencies": {
+    "ejs": "^2.7.1"
+  }
+}
