@@ -1,5 +1,6 @@
 
 const UperTaskService = require('./../services/UperTaskService')
+const UperService = require('./../services/UperService')
 const AttentionService = require('./../services/AttentionService')
 const CartoonService = require('./../services/CartoonService')
 const VUperAttentionService = require('./../services/VUperAttentionService')
@@ -42,8 +43,8 @@ async function test(){
   //   console.log(DateUtil.now(Date.parse(r.ptime)))
   // }
 
-  let result = await VUperAttentionService.all();
-  console.dir(result.length)
+  let result = await UperService.findByMid(331257408);
+  console.dir(result)
 
 }
 

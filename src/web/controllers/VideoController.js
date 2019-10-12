@@ -4,18 +4,19 @@ const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
 const AttentionService = require('./../services/AttentionService')
 const DynamicService = require('./../services/DynamicService')
+const VideoService = require('./../services/VideoService')
 const VUperAttentionService = require('./../services/VUperAttentionService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
 
 
-class DynamicController extends BaseController {
+class VideoController extends BaseController {
   constructor() {
     super();
-    this.service = DynamicService
+    this.service = VideoService
   }
 
-  getDynamicList() {
+  getVideoList() {
     return [
       this.param("uperId").optional().toInt(),
       this.ValidationLimit(),
@@ -48,4 +49,4 @@ class DynamicController extends BaseController {
   }
 }
 
-module.exports = new DynamicController();
+module.exports = new VideoController();

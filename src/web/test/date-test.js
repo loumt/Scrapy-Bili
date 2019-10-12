@@ -36,3 +36,19 @@ function handler2(){
 
 
 test()
+
+
+
+
+let  arr1 = [1,2,3,4,5]
+
+
+console.log(arr1.shift())
+console.log(arr1.shift())
+console.log(arr1.shift())
+console.log(arr1.shift())
+console.log(arr1.shift())
+console.log(arr1.shift())
+
+console.log(Boolean.of(null))
+console.log(Boolean.of(1))

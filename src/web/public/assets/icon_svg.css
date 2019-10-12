@@ -18,6 +18,12 @@
     height: 1em;
 }
 
+.icon-svg-favorite{
+    background-position: 0em -1.075em;
+    width: 1em;
+    height: 1em;
+}
+
 .icon-svg-like {
     background-position: 0em -6.00em;
     width: 1em;

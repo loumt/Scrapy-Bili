@@ -11,8 +11,13 @@ body {
             padding-top: 60px;
     }
 }
+
+button{
+    white-space: nowrap;
+}
+
 .dynamic-props-items > span{
-    margin-left: 10%;
+    margin-left: 13%;
     font-family: Helvetica Neue, Helvetica, Arial, Microsoft Yahei, Hiragino Sans GB, Heiti SC, WenQuanYi Micro Hei, sans-serif;
 }
 
@@ -135,6 +140,10 @@ body {
 }
 .block-header div {
 	padding-top: 10px;
+}
+
+.dynamic-content{
+    margin-top: 4%;
 }
 
 .easyPieChart {

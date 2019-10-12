@@ -9,6 +9,7 @@
     <link href="assets/styles.css" rel="stylesheet" media="screen">
     <link href="assets/icon_svg.css" rel="stylesheet" media="screen">
     <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+    <link href="assets/video_style.css" rel="stylesheet" media="screen">
     <!--[if lte IE 8]>
     <script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -16,6 +17,15 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <style>
+        .modal {
+            left: 40%;
+            width: 50%;
+        }
+        .modal-body{
+            max-height: 500px;
+        }
+    </style>
 </head>
 
 <body>
@@ -92,27 +102,18 @@
                 <div id="upDynamic" class="modal hide">
                     <div class="modal-header">
                         <button data-dismiss="modal" class="close model-dy-close" type="button">&times;</button>
-                        <h4 class="dynamic-name">Modal header</h4>
+                        <h4 class="dynamic-name"></h4>
                     </div>
-                    <div class="modal-body dynamic-contents">
-                        <div>
-                            <div style="text-indent:2em;">爱的速递啊###阿达的阿达  阿萨德 阿达阿达阿达啊的 大大啊啊是的阿达啊硕大的啊实打实大大阿达阿达啊硕大的阿萨德阿达阿达阿达阿达阿达啊大大阿达阿达阿达阿达阿萨德的大声道adad啊大大</div>
-                        </div>
-                        <div class="dynamic-props-items">
-                            <span><i class="icon-svg icon-svg-share"></i> 12</span> <span>|</span> <span><i class="icon-svg icon-svg-comment"></i> 3123</span>  <span>|</span> <span><i class="icon-svg icon-svg-like"></i> 3424</span>
-                        </div>
-                    </div>
+                    <div class="modal-body dynamic-contents"></div>
                 </div>
 
                 <!-- Video Modal -->
                 <div id="upVideo" class="modal hide">
                     <div class="modal-header">
                         <button data-dismiss="modal" class="close model-vi-close" type="button">&times;</button>
-                        <h4>Modal header</h4>
+                        <h4  class="video-name"></h4>
                     </div>
-                    <div class="modal-body">
-                        <p>Modal Example Body</p>
-                    </div>
+                    <div class="modal-body video-contents"></div>
                 </div>
 
             </div>
@@ -139,7 +140,7 @@
     }
     let content = "";
     for (var i = 0; i < upers.length; i++) {
-      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td><td><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button></td><td><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].id +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
+      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td><td><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button></td><td><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].bid +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
     }
     return content;
   }
@@ -245,23 +246,71 @@
     }
   }
 
+  function getDynamicItemContent(dy){
+    if(!dy)return '';
+    return `<div class="dynamic-content">
+                            <div style="text-indent:2em;">` +  getContent(dy.type, dy) +`</div>
+                        </div>
+                        <div class="dynamic-props-items">
+                            <span><i class="icon-svg icon-svg-share"></i> ${dy.repost}</span> <span></span> <span><i class="icon-svg icon-svg-comment"></i> ${dy.reply}</span>  <span></span> <span><i class="icon-svg icon-svg-like"></i> ${dy.like}</span>
+                        </div>`
+  }
+
   function initDynamicData(uid){
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/dynamic/" + uid + "?limit=5&page=1",
+      url : "/dynamic/" + uid + "?limit=15&page=1",
       success : function(result) {
-        if(result && result.length > 0){
+        let rows = result.rows,uper = result.uper;
 
-          for(let dy of result){
-            $('.dynamic-contents').append(`<div>
-                            <div style="text-indent:2em;">` +  getContent(dy.type, dy) +`</div>
-                        </div>
-                        <div class="dynamic-props-items">
-                            <span><i class="icon-svg icon-svg-share"></i> ${dy.repost}</span> <span>|</span> <span><i class="icon-svg icon-svg-comment"></i> ${dy.reply}</span>  <span>|</span> <span><i class="icon-svg icon-svg-like"></i> ${dy.like}</span>
-                        </div>`)
+        $('.dynamic-name').empty().text(uper.name)
+
+        if(rows && rows.length > 0){
+          for(let dy of rows){
+            $('.dynamic-contents').append(getDynamicItemContent(dy))
           }
         }
+      },
+      error : function(e){
+        console.log(e.status);
+      }
+    });
+  }
+
+
+  function getVideoItemContent (video){
+    if(!video) return "";
+
+    return `<div class="video-content" title='${video.title}'><div><img class="video-banner"  src='https://images.weserv.nl/?url=https:${video.pic}'></div><div><span class="video-des" style="display: none;">${video.desc}</span></div><div><i class="icon-bold"></i><span class="video-coin">${video.coin}</span><i class="icon-svg icon-svg-share"></i><span class="video-share">${video.share}</span><i class="icon-svg icon-svg-favorite"></i><span class="video-favorite">${video.favorite}</span></div><div><i class="icon-svg icon-svg-comment"></i><span class="video-comment">${video.comment}</span><i class="icon-svg icon-svg-like"></i><span class="video-like">${video.like}</span></div><div><i class="icon-asterisk"></i><span class="video-danmaku">${video.danmaku}</span><i class="icon-play"></i><span class="video-view">${video.view}</span></div></div>`
+  }
+
+
+  function initVideoData(uid){
+    $.ajax({
+      type : "get",
+      contentType: "application/json;charset=UTF-8",
+      url : "/video/" + uid + "?limit=9&page=1",
+      success : function(result) {
+        let rows = result.rows,uper = result.uper;
+
+        $('.video-name').empty().text(uper.name)
+        let content = '';
+        if(rows && rows.length > 0){
+          let length = rows.length;
+          let group = Math.ceil(length/3);
+          for(let i =0 ; i < group ; i ++){
+            content += "<div>"
+            content += getVideoItemContent(rows.shift());
+            content += getVideoItemContent(rows.shift());
+            content += getVideoItemContent(rows.shift());
+            content += "</div>"
+          }
+        }else{
+          content = "<div>暂无内容</div>"
+        }
+
+        $('.video-contents').html(content)
       },
       error : function(e){
         console.log(e.status);
@@ -277,6 +326,8 @@
   }
 
   function showVideo(uid){
+    $('.video-contents').empty();
+    initVideoData(uid)
     $('#upVideo').show()
   }
 

@@ -136,7 +136,10 @@
     }
     let content = "";
     for (var i = 0; i < upers.length; i++) {
-      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-primary btn-mini" onclick="addAttention(this)" bid =${upers[i].bid}><i class="icon-star icon-white"></i>关注</button></td></tr>`
+      console.log(upers[i].isAttention)
+      let attentionBtn =   upers[i].isAttention? ``: `<button class="btn btn-primary btn-mini" onclick="addAttention(this)" bid =${upers[i].bid}><i class="icon-star icon-white"></i>关注</button>`
+
+      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td>` +  attentionBtn   +`</td></tr>`
     }
     return content;
   }
@@ -154,6 +157,7 @@
       success : function(result) {
         $.jGrowl("关注成功");
 //        alert("关注成功")
+        initTable();
       },
       error : function(e){
         console.log(e.status);

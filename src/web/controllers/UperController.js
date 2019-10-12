@@ -50,6 +50,7 @@ class UperController extends BaseController {
           let upers = await this.service.findAndCountAll(option);
           upers.page = page;
           upers.limit = limit;
+          upers.rows = await this.convertUperAttention(upers.rows)
           this.success(res, upers)
         } catch (err) {
           this.logger.error(err)
@@ -139,6 +140,19 @@ class UperController extends BaseController {
         }
       }
     ]
+  }
+
+  async convertUperAttention(upers){
+    if(!upers || upers.length === 0) return upers;
+    async function isAttention(uper){
+      let exist = await AttentionService.findOneByBid(uper.bid);
+      uper.isAttention = exist ? true: false;
+    }
+    for(let uper of upers){
+      uper = uper.dataValues;
+      await isAttention(uper)
+    }
+    return upers
   }
 
 }
