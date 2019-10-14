@@ -16,7 +16,7 @@ const UperService =require('./../services/UperService')
 const UperTaskService =require('./../services/UperTaskService')
 
 debug("Uper Schedule ...... ")
-scheduleJob('*/10 * * * * *', async () => {
+scheduleJob('*/12 * * * * *', async () => {
 //获取网页
   let now = DateUtil.now()
   let nowTimes = new Date().getTime()

@@ -10,12 +10,6 @@ const CartoonService =require('./../services/CartoonService')
 
 debug("CarToon Schedule ...... ")
 scheduleJob('0 */3 * * * *', async () => {
-//获取网页
-  let now = DateUtil.now()
-  debug(now)
-
-  let nowTimes = new Date().getTime()
-
   try{
     let cartoon = await CartoonService.nextTask();
     if(!cartoon || cartoon.mid){
