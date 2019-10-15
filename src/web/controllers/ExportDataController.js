@@ -2,10 +2,10 @@
 const BaseController = require('./BaseController')
 const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
-const AttentionService = require('./../services/AttentionService')
-const CartoonService = require('./../services/CartoonService')
-const DynamicService = require('./../services/DynamicService')
-const VideoService = require('./../services/VideoService')
+const AttentionUperService = require('../services/AttentionUperService')
+const AttentionCartoonService = require('../services/AttentionCartoonService')
+const AttentionUperDynamicService = require('../services/AttentionUperDynamicService')
+const AttentionUperVideoService = require('../services/AttentionUperVideoService')
 const _ = require('lodash');
 const DateUtil =require('./../utils/DateUtil')
 const debug = require('debug')('bili:service')
@@ -13,13 +13,13 @@ const xlsx = require('node-xlsx');
 const path = require('path')
 const fs = require('fs')
 
-class DataController extends BaseController {
+class ExportDataController extends BaseController {
   constructor() {
     super();
   }
 
   async buildCartoonExcelData() {
-    let cartoons = await CartoonService.all();
+    let cartoons = await AttentionCartoonService.all();
     let cartoonResponse = [["编号", "番名", "原番名", "追番人数", "评分人数", "评分"]]
 
     for(let cartoon of cartoons){
@@ -41,7 +41,7 @@ class DataController extends BaseController {
   }
 
   async buildAttentionUperExcelData(){
-    let upers = await AttentionService.findAndCountAll();
+    let upers = await AttentionUperService.findAndCountAll();
     let uperResponse = [["编号", "UP主", "等级", "签名", "投稿", "关注", "粉丝数"]]
 
     for(let uper of upers){
@@ -56,11 +56,11 @@ class DataController extends BaseController {
   }
 
   async getUperDynamic(bid){
-    return await DynamicService.findAll(bid)
+    return await AttentionUperDynamicService.findAll(bid)
   }
 
   async getUperVideo(bid){
-    return await VideoService.findAll(bid)
+    return await AttentionUperVideoService.findAll(bid)
   }
 
   async buildUpDynamicVideoExcelData(uper){
@@ -68,7 +68,7 @@ class DataController extends BaseController {
     uperResponse.push([uper.bid , uper.name, uper.level, uper.sign, uper.contribute, uper.attention, uper.fans])
     uperResponse.push([null,null,null,null,null,null,null])
 
-    let dynamics = await DynamicService.findAll(uper.bid)
+    let dynamics = await AttentionUperDynamicService.findAll(uper.bid)
     uperResponse.push([null,null,null,null,null,null,null])
     uperResponse.push([null,null,null,"动态",null,null,null])
     uperResponse.push([null,null,null,null,null,null,null])
@@ -77,7 +77,7 @@ class DataController extends BaseController {
       uperResponse.push([dynamic.did, dynamic.type, dynamic.title ,dynamic.description, dynamic.content,dynamic.dynamic, dynamic.repost, dynamic.reply, dynamic.like, DateUtil.now(Date.parse(dynamic.ptime))])
     }
 
-    let videos = await VideoService.findAll(uper.bid)
+    let videos = await AttentionUperVideoService.findAll(uper.bid)
     uperResponse.push([null,null,null,null,null,null,null])
     uperResponse.push([null,null,null,"视频",null,null,null])
     uperResponse.push([null,null,null,null,null,null,null])
@@ -150,4 +150,4 @@ class DataController extends BaseController {
 
 }
 
-module.exports = new DataController();
+module.exports = new ExportDataController();

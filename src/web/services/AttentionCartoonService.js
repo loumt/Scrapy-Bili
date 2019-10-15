@@ -1,9 +1,13 @@
 const BaseService =require('./BaseService')
 const  db = require('./../models')
 
-class CartoonService extends BaseService{
+class AttentionCartoonService extends BaseService{
   constructor(){
-    super(db["Cartoon"])
+    super(db["AttentionCartoon"])
+    this.CANCEL = {
+      YES: 1,
+      NO: 0
+    }
   }
 
   findOneByMid(mid){
@@ -16,6 +20,7 @@ class CartoonService extends BaseService{
 
   nextTask(){
     return this.findOne({
+      row: true,
       order: [
         ["utime", "ASC"]
       ]
@@ -29,4 +34,4 @@ class CartoonService extends BaseService{
 
 }
 
-module.exports = new CartoonService();
+module.exports = new AttentionCartoonService();

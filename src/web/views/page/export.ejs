@@ -8,6 +8,7 @@
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="assets/styles.css" rel="stylesheet" media="screen">
     <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+    <link href="vendors/jGrowl/jquery.jgrowl.css" rel="stylesheet" media="screen">
     <!--[if lte IE 8]>
     <script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -19,12 +20,12 @@
 
 <body>
 
-<% include common/header.ejs %>
+<% include ../common/header.ejs %>
 
 <div class="container-fluid">
     <div class="row-fluid">
 
-        <% include common/navigation.ejs %>
+        <% include ../common/navigation.ejs %>
 
         <div class="span9" id="content">
             <div class="row-fluid">
@@ -117,11 +118,12 @@
 <script src="vendors/jquery-1.9.1.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/scripts.js"></script>
+<script src="vendors/jGrowl/jquery.jgrowl.js"></script>
 <script>
   $(function () {
     $("#bid").on("input propertychange",searchUper)
   });
-  function out(type) {window.location.href = '/export?type=' + type}
+  function out(type) {window.location.href = '/api/export?type=' + type}
 
   let canCheckout = false;
   function checkOut(type){
@@ -129,13 +131,13 @@
     if(!bid){
       return alert('请输入编号')
     }
-    if(!/^\d{1,15}$/.test(bid)){
+    if(!isStringNumber(bid)){
       return alert('编号为数字串')
     }
     if(!canCheckout){
       return alert('本站未找到用户,不可导出')
     }
-    window.location.href = '/export?type=' + type + "&bid=" + bid
+    window.location.href = '/api/export?type=' + type + "&bid=" + bid
   }
 
   function searchUper(){
@@ -155,7 +157,9 @@
           $('#up-name').text("未找到")
         }
       },
-      error : function(e){}
+      error : function(e){
+        showErrorMessage(e,$.jGrowl)
+      }
     });
   }
 </script>

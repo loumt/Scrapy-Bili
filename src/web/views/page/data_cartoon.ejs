@@ -2,12 +2,13 @@
 <html>
 
 <head>
-    <title>UP</title>
+    <title>关注の番剧</title>
     <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="assets/styles.css" rel="stylesheet" media="screen">
     <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
+    <link href="vendors/jGrowl/jquery.jgrowl.css" rel="stylesheet" media="screen">
     <!--[if lte IE 8]>
     <script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -19,12 +20,12 @@
 
 <body>
 
-<% include common/header.ejs %>
+<% include ../common/header.ejs %>
 
 <div class="container-fluid">
     <div class="row-fluid">
 
-        <% include common/navigation.ejs %>
+        <% include ../common/navigation.ejs %>
 
         <div class="span9" id="content">
 
@@ -146,6 +147,7 @@
 <script src="vendors/jquery-1.9.1.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/scripts.js"></script>
+<script src="vendors/jGrowl/jquery.jgrowl.js"></script>
 <script>
 
     $(function(){
@@ -170,17 +172,20 @@
         return;
       }
 
+      if(!isStringNumber(id)){
+        return alert('编号为数字串')
+      }
+
       $.ajax({
         type : "get",
         contentType: "application/json;charset=UTF-8",
-        url : "/cartoon/" + id ,
+        url : "/api/search/cartoon/" + id ,
         success : function(result) {
           innerData(result)
           showAttentionBtn(true)
         },
         error : function(e){
-          console.log(e)
-          alert('Error')
+          showErrorMessage(e,$.jGrowl)
         }
       });
     }
@@ -245,19 +250,13 @@
 
       $.ajax({
         type : "post",
-        url : "/cartoons",
+        url : "/api/attention/cartoons",
         data,
         success : function() {
           alert("关注成功~");
         },
         error : function(e){
-          if(e.responseText){
-            let error = JSON.parse(e.responseText)
-            if(error.code === 700){
-              return alert("已在关注列表")
-            }
-          }
-          alert('Error')
+          showErrorMessage(e,$.jGrowl)
         }
       });
 
@@ -267,12 +266,12 @@
     function initHistory(){
       $.ajax({
         type : "get",
-        url : "/search/history/1?limit=25",
+        url : "/api/search/history/1?limit=25",
         success : function(res) {
           initHistoryContent(res)
         },
         error : function(e){
-          alert('Error')
+          showErrorMessage(e,$.jGrowl)
         }
       });
     }

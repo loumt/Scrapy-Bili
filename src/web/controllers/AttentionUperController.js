@@ -2,16 +2,17 @@
 const BaseController = require('./BaseController')
 const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
-const AttentionService = require('./../services/AttentionService')
+const UperTaskService = require('./../services/UperTaskService')
+const AttentionUperService = require('../services/AttentionUperService')
 const VUperAttentionService = require('./../services/VUperAttentionService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
 
 
-class AttentionController extends BaseController {
+class AttentionUperController extends BaseController {
   constructor() {
     super();
-    this.service = AttentionService
+    this.service = AttentionUperService
     this.vService = VUperAttentionService
     this.scope = {
       1: { [this.service.Op.lte]: 10000},
@@ -58,17 +59,27 @@ class AttentionController extends BaseController {
 
   addAttention() {
     return [
-      this.body("bid").exists(),
+      this.body("bid").exists().toInt(),
+      this.body("name").exists(),
       this.utils.checkValidationResult(),
       async (req, res, next) => {
-        let {bid} = req.body
+        let {bid, name} = req.body
         try {
-          let result = await this.service.findOneByBid(bid)
+          let result = await this.vService.findOneByBid(bid)
           if (result) {
             return this.error(res, ResultCode.ALREADY_ATTENTION)
           }
 
           await this.service.save({bid, utime: new Date()})
+
+          //新增任务
+          let existTask = await UperTaskService.findOne({where: {bid}})
+          if (existTask) {
+            await UperTaskService.updateOne( {bid},{urgent: UperTaskService.URGENT.YES})
+          } else {
+            await UperTaskService.save({urgent: UperTaskService.URGENT.YES, bid , name })
+          }
+
           this.success(res)
         } catch (err) {
           this.logger.error(err)
@@ -96,4 +107,4 @@ class AttentionController extends BaseController {
   }
 }
 
-module.exports = new AttentionController();
+module.exports = new AttentionUperController();

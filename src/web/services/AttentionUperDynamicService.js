@@ -1,9 +1,9 @@
 const BaseService =require('./BaseService')
 const  db = require('./../models')
 
-class DynamicService extends BaseService{
+class AttentionUperDynamicService extends BaseService{
   constructor(){
-    super(db["Dynamic"])
+    super(db["AttentionUperDynamic"])
   }
 
   findByMid(mid){
@@ -37,4 +37,4 @@ class DynamicService extends BaseService{
 
 }
 
-module.exports = new DynamicService();
+module.exports = new AttentionUperDynamicService();

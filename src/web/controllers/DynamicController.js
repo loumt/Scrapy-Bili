@@ -2,8 +2,8 @@
 const BaseController = require('./BaseController')
 const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
-const AttentionService = require('./../services/AttentionService')
-const DynamicService = require('./../services/DynamicService')
+const AttentionUperService = require('../services/AttentionUperService')
+const AttentionUperDynamicService = require('../services/AttentionUperDynamicService')
 const VUperAttentionService = require('./../services/VUperAttentionService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
@@ -12,28 +12,27 @@ const debug = require('debug')('bili:service')
 class DynamicController extends BaseController {
   constructor() {
     super();
-    this.service = DynamicService
   }
 
   getDynamicList() {
     return [
-      this.param("uperId").optional().toInt(),
+      this.param("id").optional().toInt(),
       this.ValidationLimit(),
       this.ValidationPage(),
       this.utils.checkValidationResult(),
       async (req, res, next) => {
-        let {limit, page} = req.query
+        let {limit, page} = req.query, {id} = req.params
         let skip = limit * (page - 1)
         try {
-          let uper = await UperService.findByMid(req.params.uperId)
+          let uper = await UperService.findByMid(id)
           if(!uper){
             return this.notFound(res)
           }
 
-          let option = {limit, skip, where: {mid: req.params.uperId}}
+          let option = {limit, skip, where: {mid: id}}
 
           let result = {}
-          let dynamics = await this.service.find(option);
+          let dynamics = await AttentionUperDynamicService.find(option);
           result.rows = dynamics
           result.page = page;
           result.limit = limit;

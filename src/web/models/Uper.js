@@ -27,6 +27,11 @@ let Uper = sequelize.define(modelProp.name, {
     type: DataTypes.STRING,
     allowNull: false
   },
+  sex: {
+    type: DataTypes.TINYINT,
+    allowNull:true,
+    comment: "性别"
+  },
   level: {
     type: DataTypes.INTEGER,
     defaultValue: 1,

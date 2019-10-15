@@ -1,9 +1,9 @@
 const BaseService =require('./BaseService')
 const  db = require('./../models')
 
-class AttentionService extends BaseService{
+class AttentionUperService extends BaseService{
   constructor(){
-    super(db["Attention"])
+    super(db["AttentionUper"])
     this.model.belongsTo(db['Uper'], {foreignKey:"bid", targetKey: "bid"})
   }
 
@@ -38,6 +38,7 @@ class AttentionService extends BaseService{
         bid: item['Uper.bid'],
         face: item['Uper.face'],
         name: item['Uper.name'],
+        sex: item['Uper.sex'],
         level: item['Uper.level'],
         sign: item['Uper.sign'],
         contribute: item['Uper.contribute'],
@@ -75,6 +76,7 @@ class AttentionService extends BaseService{
         bid: item['Uper.bid'],
         face: item['Uper.face'],
         name: item['Uper.name'],
+        sex: item['Uper.sex'],
         level: item['Uper.level'],
         sign: item['Uper.sign'],
         contribute: item['Uper.contribute'],
@@ -102,4 +104,4 @@ class AttentionService extends BaseService{
 
 }
 
-module.exports = new AttentionService();
+module.exports = new AttentionUperService();

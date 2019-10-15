@@ -3,7 +3,7 @@ const BaseController = require('./BaseController')
 const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
 const UperTaskService = require('./../services/UperTaskService')
-const AttentionService = require('./../services/AttentionService')
+const AttentionUperService = require('../services/AttentionUperService')
 const SearchHistoryService = require('./../services/SearchHistoryService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
@@ -16,17 +16,17 @@ class UperController extends BaseController {
     super();
     this.service = UperService
     this.scope = {
-      1: { [this.service.Op.lte]: 10000},
-      2: { [this.service.Op.lte]: 50000},
-      3: { [this.service.Op.lte]: 100000},
-      4: { [this.service.Op.lte]: 500000},
-      5: { [this.service.Op.gte]: 500000, [this.service.Op.lte]: 1000000},
-      6: { [this.service.Op.gte]: 1000000},
-      7: { [this.service.Op.gte]: 10000000}
+      1: {[this.service.Op.lte]: 10000},
+      2: {[this.service.Op.lte]: 50000},
+      3: {[this.service.Op.lte]: 100000},
+      4: {[this.service.Op.lte]: 500000},
+      5: {[this.service.Op.gte]: 500000, [this.service.Op.lte]: 1000000},
+      6: {[this.service.Op.gte]: 1000000},
+      7: {[this.service.Op.gte]: 10000000}
     }
   }
 
-  getUperList() {
+  list() {
     return [
       this.query("uperId").optional().toInt(),
       this.query("level").optional().toInt(),
@@ -41,11 +41,17 @@ class UperController extends BaseController {
         try {
           let skip = limit * (page - 1 )
           let option = {limit, skip, where: {}}
-          if(level) { option.where.level = parseInt(level) }
-          if(uperId) { option.where.bid = { [this.service.Op.like]: `%${uperId}%` } }
-          if(uperName) { option.where.name = { [this.service.Op.like]: `%${uperName}%`} }
-          if(fanScope) {
-            option.where.fans =  this.scope[fanScope]
+          if (level) {
+            option.where.level = parseInt(level)
+          }
+          if (uperId) {
+            option.where.bid = {[this.service.Op.like]: `%${uperId}%`}
+          }
+          if (uperName) {
+            option.where.name = {[this.service.Op.like]: `%${uperName}%`}
+          }
+          if (fanScope) {
+            option.where.fans = this.scope[fanScope]
           }
           let upers = await this.service.findAndCountAll(option);
           upers.page = page;
@@ -60,7 +66,7 @@ class UperController extends BaseController {
     ]
   }
 
-  getUper() {
+  find() {
     return [
       this.param("bid").exists(),
       this.utils.checkValidationResult(),
@@ -87,10 +93,12 @@ class UperController extends BaseController {
           let uperInfo = {}
           //查询资料
           let infoRes = await RequestHandler(CommonURLConfigure.UP_INFO.url.replace("#MID#", bid))
-          if (!infoRes || infoRes === "") {
-            return this.notFound()
-          }
+          if (!infoRes || infoRes === "")
+            return this.error(res, ResultCode.NOT_FOUND)
           let info = utils.parse2Object(infoRes)
+
+          if (info.code === -404)
+            return this.error(res, ResultCode.NOT_FOUND)
 
           uperInfo.bid = bid;
           uperInfo.name = info.data.name;
@@ -98,7 +106,7 @@ class UperController extends BaseController {
           uperInfo.face = info.data.face;
           uperInfo.level = info.data.level;
 
-          await SearchHistoryService.save({bid: bid, name: info.data.name , type: this.HISTORY.TYPE.UPER})
+          await SearchHistoryService.save({bid: bid, name: info.data.name, type: this.HISTORY.TYPE.UPER})
 
           this.success(res, uperInfo)
         } catch (err) {
@@ -109,46 +117,15 @@ class UperController extends BaseController {
     ]
   }
 
-  addAttention() {
-    return [
-      this.body("bid").exists(),
-      this.body("name").exists(),
-      this.utils.checkValidationResult(),
-      async (req, res, next) => {
-        let {bid, name} = req.body
-        try {
-          bid = parseInt(bid);
-          let result = await AttentionService.findOneByBid(bid)
-          if (result) {
-            return this.error(res, ResultCode.ALREADY_ATTENTION)
-          }
+  async convertUperAttention(upers) {
+    if (!upers || upers.length === 0) return upers;
 
-          await AttentionService.save({bid})
-
-          let existTask = await UperTaskService.findOne({where: {bid}})
-          if (existTask) {
-            await UperTaskService.updateOne({urgent: UperTaskService.URGENT.YES}, {bid})
-          } else {
-            await UperTaskService.save({urgent: UperTaskService.URGENT.YES, bid, name})
-          }
-
-          this.success(res)
-        } catch (err) {
-          console.log(err)
-          this.logger.error(err)
-          this.systemInError(res)
-        }
-      }
-    ]
-  }
-
-  async convertUperAttention(upers){
-    if(!upers || upers.length === 0) return upers;
-    async function isAttention(uper){
-      let exist = await AttentionService.findOneByBid(uper.bid);
-      uper.isAttention = exist ? true: false;
+    async function isAttention(uper) {
+      let exist = await AttentionUperService.findOneByBid(uper.bid);
+      uper.isAttention = exist ? true : false;
     }
-    for(let uper of upers){
+
+    for (let uper of upers) {
       uper = uper.dataValues;
       await isAttention(uper)
     }

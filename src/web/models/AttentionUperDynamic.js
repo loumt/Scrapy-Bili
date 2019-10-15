@@ -2,11 +2,11 @@ const {DataTypes} = require('sequelize');
 const {sequelize,Sequelize} = require('./../lib/SequlizeConnection');
 
 const modelProp = {
-  name: 'Dynamic',
-  tableName: 'bl_dynamic'
+  name: 'AttentionUperDynamic',
+  tableName: 'bl_attention_uper_dynamic'
 }
 
-let Dynamic = sequelize.define(modelProp.name, {
+let AttentionUperDynamic = sequelize.define(modelProp.name, {
   id: {
     type: DataTypes.BIGINT,
     unique: true,
@@ -83,4 +83,4 @@ let Dynamic = sequelize.define(modelProp.name, {
   comment: '动态表'
 });
 
-module.exports = Dynamic;
+module.exports = AttentionUperDynamic;

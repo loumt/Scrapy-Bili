@@ -40,7 +40,7 @@ class BaseService {
 
   count(options) {
     if (options)
-      return this.model.where(options).count();
+      return this.model.count({where: options});
     return this.model.count()
   }
 

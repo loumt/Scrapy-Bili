@@ -3,12 +3,9 @@
 /**
  * Uper路由
  */
-const uper = require('../controllers/UperController');
-const debug = require('debug')('bili:sys')
+const UperController = require('../controllers/UperController');
 
 module.exports = router => {
-  router.get("/upers", uper.getUperList())
-  router.get("/upers/:bid", uper.getUper())
-  router.get("/uper/:bid", uper.findUper())
-  router.post("/uper", uper.addAttention())
+  router.get("/api/upers", UperController.list())
+  router.get("/api/upers/:bid", UperController.find())
 }

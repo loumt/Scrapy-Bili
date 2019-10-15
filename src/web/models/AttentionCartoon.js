@@ -2,11 +2,11 @@ const {DataTypes} = require('sequelize');
 const {sequelize,Sequelize} = require('./../lib/SequlizeConnection');
 
 const modelProp = {
-  name: 'Cartoon',
-  tableName: 'bl_cartoon'
+  name: 'AttentionCartoon',
+  tableName: 'bl_attention_cartoon'
 }
 
-let Cartoon = sequelize.define(modelProp.name, {
+let AttentionCartoon = sequelize.define(modelProp.name, {
   id: {
     type: DataTypes.BIGINT,
     unique: true,
@@ -57,7 +57,7 @@ let Cartoon = sequelize.define(modelProp.name, {
   cancel:{
     type: DataTypes.TINYINT,
     defaultValue: 0,
-    comment: "撤销"
+    comment: "撤销或已下架"
   },
   ctime:{
     type: DataTypes.DATE,
@@ -74,7 +74,7 @@ let Cartoon = sequelize.define(modelProp.name, {
 }, {
   timestamps: false,
   tableName: modelProp.tableName,
-  comment: '番剧表'
+  comment: '关注番剧表'
 });
 
-module.exports = Cartoon;
+module.exports = AttentionCartoon;

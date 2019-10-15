@@ -12,11 +12,11 @@ module.exports = {
     //UP主更新项
     UPER: {
       //UP主信息定时器设置
-      INFO_SHEDULE: "0 */1 * * * *",
+      INFO_SHEDULE: "*/30 * * * * *",
       // 动态更新定时器设置
-      DYNAMIC_SCHEDULE: '* */1 * * * *',
+      DYNAMIC_SCHEDULE: '0 */1 * * * *',
       // 视频更新定时器设置
-      VIDEO_SCHEDULE: '* */1 * * * *'
+      VIDEO_SCHEDULE: '*/15 * * * * *'
     }
   }
 }

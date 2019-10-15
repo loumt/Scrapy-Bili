@@ -6,6 +6,14 @@ class VUperAttentionService extends BaseService{
     super(db["VUperAttention"])
   }
 
+  findOneByBid(bid){
+    return this.findOne({
+      where: {
+        bid
+      }
+    })
+  }
+
 
   async findAndCountAllWithInfo(options){
     let option = {

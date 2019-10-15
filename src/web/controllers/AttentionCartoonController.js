@@ -1,18 +1,19 @@
 'use strict'
 const BaseController = require('./BaseController')
-const ResultCode = require('./../constants/ResultCode');
-const CartoonService = require('./../services/CartoonService')
-const SearchHistoryService = require('./../services/SearchHistoryService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
 const RequestHander = require('./../utils/RequestHander')
 const utils = require('./../utils/utils')
 const CommonURLConfigure = require('./../constants/CommonURLConfigure')
+const ResultCode = require('./../constants/ResultCode');
+const AttentionCartoonService = require('../services/AttentionCartoonService')
+const SearchHistoryService = require('./../services/SearchHistoryService')
 
-class CartoonController extends BaseController {
+
+class AttentionCartoonController extends BaseController {
   constructor() {
     super();
-    this.service = CartoonService
+    this.service = AttentionCartoonService
     this.scope = {
       fan: {
         1: {[this.service.Op.gte]: 100000},
@@ -31,7 +32,7 @@ class CartoonController extends BaseController {
     }
   }
 
-  getCartoonList() {
+  getAttentionCartoonList() {
     return [
       this.query("cartoonId").optional().toInt(),
       this.query("cartoonName").optional().toString(),
@@ -76,15 +77,13 @@ class CartoonController extends BaseController {
           console.log(`cartoonId:${cartoonId}`)
 
           let responseBody = await RequestHander(CommonURLConfigure.CARTOON_DETAIL.url.replace("#MID#", cartoonId))
-          if (!responseBody || responseBody === "") {
-            return this.notFound()
-          }
+          if (!responseBody || responseBody === "")
+            return this.error(res,ResultCode.NOT_FOUND)
+
 
           let result = utils.parse2Object(responseBody)
-          if (!result || result.code === -404) {
-            return this.notFound()
-          }
-          // console.dir(result)
+          if (!result || result.code === -404)
+            return this.error(res,ResultCode.NOT_FOUND)
 
 
           //海报 result.cover
@@ -105,7 +104,7 @@ class CartoonController extends BaseController {
     ]
   }
 
-  saveAttentionCartoon() {
+  addAttentionCartoon() {
     return [
       this.body("mid").exists(),
       this.body("name").exists(),
@@ -133,7 +132,7 @@ class CartoonController extends BaseController {
     ]
   }
 
-  removeCartoon() {
+  removeAttentionCartoon() {
     return [
       this.param("id").exists(),
       this.utils.checkValidationResult(),
@@ -152,4 +151,4 @@ class CartoonController extends BaseController {
 
 }
 
-module.exports = new CartoonController();
+module.exports = new AttentionCartoonController();

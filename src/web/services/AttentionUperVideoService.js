@@ -1,9 +1,9 @@
 const BaseService =require('./BaseService')
 const  db = require('./../models')
 
-class VideoService extends BaseService{
+class AttentionUperVideoService extends BaseService{
   constructor(){
-    super(db["Video"])
+    super(db["AttentionUperVideo"])
   }
 
   findByMid(mid){
@@ -45,4 +45,4 @@ class VideoService extends BaseService{
 
 }
 
-module.exports = new VideoService();
+module.exports = new AttentionUperVideoService();

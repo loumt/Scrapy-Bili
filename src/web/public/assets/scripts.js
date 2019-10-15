@@ -25,7 +25,7 @@ function initNavigation(){
   $.ajax({
     type : "get",
     contentType: "application/json;charset=UTF-8",
-    url : "/navigation",
+    url : "/api/navigation",
     success : function(result) {
       $(".up-nav").text(result.upCount)
       $(".up-attention-nav").text(result.upAttentionCount)
@@ -78,4 +78,31 @@ function utc2beijing(utc_datetime) {
   // 时间戳转为时间
   var beijing_datetime = new Date(parseInt(timestamp) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
   return beijing_datetime; // 2017-03-31 16:02:06
+}
+
+
+function isStringNumber(str){
+  return /^\d{1,15}$/.test(str)
+}
+
+function getResultError(e){
+  if(!e || !e.responseText){
+    return undefined;
+  }
+
+  let parseType = JSON.parse(e.responseText);
+  if(typeof parseType === 'object'){
+    return parseType
+  }else{
+    return undefined
+  }
+}
+
+function showErrorMessage(e , fn){
+  let resultCode = getResultError(e)
+  if(resultCode){
+    fn(resultCode.message , {header: "警告"})
+  }else{
+    fn("System Error!" , {header: "系统错误"})
+  }
 }

@@ -10,6 +10,7 @@
     <link href="assets/icon_svg.css" rel="stylesheet" media="screen">
     <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
     <link href="assets/video_style.css" rel="stylesheet" media="screen">
+    <link href="vendors/jGrowl/jquery.jgrowl.css" rel="stylesheet" media="screen">
     <!--[if lte IE 8]>
     <script language="javascript" type="text/javascript" src="vendors/flot/excanvas.min.js"></script><![endif]-->
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -30,12 +31,12 @@
 
 <body>
 
-<% include common/header.ejs %>
+<% include ../common/header.ejs %>
 
 <div class="container-fluid">
     <div class="row-fluid">
 
-        <% include common/navigation.ejs %>
+        <% include ../common/navigation.ejs %>
 
         <div class="span9" id="content">
             <div class="row-fluid">
@@ -127,6 +128,7 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/scripts.js"></script>
 <script src="assets/pagination.js"></script>
+<script src="vendors/jGrowl/jquery.jgrowl.js"></script>
 <script>
   var pageJson = {
     page: 1,
@@ -184,7 +186,7 @@
       limit: pageJson.limit,
       page: pageJson.page
     }
-    let url = "/attentions" + "?limit=" + options.limit + "&page=" + options.page
+    let url = "/api/attention/upers" + "?limit=" + options.limit + "&page=" + options.page
 
     let uperId = $('#uperId').val();
     let uperName = $('#uperName').val();
@@ -210,7 +212,7 @@
       },
       //请求失败，包含具体的错误信息
       error : function(e){
-        console.log(e.status);
+        showErrorMessage(e,$.jGrowl)
       }
     });
   }
@@ -222,14 +224,14 @@
     $.ajax({
       type : "delete",
       contentType: "application/json;charset=UTF-8",
-      url : "/attentions/" + id,
+      url : "/api/attention/upers/" + id,
       success : function(result) {
         alert("删除成功")
         $('#up-data').empty();
         initTable()
       },
       error : function(e){
-        console.log(e.status);
+        showErrorMessage(e,$.jGrowl)
       }
     });
   }
@@ -260,7 +262,7 @@
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/dynamic/" + uid + "?limit=15&page=1",
+      url : "/api/attention/upers/" +  uid +"/dynamics" + "?limit=15&page=1",
       success : function(result) {
         let rows = result.rows,uper = result.uper;
 
@@ -273,7 +275,7 @@
         }
       },
       error : function(e){
-        console.log(e.status);
+        showErrorMessage(e,$.jGrowl)
       }
     });
   }
@@ -290,7 +292,7 @@
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/video/" + uid + "?limit=9&page=1",
+      url : "/api/attention/upers/" + uid + "/videos?limit=9&page=1",
       success : function(result) {
         let rows = result.rows,uper = result.uper;
 
@@ -313,7 +315,7 @@
         $('.video-contents').html(content)
       },
       error : function(e){
-        console.log(e.status);
+        showErrorMessage(e,$.jGrowl)
       }
     });
   }

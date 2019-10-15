@@ -2,11 +2,11 @@ const {DataTypes} = require('sequelize');
 const {sequelize,Sequelize} = require('./../lib/SequlizeConnection');
 
 const modelProp = {
-  name: 'Attention',
-  tableName: 'bl_attention'
+  name: 'SendRequest',
+  tableName: 'bl_send_request'
 }
 
-let Attention = sequelize.define(modelProp.name, {
+let SendRequest = sequelize.define(modelProp.name, {
   id: {
     type: DataTypes.BIGINT,
     unique: true,
@@ -14,25 +14,25 @@ let Attention = sequelize.define(modelProp.name, {
     autoIncrement: true,
     comment: '唯一id'
   },
-  bid: {
-    type: DataTypes.BIGINT,
+  url: {
+    type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
-    references: {
-      model: 'bl_uper',
-      key: 'bid'
-    }
+    comment: "请求地址"
   },
-  utime: {
+  type: {
+    type: DataTypes.TINYINT,
+    comment: "类型 1:用户 2.定时器"
+  },
+  stime: {
     type: DataTypes.DATE,
     allowNull: true,
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-    comment: '更新时间'
+    comment: '发起时间'
   }
 }, {
   timestamps: false,
   tableName: modelProp.tableName,
-  comment: 'UP主关注表'
+  comment: '请求记录表'
 });
 
-module.exports = Attention;
+module.exports = SendRequest;

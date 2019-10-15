@@ -43,5 +43,10 @@ module.exports = {
     success:false,
     code: 700,
     message: '已关注'
+  },
+  NOT_FOUND:{
+    success:false,
+    code: 701,
+    message: '未找到数据'
   }
 }

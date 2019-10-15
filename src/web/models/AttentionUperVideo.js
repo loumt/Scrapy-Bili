@@ -2,11 +2,11 @@ const {DataTypes} = require('sequelize');
 const {sequelize,Sequelize} = require('./../lib/SequlizeConnection');
 
 const modelProp = {
-  name: 'Video',
-  tableName: 'bl_video'
+  name: 'AttentionUperVideo',
+  tableName: 'bl_attention_uper_video'
 }
 
-let Video = sequelize.define(modelProp.name, {
+let AttentionUperVideo = sequelize.define(modelProp.name, {
   id: {
     type: DataTypes.BIGINT,
     unique: true,
@@ -114,4 +114,4 @@ let Video = sequelize.define(modelProp.name, {
   comment: '视频表'
 });
 
-module.exports = Video;
+module.exports = AttentionUperVideo;

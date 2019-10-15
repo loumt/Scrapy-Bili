@@ -2,10 +2,10 @@
 const BaseController = require('./BaseController')
 const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
-const AttentionService = require('./../services/AttentionService')
-const CartoonService = require('./../services/CartoonService')
-const DynamicService = require('./../services/DynamicService')
-const VideoService = require('./../services/VideoService')
+const AttentionUperService = require('../services/AttentionUperService')
+const AttentionCartoonService = require('../services/AttentionCartoonService')
+const AttentionUperDynamicService = require('../services/AttentionUperDynamicService')
+const AttentionUperVideoService = require('../services/AttentionUperVideoService')
 const SearchHistoryService = require('./../services/SearchHistoryService')
 const _ = require('lodash');
 const DateUtil =require('./../utils/DateUtil')

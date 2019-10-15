@@ -118,10 +118,7 @@ class ServerApp extends EventEmitter {
     this.emit('server-success')
 
     //定时器
-    // require('./schedule/cartoon')
-    // require('./schedule/video')
-    // require('./schedule/dynamic')
-    // require('./schedule/uper')
+    require('./schedule')
   }
 
   onSyncError(msg) {
