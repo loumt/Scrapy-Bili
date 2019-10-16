@@ -15,7 +15,7 @@ class AttentionUperSchedule extends BaseSchedule {
 
   async run() {
     try {
-        console.log('Attention Uper Task ..... ' + new Date())
+        // console.log('Attention Uper Task ..... ' + new Date())
         let attentionUper = await this.getNextTask();
         if (!attentionUper) return;
 

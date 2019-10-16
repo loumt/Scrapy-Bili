@@ -3,18 +3,19 @@ const http = require('http');
 const {EventEmitter} = require('events');
 const serverConfig = require('./configure/app.config');
 const express = require('express');
+const app = express();
 const debug = require('debug')('bili:server')
 const router = express.Router();
 const session = require('express-session')
 const favicon = require('serve-favicon')
 const cookieParser = require('cookie-parser');
+const WsSocketTunnel = require('./tunnel/WsSocketTunnel')
 const bodyParser = require('body-parser');
 const path = require('path')
 const compression = require('compression')
 const {resJson} = require('./middleware/ResponseJsonMiddleware')
 require('./models')
 
-const app = express();
 app.use(compression())
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -42,6 +43,8 @@ require('./routers')(router);
 
 //router inject
 app.use(router);
+
+// app.use(require('./tunnel/WsSocketTunnel'))
 
 //not found
 app.use((req, res, next) => {
@@ -98,6 +101,9 @@ class ServerApp extends EventEmitter {
 
     this.server.on('error', this.onServerError.bind(this));
     this.server.on('listening', this.onServerListening.bind(this));
+
+    //ws
+    // this.app.listen(this.port)
   }
 
   onStart() {

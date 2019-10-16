@@ -20,7 +20,7 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
   async run() {
     try {
       //获取任务
-      console.log('Attention Uper Dynamic Task ..... ' + new Date())
+      // console.log('Attention Uper Dynamic Task ..... ' + new Date())
       let attention = await this.getNextTask();
       if (!attention || !attention.bid) return;
 

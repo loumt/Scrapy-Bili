@@ -17,7 +17,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
   async run() {
     try {
       //获取任务
-      console.log('Attention Uper Video Task ..... ' + new Date())
+      // console.log('Attention Uper Video Task ..... ' + new Date())
       let nextVideo = await this.getNextTask();
       if (!nextVideo) return this.logger.info('Video list empty.');
 

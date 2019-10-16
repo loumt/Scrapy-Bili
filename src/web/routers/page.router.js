@@ -5,7 +5,6 @@
  */
 
 module.exports = router => {
-
   router.get("/home", (req,res,next)=>{res.render("home")})
   router.get("/buttons", (req,res,next)=>{res.render("buttons")})
   router.get("/calendar", (req,res,next)=>{res.render("calendar")})

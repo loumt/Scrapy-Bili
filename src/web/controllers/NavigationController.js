@@ -4,6 +4,7 @@ const ResultCode = require('./../constants/ResultCode');
 const UperService = require('./../services/UperService')
 const AttentionUperService = require('../services/AttentionUperService')
 const AttentionCartoonService = require('../services/AttentionCartoonService')
+const SendRequestService = require('./../services/SendRequestService')
 const _ = require('lodash');
 const debug = require('debug')('bili:service')
 
@@ -28,6 +29,21 @@ class NavigationController extends BaseController{
       }
     ]
   }
+
+  getRequestCount(){
+    return [
+      async (req, res, next) => {
+        try{
+          let requestCount = await SendRequestService.findCountBetween();
+          this.success(res,{count: requestCount})
+        }catch(err){
+          this.logger.error(err)
+          this.systemInError(res)
+        }
+      }
+    ]
+  }
+
 }
 
 module.exports = new NavigationController();

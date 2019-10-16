@@ -106,3 +106,20 @@ function showErrorMessage(e , fn){
     fn("System Error!" , {header: "系统错误"})
   }
 }
+
+setInterval(() => {
+  $.ajax({
+    url: "/api/limit",
+    method: "get",
+    success: res => {
+      let count = parseInt(res.count)
+      $('#req-count').text(res.count)
+      if (count > 100) return $('#req-count').css("color", "#ff252c")
+      if (count > 80) return $('#req-count').css("color", "#ffd956")
+      if (count < 60) return $('#req-count').css("color", "#33ff35")
+    },
+    error: () => {
+      $('#req-count').text(" ~~ ")
+    }
+  })
+}, 2500)

@@ -16,7 +16,7 @@ class UperSchedule extends BaseSchedule {
 
   async run(){
     try{
-      console.log('Uper Task ..... ' + new Date())
+      // console.log('Uper Task ..... ' + new Date())
       let task = await this.getNextTask();
       if(!task) return;
 

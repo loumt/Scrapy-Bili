@@ -15,7 +15,7 @@ class AttentionCartoonSchedule extends BaseSchedule {
   async run() {
     try {
       //获取任务
-      console.log('Attention Cartoon Task ..... ' + new Date())
+      // console.log('Attention Cartoon Task ..... ' + new Date())
       let cartoon = await this.getNextTask();
       if (!cartoon || !cartoon.mid) return;
 

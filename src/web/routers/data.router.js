@@ -15,4 +15,5 @@ module.exports = router => {
   router.get("/api/search/history/:type", HistoryController.list())
   router.get("/api/export" , ExportDataController.exportExcel())
   router.get("/api/navigation",NavigationController.info() )
+  router.get("/api/limit" , NavigationController.getRequestCount())
 }
