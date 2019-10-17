@@ -26,6 +26,10 @@
         .modal-body{
             max-height: 500px;
         }
+
+        #up-data button{
+            margin-left: 5px;
+        }
     </style>
 </head>
 
@@ -142,7 +146,12 @@
     }
     let content = "";
     for (var i = 0; i < upers.length; i++) {
-      content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td><td><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button></td><td><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].bid +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
+
+      if(!upers[i].name){
+        content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='/img/icon.jpg'/></td>"   +`<td>等待获取...</td><td>未知</td><td class="center">未知</td><td class="center">未知</td><td class="center">未知</td><td class="center">未知</td><td class="center">未知</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
+      }else{
+        content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].bid +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
+      }
     }
     return content;
   }
@@ -262,7 +271,7 @@
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/api/attention/upers/" +  uid +"/dynamics" + "?limit=15&page=1",
+      url : "/api/attention/upers/" +  uid +"/dynamics" + "?limit=30&page=1",
       success : function(result) {
         let rows = result.rows,uper = result.uper;
 
@@ -292,7 +301,7 @@
     $.ajax({
       type : "get",
       contentType: "application/json;charset=UTF-8",
-      url : "/api/attention/upers/" + uid + "/videos?limit=9&page=1",
+      url : "/api/attention/upers/" + uid + "/videos?limit=21&page=1",
       success : function(result) {
         let rows = result.rows,uper = result.uper;
 

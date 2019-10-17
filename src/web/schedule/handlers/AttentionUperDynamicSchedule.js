@@ -40,6 +40,7 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
       this.logger.info(`完成获取 ${bid} 的信息,更新时间变更....`)
       await AttentionUperService.updateOne({id: attention.id}, {utime: new Date()})
     } catch (err) {
+      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--cartoonTask run---")
       this.logger.error(err)
     }

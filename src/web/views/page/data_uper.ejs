@@ -191,7 +191,7 @@
       url : "/api/attention/upers",
       data,
       success : function() {
-        alert("关注成功~");
+        $.jGrowl("关注成功");
       },
       error : function(e){
         showErrorMessage(e)

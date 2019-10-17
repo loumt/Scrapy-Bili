@@ -100,11 +100,13 @@ class UperController extends BaseController {
           if (info.code === -404)
             return this.error(res, ResultCode.NOT_FOUND)
 
-          uperInfo.bid = bid;
+          uperInfo.bid = info.data.mid;
           uperInfo.name = info.data.name;
           uperInfo.sign = info.data.sign;
           uperInfo.face = info.data.face;
           uperInfo.level = info.data.level;
+
+          // console.dir(info)
 
           await SearchHistoryService.save({bid: bid, name: info.data.name, type: this.HISTORY.TYPE.UPER})
 

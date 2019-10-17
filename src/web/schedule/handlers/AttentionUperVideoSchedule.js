@@ -17,11 +17,13 @@ class AttentionUperVideoSchedule extends BaseSchedule {
   async run() {
     try {
       //获取任务
-      // console.log('Attention Uper Video Task ..... ' + new Date())
+      console.log('Attention Uper Video Task ..... ' + new Date())
       let nextVideo = await this.getNextTask();
       if (!nextVideo) return this.logger.info('Video list empty.');
 
       let {aid, id} = nextVideo;
+      console.log(`AID:${aid}`)
+
       if (!aid || aid === "") {
         await AttentionUperVideoService.deleteById(id)
         return this.logger.warn('Video aid is empty. (warn)')
@@ -30,6 +32,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
       let videoResponse = await this.RequestHandler(this.CommonURLConfigure.VIDEO_DETAIL.url.replace("#AID#", aid))
       await this.videoResponseHandler(id, videoResponse)
     } catch (err) {
+      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--cartoonTask run---")
       this.logger.error(err)
     }
@@ -39,7 +42,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
 
     if (!videoResponseHandler || videoResponseHandler === "") {
       await AttentionUperVideoService.deleteById(id)
-      return logger.warn('Video is empty. (warn)')
+      return this.logger.warn('Video is empty. (warn)')
     }
 
     let video = utils.parse2Object(videoResponseHandler)

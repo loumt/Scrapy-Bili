@@ -1,6 +1,6 @@
 module.exports = {
   //1.UP主获取定时器设置(30秒获取一个) ----- B站UP主
-  UPER_SCHEDULE: '*/30 * * * * *',
+  UPER_SCHEDULE: '*/15 * * * * *',
 
   //2.关注项
   ATTENTION: {

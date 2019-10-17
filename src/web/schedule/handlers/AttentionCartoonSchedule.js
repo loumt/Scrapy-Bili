@@ -48,6 +48,7 @@ class AttentionCartoonSchedule extends BaseSchedule {
 
       await AttentionCartoonService.updateOne({id}, data)
     } catch (err) {
+      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--cartoonResponseHandler---")
       this.logger.error(err)
     }

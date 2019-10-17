@@ -1,5 +1,5 @@
 module.exports = {
-  database: 'bilibili',
+  database: 'bilibili_v1.2.0-beta1',
   username: 'root',
   password: 'root',
   options: {

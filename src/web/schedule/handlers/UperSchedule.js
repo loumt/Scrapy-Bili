@@ -67,25 +67,25 @@ class UperSchedule extends BaseSchedule {
       uperInfo.play = plays.data.archive.view;
 
       //查询关注详情
-      let followDetail = await this.RequestHandler(this.CommonURLConfigure.FOLLOW_DETAIL.url.replace("#MID#", bid))
-      let follow =  utils.parse2Object(followDetail)
-      let {list} = follow.data
-      let followList = list.filter(item=>{
-        return item.mid !== bid;
-      }).map(item=>{
-        return {
-          bid: item.mid,
-          name: item.uname,
-        }
-      })
-
-      followList.every(async followItem =>{
-        let {bid} =followItem;
-        let exist = await UperTaskService.findOne({where: {bid: bid}})
-        if(!exist){
-          UperTaskService.save(followItem)
-        }
-      })
+      // let followDetail = await this.RequestHandler(this.CommonURLConfigure.FOLLOW_DETAIL.url.replace("#MID#", bid))
+      // let follow =  utils.parse2Object(followDetail)
+      // let {list} = follow.data
+      // let followList = list.filter(item=>{
+      //   return item.mid !== bid;
+      // }).map(item=>{
+      //   return {
+      //     bid: item.mid,
+      //     name: item.uname,
+      //   }
+      // })
+      //
+      // followList.every(async followItem =>{
+      //   let {bid} =followItem;
+      //   let exist = await UperTaskService.findOne({where: {bid: bid}})
+      //   if(!exist){
+      //     UperTaskService.save(followItem)
+      //   }
+      // })
 
       if(existUper){
         uperInfo.utime = new Date();
@@ -94,6 +94,7 @@ class UperSchedule extends BaseSchedule {
         await UperService.save(uperInfo)
       }
     }catch(err){
+      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--uperTask run---")
       this.logger.error(err)
     }

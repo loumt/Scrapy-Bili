@@ -119,7 +119,7 @@
     }
     let content = "";
     for(var i =0;i< cartoons.length; i++){
-      content += ` <tr><td>${cartoons[i].mid}</td><td>${cartoons[i].name}</td><td>${cartoons[i].originName}</td><td>${cartoons[i].ratingCode}</td><td>${cartoons[i].ratingCount}</td><td>${cartoons[i].fans}</td><td>${utc2beijing(cartoons[i].utime)}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" mid =${cartoons[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
+      content += ` <tr><td>${cartoons[i].mid}</td><td>${cartoons[i].name}</td><td>${cartoons[i].originName}</td><td>${cartoons[i].ratingCode || "无数据"}</td><td>${cartoons[i].ratingCount|| "无数据"}</td><td>${cartoons[i].fans}</td><td>${utc2beijing(cartoons[i].utime)}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" mid =${cartoons[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
     }
     return content;
   }

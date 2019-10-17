@@ -22,8 +22,8 @@ class AttentionUperSchedule extends BaseSchedule {
 
         let {id, bid, utime, ctime} = attentionUper;
 
-        let existUper = await UperService.findByMid(bid)
-        if(!existUper) return this.logger.error(`Attention Uper ${bid} is not exist! `)
+        // let existUper = await UperService.findByMid(bid)
+        // if(!existUper) return this.logger.error(`Attention Uper ${bid} is not exist! `)
 
         let uperInfo = {}
 
@@ -59,6 +59,7 @@ class AttentionUperSchedule extends BaseSchedule {
 
         await UperService.updateOne({bid: bid}, uperInfo);
       } catch (err) {
+      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
         this.logger.error("--Attention Uper Handler---")
         this.logger.error(err)
       }
