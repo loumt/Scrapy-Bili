@@ -1,0 +1,96 @@
+* {
+    -webkit-user-select: none;
+    cursor: default !important;
+    -webkit-user-drag: none;
+}
+body {
+    overflow: hidden;
+    margin: 0;
+    /*background: #ECEFF1;*/
+}
+#splash_container {
+    margin: 10px 20px;
+}
+
+#icon-png{
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    top: 20px;
+    left: 20px;
+    animation: increase 2.5s ease-out;
+}
+#esc-tooltip{
+    position: absolute;
+    left: 104px;
+    font-size: 12px;
+    top: 17px;
+    color: #db1825;
+}
+
+#splash_text {
+    font-family: sans-serif;
+    font-size: 20px;
+    color: #1296DB;
+    vertical-align: top;
+    line-height: 68px;
+    margin-left: 10px;
+    animation: fadein 2.5s ease-out;
+}
+#splash_loading_img {
+    width: 100px;
+    margin: -4px -27px;
+    display: inline-block;
+    vertical-align: middle;
+    animation: increase 2.5s ease-out;
+}
+
+#client-status{
+    border: 1px solid #b2dba1;
+    display: block;
+    background-color: #FFFFFF;
+    height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px 0 0 5px;
+}
+
+#client-status>label{
+    font-size: 12px;
+    color:#666;
+    margin-bottom:10px;
+    line-height: 24px;
+}
+
+#btn{
+    font-size: 20px;
+    float: right;
+    border: 0;
+    background: transparent;
+    margin-top:-5px;
+    margin-right: 5px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2;
+    cursor: pointer !important;
+}
+
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes increase {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

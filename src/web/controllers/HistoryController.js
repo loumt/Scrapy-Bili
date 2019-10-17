@@ -28,10 +28,8 @@ class HistoryController extends BaseController {
       async (req, res, next) => {
         let {type} = req.params,{limit} = req.query;
         try {
-          let history = await this.service.find({where:{type}, skip:0,limit: limit,  order: [
-            ["stime", "DESC"]
-          ]});
-          this.success(res, history)
+          let recentHistory = await this.service.findRecentSearch(type,limit);
+          this.success(res, recentHistory)
         } catch (err) {
           this.logger.error(err)
           this.systemInError(res)

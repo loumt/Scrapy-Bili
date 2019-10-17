@@ -1,4 +1,8 @@
 src/web/node_modules
+src/web/log
+src/app/node_modules
+src/app/log
+src/bicibici-*
 src/web/temp/*.xlsx
 src/web/package-lock.json
 package-lock.json

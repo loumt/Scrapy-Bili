@@ -138,15 +138,21 @@ class ServerApp extends EventEmitter {
   onSyncStart() {
     this.emit('sync-user-start');
   }
+
+  close(fn){
+    this.server.close(fn)
+  }
 }
 
 let server = new ServerApp(app);
 
-server.on('server-success', () => {
-  debug(`Server Run ......... `)
-})
-server.on('server-error', msg => {
-  debug(`Server Error ......... `)
-  debug(msg)
-})
-server.createServer();
+module.exports = server;
+
+// server.on('server-success', () => {
+//   debug(`Server Run ......... `)
+// })
+// server.on('server-error', msg => {
+//   debug(`Server Error ......... `)
+//   debug(msg)
+// })
+// server.createServer();

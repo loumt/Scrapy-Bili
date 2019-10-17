@@ -4,6 +4,7 @@ const AttentionService = require('../services/AttentionUperService')
 const CartoonService = require('../services/AttentionCartoonService')
 const VUperAttentionService = require('./../services/VUperAttentionService')
 const DynamicService = require('../services/AttentionUperDynamicService')
+const SearchHistoryService = require('../services/SearchHistoryService')
 const SendRequestService = require('../services/SendRequestService')
 const DateUtil = require("./../utils/DateUtil")
 
@@ -56,9 +57,16 @@ async function test() {
     //   await UperTaskService.save({urgent: UperTaskService.URGENT.YES, bid: 1322106, name})
     // }
 
-    let sendCount = await SendRequestService.findCountBetween();
+    // let sendCount = await SendRequestService.findCountBetween();
+    //
+    // console.log(sendCount)
 
-    console.log(sendCount)
+    let his = await SearchHistoryService.findRecentSearch(2,10)
+    console.dir(his.length)
+
+    for(let up of his){
+      console.log(JSON.stringify(up))
+    }
 
   } catch (err) {
     console.log(err)

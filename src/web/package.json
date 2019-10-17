@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./dev.js"
   },
   "author": "looty_loumt",
   "email": "looty_loumt@hotmail.com",

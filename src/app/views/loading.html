@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="./loading.css"/>
+    <meta charset="UTF-8">
+    <title>Starting App</title>
+</head>
+
+<body>
+<div id="splash_container">
+    <img id="icon-png" src="./../imgs/icon.png"/>
+    <img id="splash_loading_img" src="./../imgs/loading.gif"/>
+    <span id="esc-tooltip" style="display: none"> Esc退出 </span>
+    <span id="splash_text">Start Server</span>
+    <!--<div id="client-status"></div>-->
+</div>
+</body>
+
+<script>
+    let {ipcRenderer}= require('electron')
+
+    ipcRenderer.on('server-error', (e,msg)=>{
+      document.getElementById("splash_text").innerText  = msg;
+      document.getElementById('splash_text').setAttribute('display', 'block')
+    })
+
+    setTimeout(()=>{
+      ipcRenderer.send('start', true)
+    },2500)
+</script>
+
+</html>
