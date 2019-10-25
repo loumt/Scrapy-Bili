@@ -26,7 +26,6 @@ let AttentionUper = sequelize.define(modelProp.name, {
   utime: {
     type: DataTypes.DATE,
     allowNull: true,
-    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     comment: '更新时间'
   },
   ctime: {

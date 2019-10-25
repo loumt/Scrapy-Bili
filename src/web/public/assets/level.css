@@ -1,0 +1,62 @@
+
+.level {
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url(./../img/level.png);
+    background-repeat: no-repeat;
+    background-size: 14em 27em;
+}
+
+.level-0 {
+    background-position: -1.3em -0.7em;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-1 {
+    background-position: -1.3em -3.2em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-2 {
+    background-position: -1.3em -5.7em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-3 {
+    background-position: -1.3em -8.2em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-4 {
+    background-position: -1.3em -10.7em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-5 {
+    background-position: -1.3em -13.2em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-6 {
+    background-position: -1.3em -15.7em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-7 {
+    background-position: -1.3em -18.2em;;
+    width: 2.1em;
+    height: 1.2em;
+}
+
+.level-8 {
+    background-position: -1.3em -20.7em;;
+    width: 2.1em;
+    height: 1.2em;
+}

@@ -29,6 +29,12 @@ let AttentionUperDynamic = sequelize.define(modelProp.name, {
     type: DataTypes.INTEGER,
     comment: "动态类型"
   },
+  aid: {
+    type: DataTypes.BIGINT,
+    allowNull: true,
+    unique: false,
+    comment: "视频Id"
+  },
   title : {
     type: DataTypes.TEXT,
     comment: "标题"

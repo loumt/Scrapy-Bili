@@ -1,6 +1,6 @@
 module.exports = {
   //1.UP主获取定时器设置(30秒获取一个) ----- B站UP主
-  UPER_SCHEDULE: '*/15 * * * * *',
+  UPER_SCHEDULE: '*/18 * * * * *',
 
   //2.关注项
   ATTENTION: {
@@ -16,7 +16,7 @@ module.exports = {
       // 动态更新定时器设置
       DYNAMIC_SCHEDULE: '0 */1 * * * *',
       // 视频更新定时器设置
-      VIDEO_SCHEDULE: '*/15 * * * * *'
+      VIDEO_SCHEDULE: '*/10 * * * * *'
     }
   }
 }

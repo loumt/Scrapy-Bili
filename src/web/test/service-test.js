@@ -1,6 +1,7 @@
 const UperTaskService = require('./../services/UperTaskService')
 const UperService = require('./../services/UperService')
 const AttentionService = require('../services/AttentionUperService')
+const AttentionUperVideoService = require('../services/AttentionUperVideoService')
 const CartoonService = require('../services/AttentionCartoonService')
 const VUperAttentionService = require('./../services/VUperAttentionService')
 const DynamicService = require('../services/AttentionUperDynamicService')
@@ -61,12 +62,19 @@ async function test() {
     //
     // console.log(sendCount)
 
-    let his = await SearchHistoryService.findRecentSearch(2,10)
-    console.dir(his.length)
+    // let his = await SearchHistoryService.findRecentSearch(2,10)
+    // console.dir(his.length)
+    //
+    // for(let up of his){
+    //   console.log(JSON.stringify(up))
+    // }
 
-    for(let up of his){
-      console.log(JSON.stringify(up))
+
+    let videoTask = await AttentionUperVideoService.nextNull()
+    if (!videoTask){
+      videoTask =  await  AttentionUperVideoService.nextTask();
     }
+    console.log(videoTask)
 
   } catch (err) {
     console.log(err)

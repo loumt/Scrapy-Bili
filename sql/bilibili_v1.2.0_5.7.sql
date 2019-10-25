@@ -176,12 +176,7 @@ CREATE TABLE `bl_uper_task` (
 DROP VIEW IF EXISTS `bl_v_attention_uper`;
 CREATE VIEW `bl_v_attention_uper` AS select `u`.`id` AS `id`,`u`.`bid` AS `bid`,`n`.`name` AS `name`,`n`.`sex` AS `sex`,`n`.`face` AS `face`,`n`.`level` AS `level`,`n`.`sign` AS `sign`,`n`.`contribute` AS `contribute`,`n`.`fans` AS `fans`,`n`.`play` AS `play`,`n`.`read` AS `read`,`n`.`attention` AS `attention` from (`bl_attention_uper` `u` left join `bl_uper` `n` on((`u`.`bid` = `n`.`bid`))) ;
 
-
--- Init Data
-INSERT INTO `bilibili`.`bl_uper_task` (`id`, `bid`, `name`, `urgent`, `repeat_tag`, `ctime`) VALUES ('4969', '24556772', '低调内敛徐海乔', '0', '0', '2019-10-05 12:07:00');
-INSERT INTO `bilibili`.`bl_uper_task` (`id`, `bid`, `name`, `urgent`, `repeat_tag`, `ctime`) VALUES ('4970', '391196339', '21615953332_bili', '0', '0', '2019-10-05 12:07:00');
-INSERT INTO `bilibili`.`bl_uper_task` (`id`, `bid`, `name`, `urgent`, `repeat_tag`, `ctime`) VALUES ('4971', '30719506', '化十益龙', '0', '0', '2019-10-05 12:07:00');
-INSERT INTO `bilibili`.`bl_uper_task` (`id`, `bid`, `name`, `urgent`, `repeat_tag`, `ctime`) VALUES ('4972', '351632894', '小宝一号小迷妹', '0', '0', '2019-10-05 12:07:00');
-INSERT INTO `bilibili`.`bl_uper_task` (`id`, `bid`, `name`, `urgent`, `repeat_tag`, `ctime`) VALUES ('4973', '327631389', '烟波钓徒bzh', '0', '0', '2019-10-05 12:07:00');
-INSERT INTO `bilibili`.`bl_uper_task` (`id`, `bid`, `name`, `urgent`, `repeat_tag`, `ctime`) VALUES ('4974', '6800169', '深山麻', '0', '0', '2019-10-05 12:07:00');
+-- 更新sql
+ALTER TABLE bl_attention_uper_dynamic ADD aid BIGINT (20) DEFAULT NULL COMMENT '视频ID' AFTER type;
+ALTER TABLE bl_attention_uper MODIFY `utime` datetime DEFAULT NULL COMMENT '更新时间';
 

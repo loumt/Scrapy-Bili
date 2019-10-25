@@ -8,6 +8,7 @@
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="assets/styles.css" rel="stylesheet" media="screen">
     <link href="assets/icon_svg.css" rel="stylesheet" media="screen">
+    <link href="assets/level.css" rel="stylesheet" media="screen">
     <link href="assets/DT_bootstrap.css" rel="stylesheet" media="screen">
     <link href="assets/video_style.css" rel="stylesheet" media="screen">
     <link href="vendors/jGrowl/jquery.jgrowl.css" rel="stylesheet" media="screen">
@@ -150,7 +151,7 @@
       if(!upers[i].name){
         content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='/img/icon.jpg'/></td>"   +`<td>等待获取...</td><td>未知</td><td class="center">未知</td><td class="center">未知</td><td class="center">未知</td><td class="center">未知</td><td class="center">未知</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button></td></tr>`
       }else{
-        content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td>${upers[i].level}</td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].bid +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
+        content += ` <tr><td>${upers[i].bid}</td>`+  "<td><img class='uper-face' src='https://images.weserv.nl/?url=" + upers[i].face +"'/></td>"   +`<td>${upers[i].name}</td><td><i class="level level-`+ upers[i].level +`"></i> </td><td class="center">${upers[i].sign}</td><td class="center">${upers[i].fans}</td><td class="center">${upers[i].attention}</td><td class="center">${upers[i].contribute}</td><td class="center">${upers[i].play}</td><td><button class="btn btn-danger btn-mini" onclick="deleteAttention(this)" id=${upers[i].id}> <i class="icon-remove icon-white"></i>取关</button><button class="btn btn-info btn-mini" onclick="showDynamic(`+ upers[i].bid +`)"> <i class="icon-tasks icon-white"></i>动态</button><button class="btn btn-info btn-mini" onclick="showVideo(`+ upers[i].bid +`)"> <i class="icon-facetime-video icon-white"></i>视频</button></td></tr>`
       }
     }
     return content;
@@ -249,8 +250,11 @@
     if(type === 4 || type === 1 || type === 256){
       return dy.content
     }
-    if(type === 8 || type === 64){
+    if(type === 64){
       return dy.dynamic
+    }
+    if(type === 8){
+      return dy.dynamic + ' <a target="_blank" href="https://www.bilibili.com/video/av' + dy.aid + '">#视频#</a>'
     }
     if(type === 2){
       return dy.description

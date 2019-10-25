@@ -1,4 +1,5 @@
 const request = require('request')
+const CommonURLConfigure = require('./../constants/CommonURLConfigure')
 
 //用户信息
 // let url = 'https://api.bilibili.com/x/space/acc/info?mid=3092063&jsonp=jsonp';
@@ -7,9 +8,11 @@ const request = require('request')
 //播放数
 // let url = 'https://api.bilibili.com/x/space/upstat?mid=28496477&jsonp=jsonp';
 
-let url = "https://api.bilibili.com/x/relation/followings?vmid=28496477&pn=1&ps=20&order=desc&jsonp=jsonp"
+// let url = "https://api.bilibili.com/x/relation/followings?vmid=28496477&pn=1&ps=20&order=desc&jsonp=jsonp"
 
-request( {
+let url = "https://api.bilibili.com/x/web-interface/view?aid=66760237"
+
+request({
   url,
   headers: {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
@@ -29,14 +32,14 @@ request( {
   console.log('body:', body); // Print the HTML for the Google homepage.
   console.dir(JSON.parse(body))
 
-  let {list} = JSON.parse(body).data
-
-  let result = list.map(item=>{
-    console.dir(item)
-    return {
-      bid: item.mid,
-      name: uname,
-    }
-  })
-  console.dir(result)
+  // let {list} = JSON.parse(body).data
+  //
+  // let result = list.map(item => {
+  //   console.dir(item)
+  //   return {
+  //     bid: item.mid,
+  //     name: uname,
+  //   }
+  // })
+  // console.dir(result)
 });

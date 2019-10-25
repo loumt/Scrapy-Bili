@@ -22,6 +22,10 @@ class AttentionUperVideoService extends BaseService{
     })
   }
 
+  nextNull(){
+    return this.findOne({where: {view: null}})
+  }
+
   nextTask(){
     return this.findOne({
       order: [
@@ -41,8 +45,6 @@ class AttentionUperVideoService extends BaseService{
   bulkCreate(list){
     return this.model.bulkCreate(list)
   }
-
-
 }
 
 module.exports = new AttentionUperVideoService();

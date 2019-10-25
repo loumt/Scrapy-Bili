@@ -1,5 +1,6 @@
 const _ = require("lodash")
 const utils = require('./../../utils/utils')
+const logger = require('./../../utils/log4js').schedule()
 const BaseSchedule = require('./BaseSchedule')
 const AttentionUperService = require('../../services/AttentionUperService')
 const AttentionUperDynamicService = require('../../services/AttentionUperDynamicService')
@@ -25,47 +26,47 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
       if (!attention || !attention.bid) return;
 
       let {bid} = attention;
-      if (!bid || bid === "") return this.logger.warn('Attention bid is empty. (warn)')
+      if (!bid || bid === "") return logger.warn('Attention bid is empty. (warn)')
 
       // bid = 7103073
 
-      this.logger.info(`正在获取 ${bid} 的动态信息.....`)
+      logger.info(`正在获取 ${bid} 的动态信息.....`)
       let dynamicResponse = await this.RequestHandler(this.CommonURLConfigure.UPER_DYNAMIC_DETAIL.url.replace("#MID#", bid))
       await this.dynamicResponseHandler(dynamicResponse);
 
-      // logger.info(`正在获取 ${bid} 的视频信息.....`)
+      logger.info(`正在获取 ${bid} 的视频信息.....`)
       let videoResponse = await this.RequestHandler(this.CommonURLConfigure.VIDEO.url.replace("#MID#", bid))
       await this.videoResponseHandler(videoResponse);
 
-      this.logger.info(`完成获取 ${bid} 的信息,更新时间变更....`)
+      logger.info(`完成获取 ${bid} 的信息,更新时间变更....`)
       await AttentionUperService.updateOne({id: attention.id}, {utime: new Date()})
     } catch (err) {
-      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
-      this.logger.error("--cartoonTask run---")
-      this.logger.error(err)
+      if(err && err.statusCode === 412) return logger.error("触发B站风险控制了.")
+      logger.error("--cartoonTask run---")
+      logger.error(err)
     }
   }
 
   async dynamicResponseHandler(dynamicResponse) {
     try {
       if (!dynamicResponse || dynamicResponse === "")
-        return this.logger.warn('Dynamic is empty. (warn)')
+        return logger.warn('Dynamic is empty. (warn)')
 
       let dynamic = utils.parse2Object(dynamicResponse)
 
       let {data: dynamicData} = dynamic;
       if (!dynamicData)
-        return this.logger.error('Attention [data] is not found!')
+        return logger.error('Attention [data] is not found!')
 
 
       let {cards} = dynamicData;
       if (!cards)
-        return this.logger.error('Attention [cards] is not found!')
+        return logger.error('Attention [cards] is not found!')
 
       cards.every(await this.dynamicHandler)
     } catch (err) {
-      this.logger.error("--cartoonResponseHandler---")
-      this.logger.error(err)
+      logger.error("--cartoonResponseHandler---")
+      logger.error(err)
     }
   }
 
@@ -106,6 +107,7 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
           dynamic.dynamic = cardObject.dynamic
           dynamic.reply = cardObject.stat.reply
           dynamic.title = cardObject.title
+          dynamic.aid = cardObject.aid
           break;
         case 16:
           dynamic.description = cardObject.item.description
@@ -134,20 +136,20 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
         await AttentionUperDynamicService.save(dynamic)
       }
     } catch (err) {
-      this.logger.error(err)
+      logger.error(err)
     }
   }
 
   async videoResponseHandler(videoResponse) {
     if (!videoResponse || videoResponse === "")
-      return this.logger.warn('Video is empty. (warn)')
+      return logger.warn('Video is empty. (warn)')
 
     let video = utils.parse2Object(videoResponse)
 
     let {data: videoData} = video;
-    if (!videoData) return this.logger.error('Video [data] is not found!')
+    if (!videoData) return logger.error('Video [data] is not found!')
     let {vlist} = videoData;
-    if (!vlist || vlist.length === 0) return this.logger.error('Video [vlist] is not found or empty!')
+    if (!vlist || vlist.length === 0) return logger.error('Video [vlist] is not found or empty!')
 
     vlist.every(await this.videoHandler)
   }

@@ -1,5 +1,3 @@
-
-
 const _ = require("lodash")
 const utils = require('./../../utils/utils')
 const BaseSchedule = require('./BaseSchedule')
@@ -10,19 +8,22 @@ class AttentionUperVideoSchedule extends BaseSchedule {
     super()
   }
 
-  async getNextTask(){
-    return  await  AttentionUperVideoService.nextTask();
+  async getNextTask() {
+    let videoTask = await AttentionUperVideoService.nextNull()
+    if (!videoTask){
+      videoTask =   await  AttentionUperVideoService.nextTask();
+    }
+    return videoTask;
   }
 
   async run() {
     try {
       //获取任务
-      console.log('Attention Uper Video Task ..... ' + new Date())
+      // console.log('Attention Uper Video Task ..... ' + new Date())
       let nextVideo = await this.getNextTask();
       if (!nextVideo) return this.logger.info('Video list empty.');
 
       let {aid, id} = nextVideo;
-      console.log(`AID:${aid}`)
 
       if (!aid || aid === "") {
         await AttentionUperVideoService.deleteById(id)
@@ -32,7 +33,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
       let videoResponse = await this.RequestHandler(this.CommonURLConfigure.VIDEO_DETAIL.url.replace("#AID#", aid))
       await this.videoResponseHandler(id, videoResponse)
     } catch (err) {
-      if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
+      if (err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--cartoonTask run---")
       this.logger.error(err)
     }
@@ -47,13 +48,18 @@ class AttentionUperVideoSchedule extends BaseSchedule {
 
     let video = utils.parse2Object(videoResponseHandler)
 
+    if (video.code === 62002){
+      await AttentionUperVideoService.deleteById(id)
+    }
+    if (video.code === 62002) return this.logger.warn(`Video ${id} had been deleted!`);
+
     let {data} = video;
-    if(!data.stat){
+    if (!data.stat) {
       await AttentionUperVideoService.deleteById(id)
       return this.logger.warn('Video  [data.stat] is empty. (warn)')
     }
 
-    try{
+    try {
       await AttentionUperVideoService.updateOne({id}, {
         utime: new Date(),
         coin: data.stat.coin,
@@ -65,7 +71,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
         comment: data.stat.reply,
         duration: data.duration
       })
-    }catch(err){
+    } catch (err) {
       this.logger.error(err)
     }
 
