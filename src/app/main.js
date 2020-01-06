@@ -15,7 +15,7 @@ if (!gotTheLock) {
     ipcMain.on('start', (e, args) => {
 
       if (process.env.ENV === 'development') {
-        server = require('./../web/app.js')
+        server = require('../backend/app.js')
       } else {
         let exeDir = path.dirname(app.getPath('exe'))
         server = require(path.join(exeDir, '..', 'web', 'app.js'))

@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Scrapy Web And App",
   "scripts": {
-    "web": "node ./src/web/dev.js"
+    "web": "node ./src/backend/dev.js"
   }
 }

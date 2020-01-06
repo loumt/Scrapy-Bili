@@ -11,7 +11,7 @@ module.exports = {
   electronVersion: "3.0.10",
   icon: iconPath,
   ignore: /(^\/(test$|docs$|log$))|package-lock.json|README.md/i,
-  out: path.join(__dirname, '../..'),
+  out: path.join(__dirname, '../dist'),
   overwrite: true,
   win32metadata: {
     FileDescription: pck.description,

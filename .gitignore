@@ -1,10 +1,11 @@
-src/web/node_modules
-src/web/log
+src/backend/node_modules
+src/backend/log
 src/app/node_modules
 src/app/log
+src/app/dist
 src/bicibici-*
-src/web/temp/*.xlsx
-src/web/package-lock.json
+src/backend/temp/*.xlsx
+src/backend/package-lock.json
 package-lock.json
 log/*.log
 .idea
