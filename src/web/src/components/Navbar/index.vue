@@ -40,16 +40,16 @@
         this.$router.push({name: 'attention_up'})
       },
       toFindUper(){
-        this.$router.push('/')
+        this.$router.push({name: 'search_up'})
       },
       toFindCartoon(){
-        this.$router.push('/')
+        this.$router.push({name: 'search_cartoon'})
       },
       toExport(){
         this.$router.push('/')
       },
       toCartoon(){
-        this.$router.push('/attention/cartoon')
+        this.$router.push({name: 'attention_cartoon'})
       }
     }
   }

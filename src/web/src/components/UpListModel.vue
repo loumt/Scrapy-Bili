@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <el-row style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);padding: 10px 10px;">
+      <el-row class="search-item shadow">
         <el-col :span="4" :offset="1">
           <el-input
             size="small"
@@ -19,7 +19,7 @@
           </el-input>
         </el-col>
         <el-col :span="5" :offset="1">
-          <el-select v-model="fanMountLevel" size="small" placeholder="默认全部" @change="goFans">
+          <el-select v-model="fanMountLevel" size="small" placeholder="粉丝数级别(默认全部)" @change="goFans">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -31,7 +31,7 @@
       </el-row>
     </el-header>
     <el-main>
-      <el-table :data="rows" style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)" max-height="100%" :stripe=true :border=true >
+      <el-table :data="rows" class="shadow" max-height="100%" :stripe=true :border=true>
         <el-table-column prop="bid" label="ID" width="140"></el-table-column>
         <el-table-column label="头像">
           <template slot-scope="scope">
@@ -43,7 +43,11 @@
             <el-tag size="medium">{{ scope.row.name }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="level" label="等级"></el-table-column>
+        <el-table-column prop="level" label="等级">
+          <template slot-scope="scope">
+            <icon :name="getLevelName(scope.row.level)" width="32" height="32"></icon>
+          </template>
+        </el-table-column>
         <el-table-column prop="sign" label="签名" width="300" :show-overflow-tooltip=true></el-table-column>
         <el-table-column prop="fans" label="粉丝数"></el-table-column>
         <el-table-column prop="attention" label="关注数"></el-table-column>
@@ -68,20 +72,15 @@
 </template>
 <script>
   import {mapState} from 'vuex'
-  import ElButtonGroup from "../../../node_modules/element-ui/packages/button/src/button-group.vue";
-  import ElRow from "element-ui/packages/row/src/row";
 
   export default {
-    components: {
-      ElRow,
-      ElButtonGroup},
     name: "UPER",
     data() {
       return {
         options: [
           {
             value: 0,
-            label: '默认全部'
+            label: '粉丝数级别(默认全部)'
           }, {
             value: 1,
             label: '一万以下'
@@ -110,30 +109,40 @@
       }
     },
     created() {
-      this.$store.dispatch('getAttentionUpList', {thiz: this})
+      this.$store.dispatch('AttentionUp/getAttentionUpList')
     },
     computed: {
-      ...mapState({
-        rows: state => state.AttentionUp.rows,
-        total: state => state.AttentionUp.total,
-        page: state => state.AttentionUp.page,
-        limit: state => state.AttentionUp.limit
+      ...mapState('AttentionUp',{
+        rows: state => state.rows,
+        total: state => state.total,
+        page: state => state.page,
+        limit: state => state.limit
       })
     },
     methods: {
       goFans() {
         console.log(this.rows)
       },
+      getLevelName(level){
+        return 'lv-' + level
+      },
       deleteRow(index, rows) {
-        rows.splice(index, 1);
+        rows.splice(UperListModel, 1);
       },
       handleEdit(index, row) {
-        console.log(index, row);
+        console.log(UperListModel, row);
       },
       toPage(currentPage){
-        this.$store.commit('setPage', currentPage)
-        this.$store.dispatch('getAttentionUpList', {thiz: this})
+        this.$store.commit('AttentionUp/setPage', currentPage)
+        this.$store.dispatch('AttentionUp/getAttentionUpList')
       }
     }
   }
 </script>
+
+
+<style>
+  .search-item {
+    padding: 10px 10px;
+  }
+</style>

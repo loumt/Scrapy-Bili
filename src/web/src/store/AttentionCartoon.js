@@ -1,5 +1,5 @@
 import {
-  getUpList
+  getCartoonList
 } from './../service/getData'
 
 export default {
@@ -12,11 +12,6 @@ export default {
   },
   mutations: {
     setRows(state, v) {
-      v.rows.forEach(item=>{
-        if(item.face){
-          item.face = `https://images.weserv.nl/?url=` + item.face
-        }
-      })
       state.rows = v.rows;
       state.total = v.count;
       state.limit = v.limit;
@@ -27,8 +22,8 @@ export default {
     }
   },
   actions: {
-    async getAttentionUpList({commit, state}) {
-      let res = await getUpList(state.page,state.limit);
+    async getAttentionCartoonList({commit, state}) {
+      let res = await getCartoonList(state.page,state.limit);
       commit('setRows', res.data)
     }
   }

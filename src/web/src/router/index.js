@@ -5,8 +5,10 @@ import Router from 'vue-router'
 import LayoutDefault from '@/layouts/LayoutDefault'
 
 // Main Container
-import Uper from '@/components/Uper'
-import Cartoon from '@/components/Cartoon'
+import UpListModel from '@/components/UpListModel'
+import CartoonListModel from '@/components/CartoonListModel'
+import CartoonSearchModel from '@/components/CartoonSearchModel'
+import UpSearchModel from '@/components/UpSearchModel'
 
 const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -24,12 +26,22 @@ const router = [
       {
         path: '/attention/cartoon',
         name: "attention_cartoon",
-        component: Cartoon
+        component: CartoonListModel
       },
       {
         path: '/attention/up',
         name: "attention_up",
-        component: Uper
+        component: UpListModel
+      },
+      {
+        path: '/search/cartoon',
+        name: "search_cartoon",
+        component: CartoonSearchModel
+      },
+      {
+        path: '/search/up',
+        name: "search_up",
+        component: UpSearchModel
       }
     ]
   }
