@@ -9,6 +9,7 @@ import UpListModel from '@/components/UpListModel'
 import CartoonListModel from '@/components/CartoonListModel'
 import CartoonSearchModel from '@/components/CartoonSearchModel'
 import UpSearchModel from '@/components/UpSearchModel'
+import Export from '@/components/Export'
 
 const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
@@ -42,6 +43,11 @@ const router = [
         path: '/search/up',
         name: "search_up",
         component: UpSearchModel
+      },
+      {
+        path: '/export',
+        name: "export",
+        component: Export
       }
     ]
   }

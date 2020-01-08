@@ -46,7 +46,7 @@
         this.$router.push({name: 'search_cartoon'})
       },
       toExport(){
-        this.$router.push('/')
+        this.$router.push({name: 'export'})
       },
       toCartoon(){
         this.$router.push({name: 'attention_cartoon'})

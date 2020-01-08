@@ -15,7 +15,6 @@
       </el-row>
     </el-header>
 
-
     <el-main>
       <el-row>
         <!-- 历史查询 -->
@@ -31,17 +30,45 @@
             <el-container>
               <el-aside :span="8">
                 <el-avatar :size="80" :src="person.face"></el-avatar>
+                <el-row style="margin-top: 15%">
+                  <el-col :span="12">
+                    <el-button icon="el-icon-s-home" size="small" plain round>跳转到主页</el-button>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-button type="danger" icon="el-icon-star-on" size="small" plain round>加入关注</el-button>
+                  </el-col>
+                </el-row>
               </el-aside>
+
               <el-main :span="16">
+
+                <!--昵称-->
                 <el-row>
-                  <el-col :span="16">
-                    <el-tag>昵称</el-tag> {{person.name}}
+                  <el-col :span="4">
+                    <el-tag>昵称</el-tag>
+                  </el-col>
+                  <el-col :span="20">
+                    {{person.name}}
+                  </el-col>
+                </el-row>
+
+                <!--等级-->
+                <el-row>
+                  <el-col :span="4" style="margin-top: 20px">
+                    <el-tag>等级</el-tag>
+                  </el-col>
+                  <el-col :span="20">
                     <icon :name="'lv-' + person.level" width="32" height="32"></icon>
                   </el-col>
                 </el-row>
+
+                <!--签名-->
                 <el-row>
-                  <el-col :span="16">
-                    <el-tag>签名</el-tag> {{person.sign}}
+                  <el-col :span="4" style="margin-top: 20px">
+                  <el-tag>签名</el-tag>
+                </el-col>
+                  <el-col :span="20">
+                    {{person.sign}}
                   </el-col>
                 </el-row>
               </el-main>
@@ -56,22 +83,12 @@
 
 <script>
   import {mapState} from 'vuex'
-  import ElForm from "../../node_modules/element-ui/packages/form/src/form.vue";
+
   export default {
-    components: {ElForm},
+    name: "UpSearchModel",
     data(){
       return {
-        upId: '',
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        }
+        upId: ''
       }
     },
     created(){
