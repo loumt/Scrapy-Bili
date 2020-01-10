@@ -41,7 +41,7 @@
       </el-row>
     </el-header>
     <el-main>
-      <el-table :data="rows" class="shadow" max-height="100%" :stripe=true :border=true>
+      <el-table :data="this.$store.state.AttentionCartoon.rows" class="shadow" max-height="100%" :stripe=true :border=true>
         <el-table-column prop="mid" label="ID" width="100"></el-table-column>
         <el-table-column prop="name" label="番名"></el-table-column>
         <el-table-column prop="originName" label="原番名" width="160"></el-table-column>
@@ -52,7 +52,7 @@
         <el-table-column prop="utime" label="数据更新时间" :formatter="dateFormat"></el-table-column>
         <el-table-column align="center" label="操作" width="200" fixed="right">
           <template slot-scope="scope">
-            <el-button type="danger" icon="el-icon-star-off" size="mini" round></el-button>
+            <el-button type="danger" icon="el-icon-star-off" size="mini" circle @click="cancelAttention(scope.row)"></el-button>
             <el-button-group>
               <el-button type="primary" icon="el-icon-message-solid" size="mini" round></el-button>
               <el-button type="primary" icon="el-icon-video-camera-solid" size="mini" round></el-button>
@@ -125,24 +125,36 @@
     },
     computed: {
       ...mapState('AttentionCartoon',{
-        rows: state => state.rows,
         total: state => state.total,
         page: state => state.page,
         limit: state => state.limit
       })
     },
     methods: {
+      initData(){
+        this.$store.dispatch('AttentionCartoon/getAttentionCartoonList')
+      },
       goFans() {
         console.log(this.rows)
       },
       goScore(){
         console.log(this.rows)
       },
-      deleteRow(index, rows) {
-        rows.splice(CartoonListModel, 1);
-      },
-      handleEdit(index, row) {
-        console.log(CartoonListModel, row);
+      cancelAttention(car){
+        this.$confirm('是否取消关注 #' + car.name + "# ?", '取关', {
+          confirmButtonText: '确定',
+          cancelButtonText: '不,点错了',
+          type: 'info',
+          showClose: false
+        }).then(async () => {
+          await this.$store.dispatch("AttentionCartoon/cancelAttention", car.id)
+          this.initData();
+          this.$message({type: 'success', message: '取关成功!'});
+        }).catch(e => {
+          if(e !== 'cancel'){
+            this.$message({type: 'info', message: '取关失败'});
+          }
+        });
       },
       toPage(currentPage){
         this.$store.commit('setPage', currentPage)

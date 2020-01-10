@@ -6,11 +6,12 @@
           <el-input
             placeholder="UP主ID"
             v-model="upId"
+            maxlength="15"
             clearable>
           </el-input>
         </el-col>
         <el-col :span="2">
-          <el-button icon="el-icon-search" circle></el-button>
+          <el-button type="primary" icon="el-icon-search" circle @click="findUp" :disabled="upId === ''"></el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -20,22 +21,28 @@
         <!-- 历史查询 -->
         <el-col :span="24">
           <el-card shadow="always">
-            <el-tag style="margin: 10px 0 0 10px;" v-for="(item,index) in histories" :key="index"><icon name="bilibili-fill"></icon>{{item.name}}</el-tag>
+            <el-tag class="tag-normal" v-for="(item,index) in histories" :key="index" effect="plain"
+                    @click="findQuick(item.bid)">
+              <icon name="bilibili-fill"></icon>
+              {{item.name}}
+            </el-tag>
           </el-card>
         </el-col>
 
         <!-- 查询结果 -->
-        <el-col :span="24" style="margin-top: 10px;">
+        <el-col :span="24" style="margin-top: 10px;" v-show="showDetailModel">
           <el-card shadow="always">
             <el-container>
               <el-aside :span="8">
-                <el-avatar :size="80" :src="person.face"></el-avatar>
+                <el-avatar :size="80" :src="this.person.face"></el-avatar>
                 <el-row style="margin-top: 15%">
                   <el-col :span="12">
-                    <el-button icon="el-icon-s-home" size="small" plain round>跳转到主页</el-button>
+                    <el-button icon="el-icon-s-home" size="small" plain round @click="jumpMainPage">跳转到主页</el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="danger" icon="el-icon-star-on" size="small" plain round>加入关注</el-button>
+                    <el-button type="danger" icon="el-icon-star-on" size="small" plain round @click="attention"
+                               :disabled="isAttention">{{isAttention ? "已关注" : "加入关注"}}
+                    </el-button>
                   </el-col>
                 </el-row>
               </el-aside>
@@ -48,7 +55,7 @@
                     <el-tag>昵称</el-tag>
                   </el-col>
                   <el-col :span="20">
-                    {{person.name}}
+                    {{this.person.name}}
                   </el-col>
                 </el-row>
 
@@ -58,17 +65,17 @@
                     <el-tag>等级</el-tag>
                   </el-col>
                   <el-col :span="20">
-                    <icon :name="'lv-' + person.level" width="32" height="32"></icon>
+                    <icon :name="'lv-' + this.person.level" width="32" height="32"></icon>
                   </el-col>
                 </el-row>
 
                 <!--签名-->
                 <el-row>
                   <el-col :span="4" style="margin-top: 20px">
-                  <el-tag>签名</el-tag>
-                </el-col>
+                    <el-tag>签名</el-tag>
+                  </el-col>
                   <el-col :span="20">
-                    {{person.sign}}
+                    {{this.person.sign}}
                   </el-col>
                 </el-row>
               </el-main>
@@ -86,28 +93,60 @@
 
   export default {
     name: "UpSearchModel",
-    data(){
+    data() {
       return {
         upId: ''
       }
     },
-    created(){
+    created() {
       this.$store.dispatch("SearchUp/actionUpHistoryList")
     },
     computed: {
-      ...mapState('SearchUp', {
-        histories : state => state.histories,
-        person: state=> state.person
-      })
+      ...mapState('SearchUp', ["histories", "person", "showDetailModel","isAttention"])
     },
     methods: {
-
+      findUp() {
+        this.$store.dispatch('SearchUp/findUpRemoteById', this.upId)
+      },
+      findQuick(bid) {
+        this.upId = bid;
+        this.findUp();
+      },
+      jumpMainPage() {
+        window.open("https://space.bilibili.com/" + this.person.bid, '_blank');
+      },
+      attention() {
+        this.$confirm('是否将 #' + this.person.name + "# 加入到关注列表?", '关注', {
+          confirmButtonText: '关注',
+          cancelButtonText: '不不',
+          type: 'info',
+          showClose: false
+        }).then(async () => {
+          await this.$store.dispatch('SearchUp/addToUpAttention', this.person)
+          this.$store.commit('SearchUp/setIsAttention', true)
+          this.$message({
+            type: 'success', message: '关注成功!'
+          });
+        }).catch(e => {
+          if (e !== 'cancel') {
+            this.$message({type: 'info', message: '关注失败'});
+          }
+        });
+      }
     }
   }
 </script>
 
-<style>
+<style scoped>
   .search-item {
     padding: 10px 10px;
+  }
+
+  .tag-normal {
+    margin: 10px 0 0 10px;
+  }
+
+  .tag-normal:hover {
+    background-color: #ecf5ff;
   }
 </style>

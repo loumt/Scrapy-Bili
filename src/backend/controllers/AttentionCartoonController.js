@@ -85,7 +85,8 @@ class AttentionCartoonController extends BaseController {
           if (!result || result.code === -404)
             return this.error(res,ResultCode.NOT_FOUND)
 
-
+          let attentionCartoon = await AttentionCartoonService.findOneByMid(cartoonId);
+          result.result.isAttention = Boolean(attentionCartoon);
           //海报 result.cover
           //mid result.media_id
           //origin_name result.origin_name

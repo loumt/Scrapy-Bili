@@ -106,6 +106,10 @@ class UperController extends BaseController {
           uperInfo.face = info.data.face;
           uperInfo.level = info.data.level;
 
+          //查询是否已关注
+          let isAttentionUp = await AttentionUperService.findOneByBid(bid);
+          uperInfo.isAttention = Boolean(isAttentionUp);
+
           // console.dir(info)
 
           await SearchHistoryService.save({bid: bid, name: info.data.name, type: this.HISTORY.TYPE.UPER})

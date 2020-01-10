@@ -1,5 +1,5 @@
 import {
-  getCartoonList
+  getCartoonList,cancelAttentionCartoon
 } from './../service/getData'
 
 export default {
@@ -11,7 +11,7 @@ export default {
     page : 1,
   },
   mutations: {
-    setRows(state, v) {
+    cartoonList(state, v) {
       state.rows = v.rows;
       state.total = v.count;
       state.limit = v.limit;
@@ -24,7 +24,10 @@ export default {
   actions: {
     async getAttentionCartoonList({commit, state}) {
       let res = await getCartoonList(state.page,state.limit);
-      commit('setRows', res.data)
+      commit('cartoonList', res.data)
+    },
+    async cancelAttention({},id){
+      await cancelAttentionCartoon(id);
     }
   }
 }
