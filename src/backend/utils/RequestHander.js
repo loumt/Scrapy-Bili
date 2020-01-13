@@ -26,7 +26,7 @@ module.exports = async (url, headerConfig, type ) => {
     requestType = type;
   }
 
-  // await SendRequestService.save({url, type: requestType, stime: new Date()})
+  await SendRequestService.save({url, type: requestType, stime: new Date()})
 
   return rp({url, headers})
 }

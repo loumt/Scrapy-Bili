@@ -21,15 +21,16 @@ instance.interceptors.response.use(response => {
 /**
  * 获取UP列表
  */
-export const getUpList = (page,limit)=>{
-  return instance.get(`/api/attention/upers?limit=${limit}&page=${page}`)
+export const getUpList = (page,limit, upId,upName, fanMountLevel)=>{
+  return instance.get(`/api/attention/upers?limit=${limit}&page=${page}&uperId=${upId}&uperName=${upName}&fanScope=${fanMountLevel}`)
 }
 
 /**
  * 获取番剧列表
  */
-export const getCartoonList = (page,limit)=>{
-  return instance.get(`/api/attention/cartoons?limit=${limit}&page=${page}`)
+export const getCartoonList = (page,limit,cId,cName,scoreLevel,fanMountLevel)=>{
+  let url = `/api/attention/cartoons?limit=${limit}&page=${page}&cartoonId=${cId}&cartoonName=${cName}&ratingScope=${scoreLevel}&fanScope=${fanMountLevel}`
+  return instance.get(url)
 }
 
 /**
@@ -96,3 +97,12 @@ export const getCartoon = cId => {
 export const attentionCartoon = data => {
   return instance.post(`/api/attention/cartoons`, data)
 }
+
+/**
+ * 查询请求数
+ * @param cId
+ */
+export const getLimit = () => {
+  return instance.get(`/api/limit`)
+}
+

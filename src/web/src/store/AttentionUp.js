@@ -28,8 +28,8 @@ export default {
     }
   },
   actions: {
-    async getAttentionUpList({commit, state}) {
-      let res = await getUpList(state.page,state.limit);
+    async getAttentionUpList({commit, state}, {upId,upName,fanMountLevel}) {
+      let res = await getUpList(state.page,state.limit, upId, upName, fanMountLevel);
       commit('attentionList', res.data)
     },
     async cancelAttention({commit,state}, id){

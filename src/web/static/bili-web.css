@@ -18,3 +18,11 @@
 a:hover,span:hover,button:hover,i:hover,input:hover,li:hover,svg:hover {
   cursor: url('../static/1_1.cur'), url('../static/1_1.cur'), auto;
 }
+
+.point {
+  cursor: url('../static/1.cur'), url('../static/1.cur'), auto;
+}
+
+.point:hover{
+  cursor: url('../static/1_1.cur'), url('../static/1_1.cur'), auto;
+}

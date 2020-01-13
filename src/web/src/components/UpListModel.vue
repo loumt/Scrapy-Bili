@@ -19,7 +19,7 @@
           </el-input>
         </el-col>
         <el-col :span="5" :offset="1">
-          <el-select v-model="fanMountLevel" size="small" placeholder="粉丝数级别(默认全部)" @change="goFans">
+          <el-select v-model="fanMountLevel" size="small" placeholder="粉丝数级别(默认全部)">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -57,7 +57,7 @@
           <template slot-scope="scope">
             <el-button type="danger" icon="el-icon-star-off" size="mini" @click="cancelAttention(scope.row)" circle></el-button>
             <el-button-group>
-              <el-button type="primary" icon="el-icon-message-solid" size="mini" round></el-button>
+              <el-button type="primary" icon="el-icon-message-solid" size="mini" @click="showDynamic" round></el-button>
               <el-button type="primary" icon="el-icon-video-camera-solid" size="mini" round></el-button>
             </el-button-group>
           </template>
@@ -121,7 +121,7 @@
     },
     methods: {
       initData(){
-        this.$store.dispatch('AttentionUp/getAttentionUpList')
+        this.$store.dispatch('AttentionUp/getAttentionUpList', {upId: this.upId, upName: this.upName, fanMountLevel:this.fanMountLevel})
       },
       cancelAttention(up){
         this.$confirm('是否取消关注 #' + up.name + "# ?", '取关', {
@@ -140,16 +140,21 @@
           }
         });
       },
-      goFans() {
-        console.log(this.rows)
-      },
       getLevelName(level){
         return level? 'lv-' + level: ""
       },
       toPage(currentPage){
         this.$store.commit('AttentionUp/setPage', currentPage)
         this.initData();
+      },
+      showDynamic(){
+        console.log('123412321')
       }
+    },
+    watch: {
+      "upId": function(){ this.initData();},
+      "upName": function(){ this.initData();},
+      "fanMountLevel":function(){this.initData();}
     }
   }
 </script>

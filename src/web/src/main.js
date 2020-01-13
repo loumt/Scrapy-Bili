@@ -9,8 +9,8 @@ import store from './store';
 import plugins from './plugins'
 Vue.config.productionTip = false
 
-Vue.use(ElementUI)
-Vue.use(plugins)
+Vue.use(ElementUI);
+Vue.use(plugins);
 Vue.component('icon', Icon);
 
 let vm = new Vue({

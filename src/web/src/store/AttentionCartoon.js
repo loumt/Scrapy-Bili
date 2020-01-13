@@ -22,8 +22,8 @@ export default {
     }
   },
   actions: {
-    async getAttentionCartoonList({commit, state}) {
-      let res = await getCartoonList(state.page,state.limit);
+    async getAttentionCartoonList({commit, state}, {cId,cName,scoreLevel,fanMountLevel}) {
+      let res = await getCartoonList(state.page,state.limit, cId, cName, scoreLevel, fanMountLevel);
       commit('cartoonList', res.data)
     },
     async cancelAttention({},id){

@@ -19,7 +19,7 @@
           </el-input>
         </el-col>
         <el-col :span="5" :offset="1">
-          <el-select v-model="scoreLevel" size="small" placeholder="评分级别(默认全部)" @change="goScore">
+          <el-select v-model="scoreLevel" size="small" placeholder="评分级别(默认全部)">
             <el-option
               v-for="item in scoreOptions"
               :key="item.value"
@@ -29,7 +29,7 @@
           </el-select>
         </el-col>
         <el-col :span="5" :offset="1">
-          <el-select v-model="fanMountLevel" size="small" placeholder="追番人数级别(默认全部)" @change="goFans">
+          <el-select v-model="fanMountLevel" size="small" placeholder="追番人数级别(默认全部)">
             <el-option
               v-for="item in fanOptions"
               :key="item.value"
@@ -121,7 +121,7 @@
       }
     },
     created() {
-      this.$store.dispatch('AttentionCartoon/getAttentionCartoonList')
+      this.initData()
     },
     computed: {
       ...mapState('AttentionCartoon',{
@@ -132,7 +132,7 @@
     },
     methods: {
       initData(){
-        this.$store.dispatch('AttentionCartoon/getAttentionCartoonList')
+        this.$store.dispatch('AttentionCartoon/getAttentionCartoonList', {cId: this.cId, cName: this.cName, scoreLevel: this.scoreLevel, fanMountLevel: this.fanMountLevel})
       },
       goFans() {
         console.log(this.rows)
@@ -160,6 +160,14 @@
         this.$store.commit('setPage', currentPage)
         this.$store.dispatch('getAttentionCartoonList')
       }
+    },
+    watch: {
+      "cId": function(){ this.initData();},
+      "cName": function(){ this.initData();},
+      "scoreLevel":function(){
+        this.initData();
+        },
+      "fanMountLevel":function(){this.initData();}
     }
   }
 </script>
