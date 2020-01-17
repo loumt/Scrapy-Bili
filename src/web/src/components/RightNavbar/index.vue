@@ -1,18 +1,27 @@
 <template>
   <div class="user-bubble">
-    <div @mouseenter="homeEnter"
-         @mouseleave="homeOut"
-         :title="home.title">
-      <icon name="home-2"
-            :scale="home.scale"
-            style="color: #51b7fe;">
-      </icon>
-    </div>
+    <!--<div @mouseenter="homeEnter"-->
+         <!--@mouseleave="homeOut"-->
+         <!--:title="home.title">-->
+      <!--<icon name="home-2"-->
+            <!--:scale="home.scale"-->
+            <!--style="color: #51b7fe;">-->
+      <!--</icon>-->
+    <!--</div>-->
     <div @mouseenter="biliEnter"
          @mouseleave="biliOut"
+         @click="toBiliBili"
          :title="bili.title">
       <icon name="bilibili-fill"
             :scale="bili.scale"
+            style="color: #51b7fe;">
+      </icon>
+    </div>
+    <div @mouseenter="settingEnter"
+         @mouseleave="settingOut"
+         :title="setting.title">
+      <icon name="setting-2"
+            :scale="setting.scale"
             style="color: #51b7fe;">
       </icon>
     </div>
@@ -20,7 +29,7 @@
          @mouseleave="userinfoOut"
          @click="showUserBox"
          :title="userinfo.title">
-      <icon name="icon-user-item-2"
+      <icon name="user-info-icon"
             :scale="userinfo.scale"
             style="color: #51b7fe;">
       </icon>
@@ -30,14 +39,6 @@
          :title="message.title">
       <icon name="message"
             :scale="message.scale"
-            style="color: #51b7fe;">
-      </icon>
-    </div>
-    <div @mouseenter="settingEnter"
-         @mouseleave="settingOut"
-         :title="setting.title">
-      <icon name="setting-2"
-            :scale="setting.scale"
             style="color: #51b7fe;">
       </icon>
     </div>
@@ -105,6 +106,9 @@
       },
       showUserBox(){
         console.log('show user box..')
+      },
+      toBiliBili(){
+        window.open('https://www.bilibili.com')
       }
     }
   }

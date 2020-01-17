@@ -1,0 +1,8 @@
+{
+  "name": "bili-tools",
+  "version": "1.0.0",
+  "description": "Bili-Tools",
+  "dependencies": {
+    "request": "^2.88.0"
+  }
+}

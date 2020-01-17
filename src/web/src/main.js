@@ -4,6 +4,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '../static/bili-web.css'
+import '../static/el-rebuild.css'
 import Icon from 'vue-svg-icon/Icon.vue';
 import store from './store';
 import plugins from './plugins'

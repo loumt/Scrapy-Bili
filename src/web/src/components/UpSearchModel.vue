@@ -23,8 +23,8 @@
           <el-card shadow="always">
             <el-tag class="tag-normal" v-for="(item,index) in histories" :key="index" effect="plain"
                     @click="findQuick(item.bid)">
-              <icon name="bilibili-fill"></icon>
-              {{item.name}}
+              <icon name="bilibili-fill" width="15" height="15"></icon>
+              <span>{{item.name}}</span>
             </el-tag>
           </el-card>
         </el-col>
@@ -40,8 +40,7 @@
                     <el-button icon="el-icon-s-home" size="small" plain round @click="jumpMainPage">跳转到主页</el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="danger" icon="el-icon-star-on" size="small" plain round @click="attention"
-                               :disabled="isAttention">{{isAttention ? "已关注" : "加入关注"}}
+                    <el-button type="danger" icon="el-icon-star-on" size="small" @click="attention" :disabled="isAttention" plain round>{{isAttention ? "已关注" : "加入关注"}}
                     </el-button>
                   </el-col>
                 </el-row>
@@ -50,7 +49,7 @@
               <el-main :span="16">
 
                 <!--昵称-->
-                <el-row>
+                <el-row class="search-item">
                   <el-col :span="4">
                     <el-tag>昵称</el-tag>
                   </el-col>
@@ -60,8 +59,8 @@
                 </el-row>
 
                 <!--等级-->
-                <el-row>
-                  <el-col :span="4" style="margin-top: 20px">
+                <el-row class="search-item">
+                  <el-col :span="4">
                     <el-tag>等级</el-tag>
                   </el-col>
                   <el-col :span="20">
@@ -69,9 +68,25 @@
                   </el-col>
                 </el-row>
 
+                <!--性别-->
+                <el-row class="search-item">
+                  <el-col :span="4">
+                    <el-tag>性别</el-tag>
+                  </el-col>
+                  <el-col :span="20" v-if="person.sex ==='男'">
+                    <icon name="man" width="20" height="20"></icon>
+                  </el-col>
+                  <el-col :span="20" v-if="person.sex ==='女'">
+                    <icon name="woman" width="20" height="20"></icon>
+                  </el-col>
+                  <el-col :span="20" v-if="person.sex ==='保密'">
+                    <icon name="unknown" width="20" height="20"></icon>
+                  </el-col>
+                </el-row>
+
                 <!--签名-->
-                <el-row>
-                  <el-col :span="4" style="margin-top: 20px">
+                <el-row class="search-item">
+                  <el-col :span="4">
                     <el-tag>签名</el-tag>
                   </el-col>
                   <el-col :span="20">
@@ -144,9 +159,15 @@
 
   .tag-normal {
     margin: 10px 0 0 10px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .tag-normal:hover {
     background-color: #ecf5ff;
+  }
+  .search-item{
+    display: flex;
+    align-items: center;
   }
 </style>

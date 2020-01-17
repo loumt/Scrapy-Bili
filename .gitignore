@@ -1,5 +1,6 @@
 src/backend/node_modules
 src/backend/log
+src/tools/node_modules
 src/app/node_modules
 src/app/log
 src/app/dist

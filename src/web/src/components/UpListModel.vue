@@ -55,10 +55,10 @@
         <el-table-column prop="play" label="播放数" width="100"></el-table-column>
         <el-table-column align="center" label="操作" width="200" fixed="right">
           <template slot-scope="scope">
-            <el-button type="danger" icon="el-icon-star-off" size="mini" @click="cancelAttention(scope.row)" circle></el-button>
+            <el-button type="danger" icon="el-icon-star-off" size="mini" @click="cancelAttention(scope.row)" title="取消关注" circle></el-button>
             <el-button-group>
-              <el-button type="primary" icon="el-icon-message-solid" size="mini" @click="showDynamic" round></el-button>
-              <el-button type="primary" icon="el-icon-video-camera-solid" size="mini" round></el-button>
+              <el-button type="primary" icon="el-icon-message-solid" size="mini" title="查看动态" @click="showDynamic(scope.row)" round></el-button>
+              <el-button type="primary" icon="el-icon-video-camera-solid" size="mini" title="查看投稿" @click="showVideo(scope.row)" round></el-button>
             </el-button-group>
           </template>
 
@@ -68,42 +68,107 @@
         <el-pagination background layout="prev, pager, next" :total="total" :page-size="limit" :pager-count="5" :current-page="page" @current-change="toPage">
         </el-pagination>
       </el-row>
+
+      <!-- UP主动态列表 -->
+      <data-table ref="dynamicTable">
+        <el-timeline>
+          <el-timeline-item v-for="(dynamic, index) in dynamicList" :timestamp="dateFormat(dynamic.ptime)" :key="index" placement="top">
+            <el-card>
+              <el-row :gutter="20">
+                <p v-if="dynamic.type === 4">{{dynamic.content}}</p>
+                <p v-if="dynamic.type === 2">{{dynamic.description}}</p>
+                <p v-if="dynamic.type === 1">{{dynamic.content}}</p>
+                <p v-if="dynamic.type === 256">{{dynamic.content}}</p>
+                <p v-if="dynamic.type === 64">{{dynamic.dynamic}}</p>
+                <p v-if="dynamic.type === 8">{{dynamic.dynamic}}
+                  <a target="_blank" class="dynamic-link" :href="'https://www.bilibili.com/video/av' + dynamic.aid" :title="dynamic.title">#视频#</a>
+                </p>
+              </el-row>
+
+              <el-row :gutter="20">
+                <el-col :span="8">
+                  <div class="dynamic-des">
+                    <icon name="forwarding" width="20" height="20"></icon><span>{{dynamic.repost}}</span>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="dynamic-des">
+                    <icon name="comments" width="20" height="20"></icon><span>{{dynamic.reply}}</span>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="dynamic-des">
+                    <icon name="appreciates" width="20" height="20"></icon><span>{{dynamic.like}}</span>
+                  </div>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
+      </data-table>
+
+
+      <!-- UP主视频列表 -->
+      <data-table ref="videoTable">
+        <el-timeline>
+          <el-timeline-item v-for="(video, index) in videoList" :timestamp="dateFormat(video.ptime)" :key="index" placement="top">
+            <el-card>
+              <el-row>
+                <el-col :span="8">
+                  <el-image :src="'https://images.weserv.nl/?url=https:'+ video.pic" class="image video-img"/>
+                </el-col>
+                <el-col :span="14" :offset="2">
+                  <div>
+                    <a :href="'https://www.bilibili.com/video/av' + video.aid" class="dynamic-link" target="_blank">{{video.title}}</a>
+                  </div>
+                  <div style="margin-top: 10px;">
+                    <el-tag>{{video.length}}</el-tag>
+                  </div>
+                </el-col>
+              </el-row>
+              <el-row style="margin-top: 10px;">
+                <el-col :span="6" class="dynamic-des" title="转发">
+                  <icon name="forwarding" width="20" height="20"></icon><span>{{video.share}}</span>
+                </el-col>
+                <el-col :span="6" class="dynamic-des" title="评论">
+                  <icon name="comments" width="20" height="20"></icon><span>{{video.comment}}</span>
+                </el-col>
+                <el-col :span="6" class="dynamic-des" title="点赞">
+                  <icon name="appreciates" width="20" height="20"></icon><span>{{video.like}}</span>
+                </el-col>
+                <el-col :span="6" class="dynamic-des" title="收藏">
+                  <icon name="collect" width="20" height="20"></icon><span>{{video.favorite}}</span>
+                </el-col>
+              </el-row>
+              <el-row style="margin-top: 10px;">
+                <el-col :span="6" class="dynamic-des" title="弹幕">
+                  <icon name="barrage" width="20" height="20"></icon><span>{{video.danmaku}}</span>
+                </el-col>
+                <el-col :span="6" class="dynamic-des" title="B币">
+                  <icon name="coin" width="20" height="20"></icon><span>{{video.coin}}</span>
+                </el-col>
+                <el-col :span="6" class="dynamic-des" title="播放">
+                  <icon name="play" width="20" height="20"></icon><span>{{video.view}}</span>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
+      </data-table>
     </el-main>
   </el-container>
 </template>
 <script>
   import {mapState} from 'vuex'
+  import DataTable from './DataTable'
 
   export default {
     name: "UPER",
+    components: {
+      DataTable
+    },
     data() {
       return {
-        options: [
-          {
-            value: 0,
-            label: '粉丝数级别(默认全部)'
-          }, {
-            value: 1,
-            label: '一万以下'
-          }, {
-            value: 2,
-            label: '五万以下'
-          }, {
-            value: 3,
-            label: '十万以下'
-          }, {
-            value: 4,
-            label: '五十万以下'
-          }, {
-            value: 5,
-            label: '五十万至一百万'
-          }, {
-            value: 6,
-            label: '一百万以上'
-          }, {
-            value: 7,
-            label: '一千万以上'
-          }],
         upId: '',
         upName: '',
         fanMountLevel: ''
@@ -114,6 +179,9 @@
     },
     computed: {
       ...mapState('AttentionUp',{
+        dynamicList: state => state.dynamicList,
+        videoList: state => state.videoList,
+        options: state => state.options,
         total: state => state.total,
         page: state => state.page,
         limit: state => state.limit
@@ -147,8 +215,13 @@
         this.$store.commit('AttentionUp/setPage', currentPage)
         this.initData();
       },
-      showDynamic(){
-        console.log('123412321')
+      showDynamic(up){
+        this.$store.dispatch('AttentionUp/refreshUpDynamic', up)
+        this.$refs.dynamicTable.show({title: up.name + "の动态"});
+      },
+      showVideo(up){
+        this.$store.dispatch('AttentionUp/refreshUpVideo', up)
+        this.$refs.videoTable.show({title: up.name + "の投稿"});
       }
     },
     watch: {
@@ -163,5 +236,21 @@
 <style>
   .search-item {
     padding: 10px 10px;
+  }
+  .dynamic-des{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dynamic-des > span {
+    margin-left: 10px;
+  }
+  .dynamic-link {
+    text-decoration: none;
+    color: #08c;
+    text-shadow: #00aa00 0px 0px 3px;
+  }
+  .video-img {
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1)
   }
 </style>

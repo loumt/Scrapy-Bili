@@ -29,7 +29,7 @@ class DynamicController extends BaseController {
             return this.notFound(res)
           }
 
-          let option = {limit, skip, where: {mid: id}}
+          let option = {limit, skip, where: {mid: id},order: [['ptime', 'DESC']]}
 
           let result = {}
           let dynamics = await AttentionUperDynamicService.find(option);

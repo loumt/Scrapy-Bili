@@ -21,7 +21,7 @@
         <!-- 历史查询 -->
         <el-col :span="24">
           <el-card shadow="always">
-            <el-tag class="tag-normal" v-for="(item,index) in histories" :key="index" effect="plain" @click="findQuick(item.bid)"><icon name="bilibili-fill"></icon>{{item.name}}</el-tag>
+            <el-tag class="tag-normal" v-for="(item,index) in histories" :key="index" effect="plain" @click="findQuick(item.bid)"><icon name="bilibili-fill" width="15" height="15"></icon>{{item.name}}</el-tag>
           </el-card>
         </el-col>
 
@@ -205,6 +205,8 @@
   }
   .tag-normal {
     margin: 10px 0 0 10px;
+    display: inline-flex;
+    align-items: center;
   }
   .tag-normal:hover {
     background-color: #ecf5ff;

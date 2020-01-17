@@ -103,6 +103,7 @@ class UperController extends BaseController {
           uperInfo.bid = info.data.mid;
           uperInfo.name = info.data.name;
           uperInfo.sign = info.data.sign;
+          uperInfo.sex = info.data.sex;
           uperInfo.face = info.data.face;
           uperInfo.level = info.data.level;
 

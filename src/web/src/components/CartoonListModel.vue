@@ -52,11 +52,7 @@
         <el-table-column prop="utime" label="数据更新时间" :formatter="dateFormat"></el-table-column>
         <el-table-column align="center" label="操作" width="200" fixed="right">
           <template slot-scope="scope">
-            <el-button type="danger" icon="el-icon-star-off" size="mini" circle @click="cancelAttention(scope.row)"></el-button>
-            <el-button-group>
-              <el-button type="primary" icon="el-icon-message-solid" size="mini" round></el-button>
-              <el-button type="primary" icon="el-icon-video-camera-solid" size="mini" round></el-button>
-            </el-button-group>
+            <el-button type="danger" icon="el-icon-star-off" size="mini" title="取消关注" circle @click="cancelAttention(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>

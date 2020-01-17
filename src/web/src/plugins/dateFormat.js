@@ -1,6 +1,7 @@
 
 function dateFormat(row, column, cellValue, index){
-  const daterc = row[column.property]
+
+  const daterc = column ? row[column.property] : row
 
   function formatFunc(str) {    //格式化显示
     return str > 9 ? str : '0' + str
@@ -14,6 +15,7 @@ function dateFormat(row, column, cellValue, index){
   hour = formatFunc(hour);
   var min = formatFunc(date2.getMinutes());
   var dateStr = year+'-'+mon+'-'+day +' '+hour+':'+min + ':' + seconds;
+
   return dateStr;
 }
 

@@ -106,3 +106,17 @@ export const getLimit = () => {
   return instance.get(`/api/limit`)
 }
 
+/**
+ * 获取Up主动态
+ */
+export const getUpDynamicList = bid => {
+  return instance.get("/api/attention/upers/" +  bid +"/dynamics" + "?limit=999&page=1")
+}
+
+/**
+ * 获取Up主视频
+ */
+export const getUpVideoList = bid => {
+  return instance.get("/api/attention/upers/" +  bid +"/videos" + "?limit=999&page=1")
+}
+

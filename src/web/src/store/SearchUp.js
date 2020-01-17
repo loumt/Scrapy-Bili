@@ -20,6 +20,7 @@ export default {
         bid: v.bid,
         name:v.name,
         level: v.level,
+        sex: v.sex,
         sign: v.sign,
        }
       state.isAttention = v.isAttention
