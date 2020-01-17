@@ -41,6 +41,7 @@ export default {
     limit : 10,
     page : 1,
     dynamicList: [],
+    dynamicTotal: 0,
     videoList: []
   },
   mutations: {
@@ -56,11 +57,11 @@ export default {
       state.page = v.page;
     },
     dynamicList(state,v) {
+      state.dynamicTotal = v.total;
       state.dynamicList = [];
       v.rows.forEach(row => {
         if(row.type === 1) {
           row.content = emojiUtil(row.content)
-          console.log(`row.content: ` + row.content)
         }
         if(row.type === 4) {
           row.content = emojiUtil(row.content)
@@ -76,6 +77,7 @@ export default {
         }
         if(row.type === 8) {
           row.dynamic = emojiUtil(row.dynamic)
+          row.dynamic += `<a target="_blank" class="dynamic-link" href="https://www.bilibili.com/video/av${row.dynamic.aid}" title="${row.dynamic.title}">#视频#</a>`
         }
         state.dynamicList.push(row)
       })

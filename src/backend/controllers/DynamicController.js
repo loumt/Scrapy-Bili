@@ -33,8 +33,10 @@ class DynamicController extends BaseController {
 
           let result = {}
           let dynamics = await AttentionUperDynamicService.find(option);
+          let count = await AttentionUperDynamicService.count(option.where)
           result.rows = dynamics
           result.page = page;
+          result.total = count;
           result.limit = limit;
           result.uper = uper;
           this.success(res, result)
