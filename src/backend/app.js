@@ -38,6 +38,8 @@ app.use(session({
   }
 }))
 
+router.get('/', (req,res,next)=>{res.render('home')})
+
 //routers-files
 require('./routers')(router);
 

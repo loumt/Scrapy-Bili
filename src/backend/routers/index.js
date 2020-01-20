@@ -7,7 +7,7 @@ module.exports = (router) => {
   //用户登录注销
   // require(path.join(__dirname,'page.route'))(router)
 
-  require(path.join(__dirname, 'page.router'))(router)
+  // require(path.join(__dirname, 'page.router'))(router)
 
   //登录验证
   router.use(AuthMiddle);

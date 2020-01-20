@@ -153,8 +153,8 @@
         });
       },
       toPage(currentPage){
-        this.$store.commit('setPage', currentPage)
-        this.$store.dispatch('getAttentionCartoonList')
+        this.$store.commit('AttentionCartoon/setPage', currentPage)
+        this.initData();
       }
     },
     watch: {
