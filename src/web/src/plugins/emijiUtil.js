@@ -20,6 +20,18 @@ const emojiList = [
     emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/emote/d15121545a99ac46774f1f4465b895fe2d1411c3.png@100w_100h.webp"/>'
   },
   {
+    key: '[白眼]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/baiyan.png"/>'
+  },
+  {
+    key: '[喵]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/miaozhan/miao.png"/>'
+  },
+  {
+    key: '[腼腆]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/miantian.png"/>'
+  },
+  {
     key: '[doge]',
     emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/emote/bba7c12aa51fed0199c241465560dfc2714c593e.png@100w_100h.webp"/>'
   },
@@ -92,12 +104,48 @@ const emojiList = [
     emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/emote/bb84906573472f0a84cebad1e9000eb6164a6f5a.png@100w_100h.webp"/>'
   },
   {
+    key: '[捂脸]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/archive/6921bb43f0c634870b92f4a8ad41dada94a5296d.png"/>'
+  },
+  {
     key: '[惊喜]',
     emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/emote/0afecaf3a3499479af946f29749e1a6c285b6f65.png@100w_100h.webp"/>'
   },
   {
+    key: '[难过]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/nanguo.png"/>'
+  },
+  {
     key: '[喜极而泣]',
     emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/archive/485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png"/>'
+  },
+  {
+    key: '[tv_微笑]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/weixiao.png"/>'
+  },
+  {
+    key: '[tv_doge]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/doge.png"/>'
+  },
+  {
+    key: '[tv_大佬]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/dalao.png"/>'
+  },
+  {
+    key: '[tv_点赞]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/dianzan.png"/>'
+  },
+  {
+    key: '[tv_偷笑]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/touxiao.png"/>'
+  },
+  {
+    key: '[tv_笑哭]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/xiaoku.png"/>'
+  },
+  {
+    key: '[tv_馋]',
+    emoji: '<img style="width: 2em;height: 2em;" src="https://images.weserv.nl/?url=https://s1.hdslb.com/bfs/seed/bplus-common/emoji-assets/xiaodianshi1/chan.png"/>'
   }
 ];
 

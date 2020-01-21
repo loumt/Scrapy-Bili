@@ -58,7 +58,7 @@
             <el-button type="danger" icon="el-icon-star-off" size="mini" @click="cancelAttention(scope.row)"
                        title="取消关注" circle></el-button>
             <el-button-group>
-              <el-button type="primary" icon="el-icon-message-solid" size="mini" title="查看动态"
+              <el-button type="primary" icon="el-icon-s-help" size="mini" title="查看动态"
                          @click="showDynamic(scope.row)" round></el-button>
               <el-button type="primary" icon="el-icon-video-camera-solid" size="mini" title="查看投稿"
                          @click="showVideo(scope.row)" round></el-button>

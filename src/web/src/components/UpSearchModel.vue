@@ -37,11 +37,20 @@
                 <el-avatar :size="80" :src="this.person.face"></el-avatar>
                 <el-row style="margin-top: 15%">
                   <el-col :span="12">
-                    <el-button icon="el-icon-s-home" size="small" plain round @click="jumpMainPage">跳转到主页</el-button>
+                    <el-button type="primary" icon="el-icon-s-home" size="small" @click="jumpMainPage" round>主页</el-button>
                   </el-col>
                   <el-col :span="12">
                     <el-button type="danger" icon="el-icon-star-on" size="small" @click="attention" :disabled="isAttention" plain round>{{isAttention ? "已关注" : "加入关注"}}
                     </el-button>
+                  </el-col>
+                </el-row>
+                <el-row style="margin-top: 5%">
+                  <el-col :span="12">
+                    <el-button type="primary" icon="el-icon-s-help" size="small" @click="jumpDynamic" round>动态
+                    </el-button>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-button type="success" icon="el-icon-video-camera-solid" size="small" @click="jumpVideo" round>投稿</el-button>
                   </el-col>
                 </el-row>
               </el-aside>
@@ -129,6 +138,12 @@
       },
       jumpMainPage() {
         window.open("https://space.bilibili.com/" + this.person.bid, '_blank');
+      },
+      jumpDynamic(){
+        window.open("https://space.bilibili.com/" + this.person.bid + '/dynamic', '_blank');
+      },
+      jumpVideo(){
+        window.open("https://space.bilibili.com/" + this.person.bid + '/video', '_blank');
       },
       attention() {
         this.$confirm('是否将 #' + this.person.name + "# 加入到关注列表?", '关注', {

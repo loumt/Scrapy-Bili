@@ -1,13 +1,13 @@
 <template>
   <div class="user-bubble">
-    <!--<div @mouseenter="homeEnter"-->
-         <!--@mouseleave="homeOut"-->
-         <!--:title="home.title">-->
-      <!--<icon name="home-2"-->
-            <!--:scale="home.scale"-->
-            <!--style="color: #51b7fe;">-->
-      <!--</icon>-->
-    <!--</div>-->
+    <div @mouseenter="homeEnter"
+         @mouseleave="homeOut"
+         :title="home.title">
+      <icon name="home-2"
+            :scale="home.scale"
+            style="color: #51b7fe;">
+      </icon>
+    </div>
     <div @mouseenter="biliEnter"
          @mouseleave="biliOut"
          @click="toBiliBili"
@@ -17,33 +17,33 @@
             style="color: #51b7fe;">
       </icon>
     </div>
-    <!--<div @mouseenter="settingEnter"-->
-         <!--@mouseleave="settingOut"-->
-         <!--@click="toSetting"-->
-         <!--:title="setting.title">-->
-      <!--<icon name="setting-2"-->
-            <!--:scale="setting.scale"-->
-            <!--style="color: #51b7fe;">-->
-      <!--</icon>-->
-    <!--</div>-->
-    <!--<div @mouseenter="userinfoEnter"-->
-         <!--@mouseleave="userinfoOut"-->
-         <!--@click="toUserInfo"-->
-         <!--:title="userinfo.title">-->
-      <!--<icon name="user-info-icon"-->
-            <!--:scale="userinfo.scale"-->
-            <!--style="color: #51b7fe;">-->
-      <!--</icon>-->
-    <!--</div>-->
-    <!--<div @mouseenter="messageEnter"-->
-         <!--@mouseleave="messageOut"-->
-         <!--@click="toMessage"-->
-         <!--:title="message.title">-->
-      <!--<icon name="message"-->
-            <!--:scale="message.scale"-->
-            <!--style="color: #51b7fe;">-->
-      <!--</icon>-->
-    <!--</div>-->
+    <div @mouseenter="settingEnter"
+         @mouseleave="settingOut"
+         @click="toSetting"
+         :title="setting.title">
+      <icon name="setting-2"
+            :scale="setting.scale"
+            style="color: #51b7fe;">
+      </icon>
+    </div>
+    <div @mouseenter="userinfoEnter"
+         @mouseleave="userinfoOut"
+         @click="toUserInfo"
+         :title="userinfo.title">
+      <icon name="user-info-icon"
+            :scale="userinfo.scale"
+            style="color: #51b7fe;">
+      </icon>
+    </div>
+    <div @mouseenter="messageEnter"
+         @mouseleave="messageOut"
+         @click="toMessage"
+         :title="message.title">
+      <icon name="message"
+            :scale="message.scale"
+            style="color: #51b7fe;">
+      </icon>
+    </div>
   </div>
 </template>
 
