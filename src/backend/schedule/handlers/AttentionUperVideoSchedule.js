@@ -50,31 +50,34 @@ class AttentionUperVideoSchedule extends BaseSchedule {
 
     if (video.code === 62002){
       await AttentionUperVideoService.deleteById(id)
-    }
-    if (video.code === 62002) return this.logger.warn(`Video ${id} had been deleted!`);
-
-    let {data} = video;
-    if (!data.stat) {
+      this.logger.warn(`Video ${id} had been deleted!`);
+    }else if(video.code === -404){
       await AttentionUperVideoService.deleteById(id)
-      return this.logger.warn('Video  [data.stat] is empty. (warn)')
-    }
+      this.logger.warn(`Video ${id} had been deleted!`);
+    }else{
+      let {data} = video;
 
-    try {
-      await AttentionUperVideoService.updateOne({id}, {
-        utime: new Date(),
-        coin: data.stat.coin,
-        share: data.stat.share,
-        like: data.stat.like,
-        favorite: data.stat.favorite,
-        danmaku: data.stat.danmaku,
-        view: data.stat.view,
-        comment: data.stat.reply,
-        duration: data.duration
-      })
-    } catch (err) {
-      this.logger.error(err)
-    }
+      if (!data.stat) {
+        await AttentionUperVideoService.deleteById(id)
+        return this.logger.warn('Video  [data.stat] is empty. (warn)')
+      }
 
+      try {
+        await AttentionUperVideoService.updateOne({id}, {
+          utime: new Date(),
+          coin: data.stat.coin,
+          share: data.stat.share,
+          like: data.stat.like,
+          favorite: data.stat.favorite,
+          danmaku: data.stat.danmaku,
+          view: data.stat.view,
+          comment: data.stat.reply,
+          duration: data.duration
+        })
+      } catch (err) {
+        this.logger.error(err)
+      }
+    }
   }
 
 }
