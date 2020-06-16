@@ -36,17 +36,24 @@ class AttentionCartoonSchedule extends BaseSchedule {
 
       let cartoon = utils.parse2Object(cartoonResponse)
 
-      let data = {
-        fans: cartoon.result.stat.favorites,
-        utime: new Date()
+      //番剧下架
+      if(cartoon.code && cartoon.code === -404) {
+        let attentionCartoon = await AttentionCartoonService.findByPk(id);
+        await AttentionCartoonService.deleteById(id)
+        this.logger.warn(`Cartoon ${id} ${attentionCartoon.name} had been deleted!`);
+      }else{
+        let data = {
+          fans: cartoon.result.stat.favorites,
+          utime: new Date()
+        }
+
+        if (cartoon.result.rating) {
+          data.ratingCount = cartoon.result.rating.count
+          data.ratingCode = cartoon.result.rating.score
+        }
+        await AttentionCartoonService.updateOne({id}, data)
       }
 
-      if (cartoon.result.rating) {
-        data.ratingCount = cartoon.result.rating.count
-        data.ratingCode = cartoon.result.rating.score
-      }
-
-      await AttentionCartoonService.updateOne({id}, data)
     } catch (err) {
       if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--cartoonResponseHandler---")

@@ -1,6 +1,6 @@
 const log4js = require('log4js')
 
-const logFolder = process.platform === 'win32' ?  './log' : '/var/log/bilibili'
+const logFolder = process.platform === 'win32' ?  './../../log' : '/var/log/bilibili'
 
 let logConfig =  {
   appenders: {
