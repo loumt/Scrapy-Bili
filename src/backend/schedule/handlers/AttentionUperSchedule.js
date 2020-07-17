@@ -31,10 +31,15 @@ class AttentionUperSchedule extends BaseSchedule {
         let infoRes = await this.RequestHandler(this.CommonURLConfigure.UP_INFO.url.replace("#MID#", bid))
         let info = utils.parse2Object(infoRes)
 
+        uperInfo.sex = 0;
         uperInfo.name = info.data.name;
         uperInfo.sign = info.data.sign;
         uperInfo.face = info.data.face;
         uperInfo.level = info.data.level;
+
+        //补充性别
+        if(info.data.sex === '男') uperInfo.sex = 1;
+        if(info.data.sex === '女') uperInfo.sex = 2;
 
         //查询粉丝与关注
         let fansRes = await this.RequestHandler(this.CommonURLConfigure.UP_FOLLOW.url.replace("#MID#", bid))

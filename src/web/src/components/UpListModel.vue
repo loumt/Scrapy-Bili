@@ -57,6 +57,9 @@
           <template slot-scope="scope">
             <el-button type="danger" icon="el-icon-star-off" size="mini" @click="cancelAttention(scope.row)"
                        title="取消关注" circle></el-button>
+            <el-button type="success" icon="el-icon-paperclip" style="margin-left: 0px;" size="mini"
+                       @click="visitThisUper(scope.row)"
+                       title="访问主页" circle></el-button>
             <el-button-group>
               <el-button type="primary" icon="el-icon-s-help" size="mini" title="查看动态"
                          @click="showDynamic(scope.row)" round></el-button>
@@ -74,7 +77,7 @@
       </el-row>
 
       <!-- UP主动态列表 -->
-      <data-table ref="dynamicTable">
+      <data-table ref="dynamicTable" @load="loadNext" @close="refreshPageData">
         <el-timeline>
           <el-timeline-item
             v-for="(dynamic, index) in dynamicList"
@@ -117,11 +120,18 @@
             </el-card>
           </el-timeline-item>
         </el-timeline>
+        <el-row :gutter="20" style="margin-bottom: 10px;" v-show="dataBox.loadMoreBtnShow">
+          <el-col :span="6" :offset="10">
+            <div class="grid-content bg-purple">
+              <el-button type="primary" size="small" @click="loadNext" round>加载更多</el-button>
+            </div>
+          </el-col>
+        </el-row>
       </data-table>
 
 
       <!-- UP主视频列表 -->
-      <data-table ref="videoTable">
+      <data-table ref="videoTable" @load="loadNext" @close="refreshPageData">
         <el-timeline>
           <el-timeline-item
             v-for="(video, index) in videoList"
@@ -186,109 +196,134 @@
             </el-card>
           </el-timeline-item>
         </el-timeline>
+        <el-row :gutter="20" style="margin-bottom: 10px;" v-show="dataBox.loadMoreBtnShow">
+          <el-col :span="6" :offset="10">
+            <div class="grid-content bg-purple">
+              <el-button type="primary" size="small" @click="loadNext" round>加载更多</el-button>
+            </div>
+          </el-col>
+        </el-row>
       </data-table>
     </el-main>
   </el-container>
 </template>
 <script>
-  import {mapState} from 'vuex'
-  import DataTable from './DataTable'
+    import {mapState} from 'vuex'
+    import DataTable from './DataTable'
 
-  export default {
-    name: "UPER",
-    components: {
-      DataTable
-    },
-    data() {
-      return {
-        upId: '',
-        upName: '',
-        fanMountLevel: ''
-      }
-    },
-    created() {
-      this.initData();
-    },
-    computed: {
-      ...mapState('AttentionUp', {
-        dynamicList: state => state.dynamicList,
-        videoList: state => state.videoList,
-        options: state => state.options,
-        total: state => state.total,
-        page: state => state.page,
-        limit: state => state.limit
-      })
-    },
-    methods: {
-      initData() {
-        this.$store.dispatch('AttentionUp/getAttentionUpList', {
-          upId: this.upId,
-          upName: this.upName,
-          fanMountLevel: this.fanMountLevel
-        })
-      },
-      cancelAttention(up) {
-        this.$confirm('是否取消关注 #' + up.name + "# ?", '取关', {
-          confirmButtonText: '确定',
-          iconClass: 'el-icon-delete-solid',
-          cancelButtonText: '不,点错了',
-          type: 'info',
-          showClose: false
-        }).then(async () => {
-          await this.$store.dispatch("AttentionUp/cancelAttention", up.id)
-          this.initData();
-          this.$message({type: 'success', message: '取关成功!'});
-        }).catch(e => {
-          if (e !== 'cancel') {
-            this.$message({type: 'info', message: '关注失败'});
-          }
-        });
-      },
-      getLevelName(level) {
-        return level ? 'lv-' + level : ""
-      },
-      toPage(currentPage) {
-        this.$store.commit('AttentionUp/setPage', currentPage)
-        this.initData();
-      },
-      showDynamic(up) {
-        this.$store.dispatch('AttentionUp/refreshUpDynamic', up)
-        this.$refs.dynamicTable.show({title: up.name + "の动态"});
-      },
-      showVideo(up) {
-        this.$store.dispatch('AttentionUp/refreshUpVideo', up)
-        this.$refs.videoTable.show({title: up.name + "の投稿"});
-      },
-      shareIt(url) {
-        window.open('https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + url)
-      },
-      clipBoard(copyStr) {
-        const oInput = document.createElement('input');
-        oInput.value = copyStr;
-        document.body.appendChild(oInput)
-        oInput.select();
-        const copyResult = document.execCommand('copy')
-        document.body.removeChild(oInput)
-        // 根据返回的复制结果 给用户不同的提示
-        if (copyResult) {
-          this.$message({type: 'info', message: '已复制到剪贴板'});
-        } else {
-          this.$message({type: 'error', message: '复制失败'});
+    export default {
+        name: "UPER",
+        components: {
+            DataTable
+        },
+        data() {
+            return {
+                upId: '',
+                upName: '',
+                fanMountLevel: '',
+                dataBox:{
+                    loadMoreBtnShow: true
+                }
+            }
+        },
+        created() {
+            this.initData();
+        },
+        computed: {
+            ...mapState('AttentionUp', {
+                dynamicList: state => state.dynamicList,
+                videoList: state => state.videoList,
+                options: state => state.options,
+                total: state => state.total,
+                page: state => state.page,
+                limit: state => state.limit
+            })
+        },
+        methods: {
+            initData() {
+                this.$store.dispatch('AttentionUp/getAttentionUpList', {
+                    upId: this.upId,
+                    upName: this.upName,
+                    fanMountLevel: this.fanMountLevel
+                })
+            },
+            visitThisUper(up) {
+                window.open("https://space.bilibili.com/" + up.bid, '_blank');
+            },
+            refreshPageData() {
+                this.$store.commit('AttentionUp/initDataTableProps')
+            },
+            cancelAttention(up) {
+                this.$confirm('是否取消关注 #' + up.name + "# ?", '取关', {
+                    confirmButtonText: '确定',
+                    iconClass: 'el-icon-delete-solid',
+                    cancelButtonText: '不,点错了',
+                    type: 'info',
+                    showClose: false
+                }).then(async () => {
+                    await this.$store.dispatch("AttentionUp/cancelAttention", up.id)
+                    this.initData();
+                    this.$message({type: 'success', message: '取关成功!'});
+                }).catch(e => {
+                    if (e !== 'cancel') {
+                        this.$message({type: 'info', message: '关注失败'});
+                    }
+                });
+            },
+            getLevelName(level) {
+                return level ? 'lv-' + level : ""
+            },
+            toPage(currentPage) {
+                this.$store.commit('AttentionUp/setPage', currentPage)
+                this.initData();
+            },
+            showDynamic(up) {
+                this.$store.dispatch('AttentionUp/refreshUpDynamic', up)
+                this.$refs.dynamicTable.show({title: up.name + "の动态"});
+            },
+            showVideo(up) {
+                this.$store.dispatch('AttentionUp/refreshUpVideo', up)
+                this.$refs.videoTable.show({title: up.name + "の投稿"});
+            },
+            loadNext() {
+                this.$store.dispatch('AttentionUp/loadNextDataList')
+            },
+            shareIt(url) {
+                window.open('https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + url)
+            },
+            clipBoard(copyStr) {
+                const oInput = document.createElement('input');
+                oInput.value = copyStr;
+                document.body.appendChild(oInput)
+                oInput.select();
+                const copyResult = document.execCommand('copy')
+                document.body.removeChild(oInput)
+                // 根据返回的复制结果 给用户不同的提示
+                if (copyResult) {
+                    this.$message({type: 'info', message: '已复制到剪贴板'});
+                } else {
+                    this.$message({type: 'error', message: '复制失败'});
+                }
+            }
+        },
+        watch: {
+            "upId": function () {
+                this.$store.commit('AttentionUp/initPageOptions');
+                this.initData();
+            },
+            "upName": function () {
+                this.$store.commit('AttentionUp/initPageOptions');
+                this.initData();
+            },
+            "fanMountLevel": function () {
+                this.$store.commit('AttentionUp/initPageOptions');
+                this.initData();
+            },
+            "$store.state.AttentionUp.showLoadMore": function(newValue,oldValue){
+                this.dataBox.loadMoreBtnShow = newValue
+            }
         }
-      }
-    },
-    watch: {
-      "upId": function () {
-        this.initData();
-      },
-      "upName": function () {
-        this.initData();
-      },
-      "fanMountLevel": function () {
-        this.initData();
-      }
     }
-  }
 </script>
 
 

@@ -43,9 +43,9 @@ class AttentionCartoonController extends BaseController {
       this.utils.checkValidationResult(),
       async (req, res, next) => {
         let {limit, page, cartoonId, cartoonName, fanScope, ratingScope } = req.query
-        let skip = limit * (page - 1)
+        let offset = limit * (page - 1)
         try {
-          let option = {limit, skip, where: {}}
+          let option = {limit, offset, where: {}}
           if(cartoonId) { option.where.mid = { [this.service.Op.like]: `%${cartoonId}%` } }
           if(cartoonName) { option.where.name = { [this.service.Op.like]: `%${cartoonName}%`} }
           if(fanScope) {

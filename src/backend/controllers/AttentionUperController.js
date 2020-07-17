@@ -36,9 +36,9 @@ class AttentionUperController extends BaseController {
       this.utils.checkValidationResult(),
       async (req, res, next) => {
         let {limit, page, level, uperId, uperName, fanScope} = req.query
-        let skip = limit * (page - 1)
+        let offset = limit * (page - 1)
         try {
-          let option = {limit, skip, where: {}}
+          let option = {limit, offset, where: {}}
           if(level) { option.where.level = parseInt(level) }
           if(uperId) { option.where.bid = { [this.service.Op.like]: `%${uperId}%` } }
           if(uperName) { option.where.name = { [this.service.Op.like]: `%${uperName}%`} }

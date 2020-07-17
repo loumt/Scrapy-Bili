@@ -11,7 +11,7 @@
           </el-input>
         </el-col>
         <el-col :span="2">
-          <el-button type="primary" icon="el-icon-search" circle @click="findUp" :disabled="upId === ''"></el-button>
+          <el-button type="primary" icon="el-icon-search" circle @click="findUp" :disabled="upId === ''" style="margin-left: 10px;"></el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -34,13 +34,15 @@
           <el-card shadow="always">
             <el-container>
               <el-aside :span="8">
-                <el-avatar :size="80" :src="this.person.face"></el-avatar>
+                <el-avatar :size="80" :src="this.person.face" style="margin-left: 25%;"></el-avatar>
                 <el-row style="margin-top: 15%">
                   <el-col :span="12">
-                    <el-button type="primary" icon="el-icon-s-home" size="small" @click="jumpMainPage" round>主页</el-button>
+                    <el-button type="primary" icon="el-icon-s-home" size="small" @click="jumpMainPage" round>主页
+                    </el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="danger" icon="el-icon-star-on" size="small" @click="attention" :disabled="isAttention" plain round>{{isAttention ? "已关注" : "加入关注"}}
+                    <el-button type="danger" icon="el-icon-star-on" size="small" @click="attention"
+                               :disabled="isAttention" plain round>{{isAttention ? "已关注" : "加入关注"}}
                     </el-button>
                   </el-col>
                 </el-row>
@@ -50,7 +52,9 @@
                     </el-button>
                   </el-col>
                   <el-col :span="12">
-                    <el-button type="success" icon="el-icon-video-camera-solid" size="small" @click="jumpVideo" round>投稿</el-button>
+                    <el-button type="success" icon="el-icon-video-camera-solid" size="small" @click="jumpVideo" round>
+                      投稿
+                    </el-button>
                   </el-col>
                 </el-row>
               </el-aside>
@@ -113,58 +117,58 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+    import {mapState} from 'vuex'
 
-  export default {
-    name: "UpSearchModel",
-    data() {
-      return {
-        upId: ''
-      }
-    },
-    created() {
-      this.$store.dispatch("SearchUp/actionUpHistoryList")
-    },
-    computed: {
-      ...mapState('SearchUp', ["histories", "person", "showDetailModel","isAttention"])
-    },
-    methods: {
-      findUp() {
-        this.$store.dispatch('SearchUp/findUpRemoteById', this.upId)
-      },
-      findQuick(bid) {
-        this.upId = bid;
-        this.findUp();
-      },
-      jumpMainPage() {
-        window.open("https://space.bilibili.com/" + this.person.bid, '_blank');
-      },
-      jumpDynamic(){
-        window.open("https://space.bilibili.com/" + this.person.bid + '/dynamic', '_blank');
-      },
-      jumpVideo(){
-        window.open("https://space.bilibili.com/" + this.person.bid + '/video', '_blank');
-      },
-      attention() {
-        this.$confirm('是否将 #' + this.person.name + "# 加入到关注列表?", '关注', {
-          confirmButtonText: '关注',
-          cancelButtonText: '不不',
-          type: 'info',
-          showClose: false
-        }).then(async () => {
-          await this.$store.dispatch('SearchUp/addToUpAttention', this.person)
-          this.$store.commit('SearchUp/setIsAttention', true)
-          this.$message({
-            type: 'success', message: '关注成功!'
-          });
-        }).catch(e => {
-          if (e !== 'cancel') {
-            this.$message({type: 'info', message: '关注失败'});
-          }
-        });
-      }
+    export default {
+        name: "UpSearchModel",
+        data() {
+            return {
+                upId: ''
+            }
+        },
+        created() {
+            this.$store.dispatch("SearchUp/actionUpHistoryList")
+        },
+        computed: {
+            ...mapState('SearchUp', ["histories", "person", "showDetailModel", "isAttention"])
+        },
+        methods: {
+            findUp() {
+                this.$store.dispatch('SearchUp/findUpRemoteById', this.upId)
+            },
+            findQuick(bid) {
+                this.upId = bid;
+                this.findUp();
+            },
+            jumpMainPage() {
+                window.open("https://space.bilibili.com/" + this.person.bid, '_blank');
+            },
+            jumpDynamic() {
+                window.open("https://space.bilibili.com/" + this.person.bid + '/dynamic', '_blank');
+            },
+            jumpVideo() {
+                window.open("https://space.bilibili.com/" + this.person.bid + '/video', '_blank');
+            },
+            attention() {
+                this.$confirm('是否将 #' + this.person.name + "# 加入到关注列表?", '关注', {
+                    confirmButtonText: '关注',
+                    cancelButtonText: '不不',
+                    type: 'info',
+                    showClose: false
+                }).then(async () => {
+                    await this.$store.dispatch('SearchUp/addToUpAttention', this.person)
+                    this.$store.commit('SearchUp/setIsAttention', true)
+                    this.$message({
+                        type: 'success', message: '关注成功!'
+                    });
+                }).catch(e => {
+                    if (e !== 'cancel') {
+                        this.$message({type: 'info', message: '关注失败'});
+                    }
+                });
+            }
+        }
     }
-  }
 </script>
 
 <style scoped>
@@ -181,7 +185,8 @@
   .tag-normal:hover {
     background-color: #ecf5ff;
   }
-  .search-item{
+
+  .search-item {
     display: flex;
     align-items: center;
   }

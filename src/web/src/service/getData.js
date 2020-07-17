@@ -109,14 +109,14 @@ export const getLimit = () => {
 /**
  * 获取Up主动态
  */
-export const getUpDynamicList = bid => {
-  return instance.get("/api/attention/upers/" +  bid +"/dynamics" + "?limit=999&page=1")
+export const getUpDynamicList = (bid, {page,limit}) => {
+  return instance.get("/api/attention/upers/" + bid +"/dynamics" + "?limit="+ limit +"&page=" + page)
 }
 
 /**
  * 获取Up主视频
  */
-export const getUpVideoList = bid => {
-  return instance.get("/api/attention/upers/" +  bid +"/videos" + "?limit=999&page=1")
+export const getUpVideoList = (bid, {page,limit}) => {
+  return instance.get('/api/attention/upers/' + bid +"/videos"+ "?limit="+ limit +"&page=" + page)
 }
 

@@ -150,10 +150,10 @@ const emojiList = [
 ];
 
 function transFormEmoji(content) {
-  if(content === '' || content === null) return content;
+  if (content === '' || content === null) return content;
 
-  for(var i=0;i< emojiList.length;i++) {
-    let {key,emoji} = emojiList[i];
+  for (var i = 0; i < emojiList.length; i++) {
+    let {key, emoji} = emojiList[i];
     content = content.split(key).join(emoji)
   }
   return content;

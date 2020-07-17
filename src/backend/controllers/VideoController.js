@@ -23,20 +23,22 @@ class VideoController extends BaseController {
       this.utils.checkValidationResult(),
       async (req, res, next) => {
         let {limit, page} = req.query, {id} = req.params;
-        let skip = limit * (page - 1)
+        let offset = limit * (page - 1)
         try {
           let uper = await UperService.findByMid(id)
           if(!uper){
             return this.notFound(res)
           }
 
-          let option = {limit, skip, where: {mid: id}}
+          let option = {limit, offset, where: {mid: id}}
 
           let result = {}
           let dynamics = await AttentionUperVideoService.find(option);
+          let total = await AttentionUperVideoService.count({mid: id});
           result.rows = dynamics
           result.page = page;
           result.limit = limit;
+          result.total = total;
           result.uper = uper;
           this.success(res, result)
         } catch (err) {

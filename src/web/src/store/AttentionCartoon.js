@@ -19,6 +19,10 @@ export default {
     },
     setPage(state,v){
       state.page = v
+    },
+    initPageOptions(state, data) {
+      state.page = data && data.page ? data.page : 1
+      state.limit = data && data.limit ? data.limit : 10
     }
   },
   actions: {

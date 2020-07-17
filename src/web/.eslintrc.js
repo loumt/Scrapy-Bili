@@ -21,9 +21,28 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    // 'semi': ['error','always'],
+    'semi': 'off',
+    'semi-spacing': 'off',
+    // "spaced-comment": ["error", "always", { "exceptions": ["-", "+"] }],
+    "spaced-comment": 'off',
+    'quotes': ['off'],
+    'indent':'off',
     // allow async-await
     'generator-star-spacing': 'off',
+    'arrow-spacing': 'off',
     // allow debugger during development
+    //设置最大行数
+    'no-multiple-empty-lines': ['error', {max: 2 }],
+    //逗号的前、后空格
+    // 'comma-spacing': ["error", { "before": false, "after": false }],
+    'comma-spacing': 'off',
+    'comma-dangle':'off',
+    'space-before-blocks': "off",
+    'space-before-function-paren': 'off',
+    'keyword-spacing': 'off',
+    'key-spacing':'off',
+    'space-infix-ops':'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }

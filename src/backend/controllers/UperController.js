@@ -39,8 +39,8 @@ class UperController extends BaseController {
         let {limit, page, level, uperId, uperName, fanScope} = req.query
 
         try {
-          let skip = limit * (page - 1 )
-          let option = {limit, skip, where: {}}
+          let offset = limit * (page - 1 )
+          let option = {limit, offset, where: {}}
           if (level) {
             option.where.level = parseInt(level)
           }

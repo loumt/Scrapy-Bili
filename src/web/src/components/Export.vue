@@ -10,7 +10,8 @@
             <div style="padding: 24px;">
               <span>UP主(关注)</span>
               <div class="bottom">
-                <el-button type="primary" icon="el-icon-download" size="mini" @click="exportAction(3)" round>导出</el-button>
+                <el-button type="primary" icon="el-icon-download" size="mini" @click="exportAction(3)" round>导出
+                </el-button>
               </div>
             </div>
           </el-card>
@@ -47,7 +48,8 @@
             <div style="padding: 24px;">
               <span>番剧(关注)</span>
               <div class="bottom">
-                <el-button type="primary" icon="el-icon-download" size="mini" @click="exportAction(1)" round>导出</el-button>
+                <el-button type="primary" icon="el-icon-download" size="mini" @click="exportAction(1)" round>导出
+                </el-button>
               </div>
             </div>
           </el-card>
@@ -80,14 +82,14 @@
 </template>
 
 <script>
-  export default {
-    data(){
-      return {}
-    },
-    methods: {
-      exportAction(type){
-        window.open('/api/export?type=' + type);
-      }
+    export default {
+        data() {
+            return {}
+        },
+        methods: {
+            exportAction(type) {
+                window.open('/api/export?type=' + type);
+            }
+        }
     }
-  }
 </script>

@@ -2,7 +2,7 @@
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /*text-align: center;*/
   color: #2c3e50;
   margin-top: 60px;
 }
@@ -12,17 +12,17 @@
 }
 
 * {
-  cursor: url('../static/1.cur'), url('../static/1.cur'), auto;
+  cursor: url('point-normal.cur'), url('point-normal.cur'), auto;
 }
 
 a:hover,span:hover,button:hover,i:hover,input:hover,li:hover,svg:hover {
-  cursor: url('../static/1_1.cur'), url('../static/1_1.cur'), auto;
+  cursor: url('point-hander.cur'), url('point-hander.cur'), auto;
 }
 
 .point {
-  cursor: url('../static/1.cur'), url('../static/1.cur'), auto;
+  cursor: url('point-normal.cur'), url('point-normal.cur'), auto;
 }
 
 .point:hover{
-  cursor: url('../static/1_1.cur'), url('../static/1_1.cur'), auto;
+  cursor: url('point-hander.cur'), url('point-hander.cur'), auto;
 }

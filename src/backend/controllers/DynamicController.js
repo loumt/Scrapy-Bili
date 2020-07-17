@@ -22,14 +22,14 @@ class DynamicController extends BaseController {
       this.utils.checkValidationResult(),
       async (req, res, next) => {
         let {limit, page} = req.query, {id} = req.params
-        let skip = limit * (page - 1)
+        let offset = limit * (page - 1)
         try {
           let uper = await UperService.findByMid(id)
           if(!uper){
             return this.notFound(res)
           }
 
-          let option = {limit, skip, where: {mid: id},order: [['ptime', 'DESC']]}
+          let option = {limit, offset, where: {mid: id},order: [['ptime', 'DESC']]}
 
           let result = {}
           let dynamics = await AttentionUperDynamicService.find(option);

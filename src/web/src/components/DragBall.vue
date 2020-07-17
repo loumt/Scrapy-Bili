@@ -6,64 +6,64 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'drag-ball',
-    props: {
-      value: {
-        type: String,
-        default: '0'
-      }
-    },
-    data() {
-      return {
-        canDrag: false,
-        // 偏移
-        inset: {
-          left: 0,
-          top: 0
+    export default {
+        name: 'drag-ball',
+        props: {
+            value: {
+                type: String,
+                default: '0'
+            }
         },
-        // 移动
-        move: {},
-        // 位置
-        position: {
-          left: 0,
-          top: 0
+        data() {
+            return {
+                canDrag: false,
+                // 偏移
+                inset: {
+                    left: 0,
+                    top: 0
+                },
+                // 移动
+                move: {},
+                // 位置
+                position: {
+                    left: 0,
+                    top: 0
+                },
+                // 初始位置
+                positionOld: {},
+                startTime: null,
+                endTime: null
+            };
         },
-        // 初始位置
-        positionOld: {},
-        startTime: null,
-        endTime: null
-      };
-    },
-    methods: {
-      // 获取dom的绝对位置
-      getPosition(source) {
-        let left = source.offsetLeft; //获取元素相对于其父元素的left值var left
-        let top = source.offsetTop;
-        let current = source.offsetParent; // 取得元素的offsetParent // 一直循环直到根元素
-        while (current != null) {
-          left += current.offsetLeft;
-          top += current.offsetTop;
-          current = current.offsetParent;
+        methods: {
+            // 获取dom的绝对位置
+            getPosition(source) {
+                let left = source.offsetLeft; //获取元素相对于其父元素的left值var left
+                let top = source.offsetTop;
+                let current = source.offsetParent; // 取得元素的offsetParent // 一直循环直到根元素
+                while (current != null) {
+                    left += current.offsetLeft;
+                    top += current.offsetTop;
+                    current = current.offsetParent;
+                }
+                return {
+                    left: left,
+                    top: top
+                };
+            }
+        },
+        computed: {
+            dragBall() {
+                return this.$refs.dragBall;
+            }
         }
-        return {
-          left: left,
-          top: top
-        };
-      }
-    },
-    computed: {
-      dragBall() {
-        return this.$refs.dragBall;
-      }
-    }
-  };
+    };
 </script>
 <style scoped>
   .drag-ball {
     position: absolute;
     z-index: 10003;
-    right: 0;
+    right: 1%;
     top: 70%;
     width: 4em;
     height: 4em;
@@ -89,6 +89,7 @@
     color: #fff;
     width: 100%;
     height: 100%;
+    text-align: center;
     letter-spacing: 2px;
   }
 </style>
