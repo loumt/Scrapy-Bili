@@ -179,3 +179,111 @@ CREATE VIEW `bl_v_attention_uper` AS select `u`.`id` AS `id`,`u`.`bid` AS `bid`,
 -- 更新sql
 ALTER TABLE bl_attention_uper_dynamic ADD aid BIGINT (20) DEFAULT NULL COMMENT '视频ID' AFTER type;
 ALTER TABLE bl_attention_uper MODIFY `utime` datetime DEFAULT NULL COMMENT '更新时间';
+
+
+-- 系统消息表
+DROP TABLE IF EXISTS `bl_system_message`;
+CREATE TABLE `bl_system_message` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `bid` bigint(20) NOT NULL,
+  `mid` bigint(20) NOT NULL,
+  `aid` bigint(20) NOT NULL,
+  `title` varchar(255) COMMENT '标题',
+  `message` varchar(255) COMMENT '消息',
+  `type` tinyint DEFAULT 0 COMMENT '消息类型',
+  `remark` text,
+  `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='系统消息表';
+
+-- 用户表
+DROP TABLE IF EXISTS `m_user`;
+CREATE TABLE `m_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `username` varchar(64) NOT NULL  COMMENT '用户名',
+  `nickname` varchar(64) DEFAULT NULL COMMENT '昵称',
+  `password` varchar(64) NOT NULL COMMENT '密码',
+  `salt` varchar(64) NOT NULL COMMENT '盐',
+  `face` varchar(255) DEFAULT "" COMMENT '头像',
+  `isAdmin` tinyint default 0 comment "是否为管理员",
+   `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `utime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+ALTER TABLE `m_user` ADD unique(`username`);
+
+-- 初始化管理用户
+INSERT INTO m_user(id,username,nickname,password,salt,isAdmin) values(1,"admin",'BOSS',"49468c59dae59a2d862e6ad231a6b9ab","uTKrmSoT",1);
+
+
+-- 角色表
+DROP TABLE IF EXISTS `m_role`;
+CREATE TABLE `m_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `name` varchar(64) NOT NULL  COMMENT '角色名',
+  `remark` text default null COMMENT '备注',
+   `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='角色表';
+
+ALTER TABLE `m_role` ADD unique(`name`);
+
+INSERT INTO `m_role` (`id`, `name`, `remark`, `ctime`) VALUES ('1', 'ADMIN', '管理员', CURRENT_TIMESTAMP());
+
+
+
+-- 权限资源表
+DROP TABLE IF EXISTS `m_permission`;
+CREATE TABLE `m_permission` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `code` varchar(64) NOT NULL  COMMENT '资源代码',
+  `desc` varchar(255)  default "" COMMENT '描述',
+   `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='权限资源表';
+
+ALTER TABLE `m_permission` ADD unique(`code`);
+
+-- 用户角色关联表
+DROP TABLE IF EXISTS `m_user_role`;
+CREATE TABLE `m_user_role` (
+  `uid` bigint(20) NOT NULL  COMMENT 'user id',
+  `rid`  bigint(20) NOT NULL COMMENT 'role id',
+  PRIMARY KEY (`uid`,`rid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关联表';
+
+INSERT INTO `m_user_role` (`uid`, `rid`) VALUES ('1', '1');
+
+
+-- 角色权限资源表
+DROP TABLE IF EXISTS `m_role_permission`;
+CREATE TABLE `m_role_permission` (
+  `rid` bigint(20) NOT NULL  COMMENT 'role id',
+  `pid`  bigint(20) NOT NULL COMMENT 'permission id',
+  PRIMARY KEY (`rid`,`pid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限资源表';
+
+
+-- ----------------------------
+-- Table structure for bl_emoji
+-- ----------------------------
+DROP TABLE IF EXISTS `bl_emoji`;
+CREATE TABLE `bl_emoji` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `key` varchar(64) NOT NULL  COMMENT '表情对应key',
+  `url` varchar(255) DEFAULT NULL COMMENT '地址',
+  `data` varchar(255) DEFAULT NULL COMMENT 'base64',
+  `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='表情';
+
+DROP table if exists m_login_log;
+CREATE TABLE `m_login_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
+  `username` varchar(64) NOT NULL COMMENT '用户名',
+  `type` TINYINT NOT NULL COMMENT '类型，0-登出，1-登录',
+  `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MYISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='登录登出日志表';
