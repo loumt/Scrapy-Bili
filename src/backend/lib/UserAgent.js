@@ -27,5 +27,7 @@ function getRndInteger(min, max) {
 }
 
 module.exports = () => {
-  return userAgents[getRndInteger(0, length)]
+  let useAgent =  userAgents[getRndInteger(0, length)]
+  // console.log("USE-AGENT : " + useAgent)
+  return useAgent
 };

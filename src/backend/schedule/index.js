@@ -22,3 +22,5 @@ const AttentionUperVideoSchedule = scheduleJob(ScheduleConfig.ATTENTION.UPER.VID
 const AttentionUperSchedule = scheduleJob(ScheduleConfig.ATTENTION.UPER.INFO_SHEDULE, async ()=>{
   await Handler.AttentionUperSchedule.run();
 })
+
+// const EmojiSchedule = scheduleJob(ScheduleConfig.EMOJI, async ()=>{await Handler.EmojiSchedule.run();})

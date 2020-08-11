@@ -31,6 +31,8 @@ export default function (Vue) {
       if (l < limitSize) {
         l = 0
       }
+
+
       if (t > innerHeight - limitSize - clientHeight || innerHeight - t < limitSize) {
         t = innerHeight - clientHeight
       }
@@ -47,7 +49,7 @@ export default function (Vue) {
         }
         if (x && y || (!x && !y)) {
           el.style.left = l + 'px';
-          el.style.top = t + 'px';
+          el.style.top = t  + 'px';
         }
       }
     }

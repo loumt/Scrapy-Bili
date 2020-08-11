@@ -1,8 +1,10 @@
 const _ = require("lodash")
 const utils = require('./../../utils/utils')
 const BaseSchedule = require('./BaseSchedule')
+const MessageType = require("./../../constants/MessageType")
 const AttentionUperService = require('../../services/AttentionUperService')
 const UperService = require('../../services/UperService')
+const SystemMessageService = require("./../../services/SystemMessageService")
 
 class AttentionUperSchedule extends BaseSchedule {
   constructor() {
@@ -58,9 +60,26 @@ class AttentionUperSchedule extends BaseSchedule {
 
 
         //查询播放数
-        let playRes = await this.RequestHandler(this.CommonURLConfigure.PLAY_COUNT.url.replace("#MID#", bid))
+        let playCountURL = this.CommonURLConfigure.PLAY_COUNT.url.replace("#MID#", bid);
+        let playRes = await this.RequestHandler(playCountURL)
         let plays = utils.parse2Object(playRes)
-        uperInfo.play = plays.data.archive.view;
+
+        if(_.isEmpty(plays.data)){
+            //请求失效，请检查
+            this.logger.error("AttentionUper : " + bid + " # PLAY_COUNT # " + playRes + " # Data is empty ! ")
+            //保存为信息
+            await SystemMessageService.save({
+                bid: bid,
+                type: MessageType.SCHEDULE_MESSAGE,
+                title: "data is empty",
+                message : "AttentionUperSchedule#PLAY_COUNT " + playRes,
+                remark: playCountURL
+            })
+
+            uperInfo.play = 0;
+        }else{
+            uperInfo.play = plays.data.archive.view;
+        }
 
         await UperService.updateOne({bid: bid}, uperInfo);
       } catch (err) {

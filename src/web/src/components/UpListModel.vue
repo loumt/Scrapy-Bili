@@ -40,7 +40,7 @@
         </el-table-column>
         <el-table-column label="昵称" width="160">
           <template slot-scope="scope">
-            <el-tag size="medium">{{ scope.row.name || "..."}}</el-tag>
+            <el-tag size="medium" @click="visitThisUper(scope.row)">{{ scope.row.name || "..."}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="level" label="等级">
@@ -70,7 +70,7 @@
 
         </el-table-column>
       </el-table>
-      <el-row style="margin-top: 10px;">
+      <el-row style="margin-top: 10px;text-align: center;">
         <el-pagination background layout="prev, pager, next" :total="total" :page-size="limit" :pager-count="5"
                        :current-page="page" @current-change="toPage">
         </el-pagination>

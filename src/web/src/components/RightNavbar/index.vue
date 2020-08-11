@@ -44,85 +44,115 @@
             style="color: #51b7fe;">
       </icon>
     </div>
+    <div @mouseenter="exitEnter"
+         @mouseleave="exitOut"
+         @click="exitHandler"
+         :title="exit.title">
+      <icon name="md-exit"
+            :scale="exit.scale"
+            style="color: #51b7fe;">
+      </icon>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "UserInfo",
-    components: {},
-    data() {
-      return {
-        setting: {
-          scale: 3,
-          title: "设置"
+    import {logout} from "./../../service/getData"
+
+    export default {
+        name: "UserInfo",
+        components: {},
+        data() {
+            return {
+                setting: {
+                    scale: 3,
+                    title: "设置"
+                },
+                message: {
+                    scale: 3,
+                    title: "消息"
+                },
+                userinfo: {
+                    scale: 2.7,
+                    title: "用户"
+                },
+                bili: {
+                    scale: 3,
+                    title: "B站"
+                },
+                home: {
+                    scale: 3,
+                    title: "主页"
+                },
+                exit: {
+                    scale: 3,
+                    title: "退出"
+                }
+            }
         },
-        message: {
-          scale: 3,
-          title: "消息"
+        mounted(){
+
         },
-        userinfo: {
-          scale: 2.7,
-          title: "用户"
-        },
-        bili: {
-          scale: 3,
-          title: "B站"
-        },
-        home: {
-          scale: 3,
-          title: "主页"
+        methods: {
+            settingEnter() {
+                this.setting.scale = 4
+            },
+            settingOut() {
+                this.setting.scale = 3
+            },
+            userinfoEnter() {
+                this.userinfo.scale = 3.7
+            },
+            userinfoOut() {
+                this.userinfo.scale = 2.7
+            },
+            messageEnter() {
+                this.message.scale = 4
+            },
+            messageOut() {
+                this.message.scale = 3
+            },
+            exitEnter() {
+                this.exit.scale = 4
+            },
+            exitOut() {
+                this.exit.scale = 3
+            },
+            biliEnter() {
+                this.bili.scale = 4
+            },
+            biliOut() {
+                this.bili.scale = 3
+            },
+            homeEnter() {
+                this.home.scale = 4
+            },
+            homeOut() {
+                this.home.scale = 3
+            },
+            showUserBox() {
+                console.log('show user box..')
+            },
+            toBiliBili() {
+                window.open('https://www.bilibili.com')
+            },
+            toSetting() {
+                this.$message({type: 'info', message: 'No Config'});
+            },
+            toUserInfo() {
+                this.$message({type: 'info', message: 'No Config'});
+            },
+            toMessage() {
+                this.$message({type: 'info', message: 'No Config'});
+            },
+            exitHandler() {
+                logout().then(res=>{
+                    localStorage.removeItem("BiliToken")
+                    this.$router.push("/login")
+                }).catch(e=>{})
+            }
         }
-      }
-    },
-    methods: {
-      settingEnter() {
-        this.setting.scale = 4
-      },
-      settingOut() {
-        this.setting.scale = 3
-      },
-      userinfoEnter() {
-        this.userinfo.scale = 3.7
-      },
-      userinfoOut() {
-        this.userinfo.scale = 2.7
-      },
-      messageEnter() {
-        this.message.scale = 4
-      },
-      messageOut() {
-        this.message.scale = 3
-      },
-      biliEnter() {
-        this.bili.scale = 4
-      },
-      biliOut() {
-        this.bili.scale = 3
-      },
-      homeEnter() {
-        this.home.scale = 4
-      },
-      homeOut() {
-        this.home.scale = 3
-      },
-      showUserBox(){
-        console.log('show user box..')
-      },
-      toBiliBili(){
-        window.open('https://www.bilibili.com')
-      },
-      toSetting(){
-        this.$message({type: 'info', message: 'No Config'});
-      },
-      toUserInfo(){
-        this.$message({type: 'info', message: 'No Config'});
-      },
-      toMessage(){
-        this.$message({type: 'info', message: 'No Config'});
-      }
     }
-  }
 </script>
 <style scoped="scoped">
   .user-bubble {

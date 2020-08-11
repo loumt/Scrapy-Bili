@@ -41,5 +41,8 @@ module.exports = {
       // 视频更新定时器设置
       VIDEO_SCHEDULE: '*/25 * * * * *'
     }
-  }
+  },
+
+  //emoji
+  EMOJI:  '*/5 * * * * *'
 }

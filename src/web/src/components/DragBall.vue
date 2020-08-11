@@ -35,6 +35,9 @@
                 endTime: null
             };
         },
+        mounted(){
+
+        },
         methods: {
             // 获取dom的绝对位置
             getPosition(source) {

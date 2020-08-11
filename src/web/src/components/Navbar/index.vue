@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="menuIndex" class="el-menu-vertical-demo">
+  <el-menu :default-active="menuIndex" class="el-menu-vertical-demo" style="text-align: center;">
     <el-menu-item v-show="item.show" :index="index + ''" @click="redirectMenu(item.name)" v-for="(item,index) in menu" :key="index">
       <icon :name="item.icon.name"
             :scale="item.icon.scale"

@@ -19,7 +19,7 @@ class VUperAttentionService extends BaseService{
     let option = {
       raw: true,
       where: options.where,
-      offset: options.skip,
+      offset: options.offset,
       limit : options.limit
     }
 

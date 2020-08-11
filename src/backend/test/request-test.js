@@ -11,11 +11,27 @@ const utils = require('./../utils/utils')
 // trest()
 
 
-async function trest(){
-  let infoRes = await RequestHandler(CommonURLConfigure.UP_INFO.url.replace("#MID#", "11073"))
+// async function trest(){
+//   let infoRes = await RequestHandler(CommonURLConfigure.UP_INFO.url.replace("#MID#", "11073"))
+//
+//   let info = utils.parse2Object(infoRes)
+//   console.dir(info)
+// }
+// trest()
 
-  let info = utils.parse2Object(infoRes)
-  console.dir(info)
+async function trest(){
+  let url = CommonURLConfigure.PLAY_COUNT.url.replace("#MID#", "109678361")
+  // let url = CommonURLConfigure.CONTRIBUTE_DETAIL.url.replace("#MID#", "109678361")
+  console.dir(url)
+
+  try{
+    let infoRes = await RequestHandler(url)
+    let info = utils.parse2Object(infoRes)
+    console.dir(info)
+    console.dir(info.data)
+  }catch(e){
+    console.log(e)
+  }
 }
 trest()
 

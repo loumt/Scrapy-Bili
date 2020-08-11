@@ -1,22 +1,43 @@
 import axios from 'axios';
 import Vue from 'vue';
+import router from './../router/index'
 
 let instance = axios.create({
   baseUrl: 'http://localhost:8181',
-  timeout: 2000,
+  timeout: 1000,
+})
+
+instance.interceptors.request.use(config => {
+  if(localStorage.getItem("BiliToken")){
+    config.headers.Authorization = localStorage.getItem("BiliToken")
+  }
+  return config;
+}, error => {
+  return Promise.reject(error)
 })
 
 instance.interceptors.response.use(response => {
   return response
 }, error => {
+
   //判断是否是标准的错误
   if(error.response) {
-    let {data} = error.response;
-    if(data) {
-      Vue.prototype.$notify.error({title: '错误', message: data.message});
-    }
+    let {data, status} = error.response;
+
+    if(status && status === 401) return router.push("/login")
+
+    if(data) Vue.prototype.$notify.error({title: '错误', message: data.message})
   }
 })
+
+export const login = (username,password)=>{
+  return instance.post(`/api/login`, {username,password})
+}
+
+export const logout = ()=>{
+  return instance.post(`/api/logout`)
+}
+
 
 /**
  * 获取UP列表
@@ -120,3 +141,62 @@ export const getUpVideoList = (bid, {page,limit}) => {
   return instance.get('/api/attention/upers/' + bid +"/videos"+ "?limit="+ limit +"&page=" + page)
 }
 
+/**
+ * 查询表情列表
+ */
+export const getEmoji = (page,limit) => {
+  return instance.get(`/api/emoji?page=` + page + `&limit=` + limit)
+}
+
+
+/**
+ * 删除表情
+ */
+export const removeEmoji = id => {
+  return instance.delete(`/api/emoji/` + id)
+}
+
+/**
+ * 查询用户列表
+ */
+export const getUserList = (page,limit) => {
+  return instance.get(`/api/users?page=` + page + `&limit=` + limit)
+}
+
+
+/**
+ * 删除用户
+ */
+export const removeUser = id => {
+  return instance.delete(`/api/users/` + id)
+}
+
+/**
+ * 查询角色列表
+ */
+export const getRoleList = (page,limit) => {
+  return instance.get(`/api/roles?page=` + page + `&limit=` + limit)
+}
+
+
+/**
+ * 删除角色
+ */
+export const removeRole = id => {
+  return instance.delete(`/api/roles/` + id)
+}
+
+/**
+ * 查询权限列表
+ */
+export const getPermissionList = (page,limit) => {
+  return instance.get(`/api/permissions?page=` + page + `&limit=` + limit)
+}
+
+
+/**
+ * 删除权限
+ */
+export const removeThisPermission = id => {
+  return instance.delete(`/api/permissions/` + id)
+}

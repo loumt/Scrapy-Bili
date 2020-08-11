@@ -14,6 +14,11 @@ module.exports = {
     code:307,
     message:'密码错误'
   },
+  LOGIN_FAIL_WITH_USER_NOT_EXIST:{
+    success:false,
+    code:308,
+    message:'用户不存在'
+  },
   GET_DATA_ERROR:{
     success:false,
     code:310,
@@ -48,5 +53,10 @@ module.exports = {
     success:false,
     code: 701,
     message: '未找到数据'
+  },
+  USER_CANT_DELETED:{
+    success:false,
+    code: 702,
+    message: '用户不可删除'
   }
 }

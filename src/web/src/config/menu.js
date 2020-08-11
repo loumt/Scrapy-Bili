@@ -24,7 +24,7 @@ export default [
   {
     path: '/search/up',
     name: 'search_up',
-    title: '这里查询UP主',
+    title: '查询UP主',
     show: true,
     icon: {
       name: 'bili-short',
@@ -35,7 +35,7 @@ export default [
   {
     path: '/search/cartoon',
     name: 'search_cartoon',
-    title: '这里查询番剧',
+    title: '查询番剧',
     show: true,
     icon: {
       name: 'bili-short',
@@ -46,7 +46,51 @@ export default [
   {
     path: '/export',
     name: 'export',
-    title: '来导出数据吧',
+    title: '导出',
+    show: true,
+    icon: {
+      name: 'bili-short',
+      color: 'color: #51b7fe;',
+      scale: 3
+    }
+  },
+  {
+    path: '/emoji',
+    name: 'emoji',
+    title: '表情管理',
+    show: true,
+    icon: {
+      name: 'bili-short',
+      color: 'color: #51b7fe;',
+      scale: 3
+    }
+  },
+  {
+    path: '/user',
+    name: 'user',
+    title: '用户管理',
+    show: true,
+    icon: {
+      name: 'bili-short',
+      color: 'color: #51b7fe;',
+      scale: 3
+    }
+  },
+  {
+    path: '/role',
+    name: 'role',
+    title: '角色管理',
+    show: true,
+    icon: {
+      name: 'bili-short',
+      color: 'color: #51b7fe;',
+      scale: 3
+    }
+  },
+  {
+    path: '/permission',
+    name: 'permission',
+    title: '权限管理',
     show: true,
     icon: {
       name: 'bili-short',

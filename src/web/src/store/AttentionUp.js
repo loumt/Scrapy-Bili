@@ -5,7 +5,9 @@ import {
   getUpVideoList
 } from './../service/getData'
 
-import emojiUtil from '../plugins/emijiUtil'
+import emojiUtil  from '../plugins/emijiUtil'
+
+const emojiParse =  emojiUtil.transFormEmoji
 
 export default {
   namespaced: true,
@@ -67,22 +69,22 @@ export default {
       state.dynamicTotal = v.total;
       v.rows.forEach(row => {
         if (row.type === 1) {
-          row.content = emojiUtil(row.content)
+          row.content = emojiParse(row.content)
         }
         if (row.type === 4) {
-          row.content = emojiUtil(row.content)
+          row.content = emojiParse(row.content)
         }
         if (row.type === 256) {
-          row.content = emojiUtil(row.content)
+          row.content = emojiParse(row.content)
         }
         if (row.type === 2) {
-          row.description = emojiUtil(row.description)
+          row.description = emojiParse(row.description)
         }
         if (row.type === 64) {
-          row.dynamic = emojiUtil(row.dynamic)
+          row.dynamic = emojiParse(row.dynamic)
         }
         if (row.type === 8) {
-          row.dynamic = emojiUtil(row.dynamic)
+          row.dynamic = emojiParse(row.dynamic)
           row.dynamic += `<a target="_blank" class="dynamic-link" href="https://www.bilibili.com/video/av${row.dynamic.aid}" title="${row.dynamic.title}">#视频#</a>`
         }
       })

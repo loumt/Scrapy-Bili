@@ -68,3 +68,12 @@ function parse2Object(str){
   return JSON.parse(str)
 }
 exports.parse2Object = parse2Object
+
+let TEXT_GROUP = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+function randomString(length = 8) {
+  let result = '';
+  for (let i = length; i > 0; --i) result += TEXT_GROUP[Math.floor(Math.random() * TEXT_GROUP.length)];
+  return result;
+}
+exports.randomString = randomString

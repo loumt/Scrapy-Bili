@@ -11,11 +11,15 @@ class BaseService {
   }
 
   findByPk(_id) {
-    return this.model.findByPk(_id)
+    return this.model.findByPk(_id, {raw: true})
   }
 
   save(model) {
     return this.model.create(model)
+  }
+
+  saveAll(modelArr){
+    return this.model.bulkCreate(modelArr)
   }
 
   /**
@@ -49,7 +53,7 @@ class BaseService {
   }
 
   findAndCountAll(options) {
-    return this.model.findAndCountAll({where: options.where, offset: options.skip, limit: options.limit})
+    return this.model.findAndCountAll({where: options.where, offset: options.offset, limit: options.limit})
   }
 
   findOne(options) {
