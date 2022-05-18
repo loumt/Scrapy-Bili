@@ -34,5 +34,9 @@ module.exports = {
   VIDEO_DETAIL:{
     url:"https://api.bilibili.com/x/web-interface/view?aid=#AID#",
     comment: "获取视频的点赞转发评论投币数量"
+  },
+  FIND_EMOJI_LIST:{
+    url: "https://api.bilibili.com/x/emote/user/panel/web?business=reply",
+    comment: "获取表情列表"
   }
 }

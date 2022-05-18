@@ -1,6 +1,8 @@
 import {
   getEmoji,
-  removeEmoji
+  removeEmoji,
+  addEmoji,
+  findEmojiWithOption
 } from './../service/getData'
 
 export default {
@@ -18,6 +20,10 @@ export default {
     },
     setPage(state, v) {
       state.page = v
+    },
+    initPageData(state) {
+      state.page = 1;
+      state.limit = 10
     }
   },
   actions: {
@@ -27,6 +33,14 @@ export default {
     },
     async removeEmoji({commit,state},id){
       await removeEmoji(id);
+    },
+    async createNewEmoji({commit, state}, {key, url}) {
+      await addEmoji({key,url});
+    },
+    async findEmojiWithKeyPart({commit, state}, keyPart) {
+      commit("initPageData")
+      let res = await findEmojiWithOption(state.page,state.limit, keyPart)
+      commit('setEmojiList',res.data)
     }
   }
 }

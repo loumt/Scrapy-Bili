@@ -38,6 +38,10 @@ class BaseService {
     return this.model.destroy({where: options})
   }
 
+  delete(options) {
+    return this.model.destroy({where: options})
+  }
+
   deleteById(id) {
     return this.model.destroy({where: {id: id}})
   }
@@ -53,7 +57,7 @@ class BaseService {
   }
 
   findAndCountAll(options) {
-    return this.model.findAndCountAll({where: options.where, offset: options.offset, limit: options.limit})
+    return this.model.findAndCountAll({where: options.where, offset: options.offset, limit: options.limit, order: options.order})
   }
 
   findOne(options) {

@@ -35,7 +35,7 @@ module.exports = {
     //UP主更新项
     UPER: {
       //UP主信息定时器设置
-      INFO_SHEDULE: "*/45 * * * * *",
+      INFO_SHEDULE: "*/55 * * * * *",
       // 动态更新定时器设置
       DYNAMIC_SCHEDULE: '0 */1 * * * *',
       // 视频更新定时器设置
@@ -44,5 +44,5 @@ module.exports = {
   },
 
   //emoji
-  EMOJI:  '*/5 * * * * *'
+  EMOJI:  '* * */6 * * *'
 }

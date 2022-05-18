@@ -58,5 +58,25 @@ module.exports = {
     success:false,
     code: 702,
     message: '用户不可删除'
+  },
+  USER_ALREADY_EXIST:{
+    success:false,
+    code: 703,
+    message: '用户已存在'
+  },
+  ROLE_ALREADY_EXIST:{
+    success:false,
+    code: 704,
+    message: '角色已存在'
+  },
+  PERMISSION_ALREADY_EXIST:{
+    success:false,
+    code: 705,
+    message: '权限已存在'
+  },
+  EMOJI_ALREADY_EXIST: {
+    success:false,
+    code: 706,
+    message: '表情已存在'
   }
 }

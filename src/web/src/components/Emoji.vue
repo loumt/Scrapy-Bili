@@ -6,14 +6,14 @@
           <el-input
             size="medium"
             placeholder="KEY"
-            v-model="key"
+            v-model="keyPart"
             clearable>
           </el-input>
         </el-col>
 
         <el-col :span="8" :offset="2">
           <el-button type="primary" size="medium" icon="el-icon-plus" title="新增" round
-                     @click="addEmoji" plain></el-button>
+                     @click="showEmojiModel" plain></el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -48,6 +48,30 @@
         </el-pagination>
       </el-row>
     </el-main>
+
+    <!-- 新增表情对话框 -->
+    <el-dialog title="新增表情" :visible.sync="newEmoji.show" :width="newEmoji.width" :show-close="false">
+      <el-form :model="newEmoji">
+        <el-form-item label="KEY" :label-width="newEmoji.labelWidth">
+          <el-input v-model="newEmoji.key" autocomplete="off" placeholder="[嫌弃]"></el-input>
+        </el-form-item>
+        <!--        <el-form-item label="活动区域" :label-width="formLabelWidth">-->
+        <!--          <el-select v-model="form.region" placeholder="请选择活动区域">-->
+        <!--            <el-option label="区域一" value="shanghai"></el-option>-->
+        <!--            <el-option label="区域二" value="beijing"></el-option>-->
+        <!--          </el-select>-->
+        <!--        </el-form-item>-->
+        <el-form-item label="地址" :label-width="newEmoji.labelWidth">
+          <el-input v-model="newEmoji.url" autocomplete="off"
+                    placeholder="https://i0.hdslb.com/bfs/emote/dessddweww4b.png@100w_100h.webp"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="newEmoji.show = false">取 消</el-button>
+        <el-button type="primary" @click="addEmoji">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </el-container>
 </template>
 
@@ -57,7 +81,14 @@
     export default {
         data() {
             return {
-                key: ''
+                keyPart: '',
+                newEmoji: {
+                    show: false,
+                    width: '40%',
+                    labelWidth: "4rem",
+                    key: "",
+                    url: ''
+                }
             }
         },
         mounted() {
@@ -80,12 +111,22 @@
                 this.initData();
             },
             removeEmoji(row) {
-                this.$store.dispatch('Emoji/removeEmoji', row.id)
-                this.$message({type: 'info', message: '成功删除'});
-                this.initData();
+                this.biliConfirm('删除', '是否删除 #' + row.key + "# ?", async () => {
+                    this.$store.dispatch('Emoji/removeEmoji', row.id)
+                    this.$message({type: 'info', message: '成功删除'});
+                    this.initData();
+                }, "删除失败")
             },
-            addEmoji(){
-
+            showEmojiModel() {
+                this.newEmoji.show = true;
+            },
+            addEmoji() {
+                this.$store.dispatch("Emoji/createNewEmoji", {key: this.newEmoji.key, url: this.newEmoji.url})
+            }
+        },
+        watch: {
+            "keyPart": function (newValue) {
+                this.$store.dispatch("Emoji/findEmojiWithKeyPart", newValue)
             }
         }
     }
@@ -97,4 +138,4 @@
     padding: 10px 10px;
   }
 
- </style>
+</style>

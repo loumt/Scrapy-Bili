@@ -1,6 +1,10 @@
 import {
   getUserList,
-  removeUser
+  removeUser,
+  addUser,
+  getRoleList,
+  findRolesOfUser,
+  setUserOfRoles
 } from './../service/getData'
 
 export default {
@@ -27,6 +31,18 @@ export default {
     },
     async deleteUser({commit,state},id){
       await removeUser(id);
+    },
+    async createNewUser({commit, state}, model) {
+      await addUser(model);
+    },
+    async findUserRoles ({commit, state}, userId){
+      return await findRolesOfUser(userId)
+    },
+    async findRoles ({commit, state}){
+      return await getRoleList()
+    },
+    async distributeRoles ({commit, state}, {userId,roleIds}) {
+      return await setUserOfRoles(userId, roleIds)
     }
   }
 }

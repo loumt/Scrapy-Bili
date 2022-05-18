@@ -41,7 +41,7 @@
         },
         mounted(){
             getEmoji(1,9999).then(res => {
-                res.data.list.map(item => {
+                res.data.rows.map(item => {
                     emijiUtil.pushEmoji(item.key, item.url)
                 })
             })

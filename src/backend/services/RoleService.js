@@ -6,6 +6,10 @@ class RoleService extends BaseService{
         super(db["Role"])
     }
 
+    findByName(name){
+        return super.findOne({where : {name}})
+    }
+
 }
 
 module.exports = new RoleService();

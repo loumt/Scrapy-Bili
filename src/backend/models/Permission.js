@@ -22,6 +22,22 @@ let Permission = sequelize.define(modelProp.name, {
         type: DataTypes.STRING,
         allowNull: true
     },
+    rule : {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: "规则"
+    },
+    type: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+        comment:"类型,1目录,2请求"
+    },
+    disable: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+        default: 0,
+        comment:"是否禁用,0允许,1,禁用"
+    },
     ctime:{
         type: DataTypes.DATE,
         allowNull: true,

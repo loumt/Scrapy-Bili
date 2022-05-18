@@ -1,4 +1,6 @@
 import {
+  addPermission,
+  updatePermission,
   getPermissionList,
   removeThisPermission
 } from './../service/getData'
@@ -27,6 +29,12 @@ export default {
     },
     async deletePermission({commit,state},id){
       await removeThisPermission(id);
+    },
+    async createPermission({commit, state}, model) {
+      await addPermission(model);
+    },
+    async upPermission({commit, state}, {id, disable}) {
+      await updatePermission(id, disable);
     }
   }
 }

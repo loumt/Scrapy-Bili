@@ -1,6 +1,7 @@
 let path = require('path')
 let {app, nativeImage, ipcMain} = require('electron')
 let MainWindow = require('./windows/MainWindow')
+let LoadWindow = require('./windows/LoadWindow')
 let TrayElement = require('./windows/TrayElement')
 let gotTheLock = app.requestSingleInstanceLock()
 
@@ -9,6 +10,7 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('ready', () => {
+    let loadWindow = new LoadWindow();
     let mainWindow = new MainWindow();
     let tray = new TrayElement({app, mainWindow});
     let server = null;
@@ -22,10 +24,12 @@ if (!gotTheLock) {
       }
 
       server.on('server-success', () => {
-        mainWindow.hide()
+        loadWindow.hide()
+        mainWindow.show()
       })
       server.on('server-error', msg => {
         mainWindow.send('server-error', msg)
+        app.quit()
       })
       server.createServer();
     })
@@ -39,4 +43,7 @@ if (!gotTheLock) {
     console.log(`app will quit!`)
   })
 
+  app.on('window-all-closed', () => {
+    app.quit()
+  })
 }

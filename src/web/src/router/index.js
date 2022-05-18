@@ -82,7 +82,10 @@ const router = [
   }
 ]
 
-let R = new Router({routes: router})
+let R = new Router({
+  mode: 'history',
+  routes: router
+})
 
 // 导航守卫
 // 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆

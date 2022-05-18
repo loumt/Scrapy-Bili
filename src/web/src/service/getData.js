@@ -145,7 +145,7 @@ export const getUpVideoList = (bid, {page,limit}) => {
  * 查询表情列表
  */
 export const getEmoji = (page,limit) => {
-  return instance.get(`/api/emoji?page=` + page + `&limit=` + limit)
+  return instance.get(`/api/emojis?page=` + page + `&limit=` + limit)
 }
 
 
@@ -156,10 +156,30 @@ export const removeEmoji = id => {
   return instance.delete(`/api/emoji/` + id)
 }
 
+
+/**
+ * 新增表情
+ * @param key
+ * @param url
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export const addEmoji = ({key,url}) => {
+  return instance.post(`/api/emoji`, {key,url})
+}
+
+/**
+ * 关键字查询
+ */
+export const findEmojiWithOption = (page =1 ,limit = 9999, keyPart) => {
+  return instance.get(`/api/emojis?page=${page}&limit=${limit}&keyPart=${keyPart}`,)
+}
+
+
+
 /**
  * 查询用户列表
  */
-export const getUserList = (page,limit) => {
+export const getUserList = (page =1,limit = 9999) => {
   return instance.get(`/api/users?page=` + page + `&limit=` + limit)
 }
 
@@ -172,10 +192,41 @@ export const removeUser = id => {
 }
 
 /**
+ * 新增用户
+ * @param model
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export const addUser = model => {
+  return instance.post(`/api/user`, model)
+}
+
+/**
+ * 根据用户ID查询该用户的角色列表
+ */
+export const findRolesOfUser = ( userId , page = 1, limit = 9999 ) => {
+  return instance.get(`/api/users/${userId}/roles?page=${page}&limit=${limit}`)
+}
+
+/**
+ * 设置用户以角色
+ */
+export const setUserOfRoles = (userId,roleIds) => {
+  return  instance.post(`/api/users/${userId}/roles`, {roleIds})
+}
+
+
+/**
  * 查询角色列表
  */
-export const getRoleList = (page,limit) => {
+export const getRoleList = (page = 1 ,limit = 9999) => {
   return instance.get(`/api/roles?page=` + page + `&limit=` + limit)
+}
+
+/**
+ * 设置角色以权限
+ */
+export const setRoleOfPermissions = (roleId, permissionIds) => {
+  return  instance.post(`/api/roles/${roleId}/permissions`, {permissionIds})
 }
 
 
@@ -186,11 +237,46 @@ export const removeRole = id => {
   return instance.delete(`/api/roles/` + id)
 }
 
+
+/**
+ *  新增角色
+ */
+
+export const addRole = model => {
+  return instance.post(`/api/role`, model)
+}
+
+/**
+ * 获取角色的权限
+ */
+export const findPermissionsOfRole = ( roleId , page = 1, limit = 9999 ) => {
+  return instance.get(`/api/roles/${roleId}/permissions?limit=${limit}&page=${page}`)
+}
+
+
 /**
  * 查询权限列表
  */
-export const getPermissionList = (page,limit) => {
+export const getPermissionList = (page =1 ,limit = 9999) => {
   return instance.get(`/api/permissions?page=` + page + `&limit=` + limit)
+}
+
+/**
+ * 新增权限
+ * @param model
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export const addPermission = model => {
+  return instance.post(`/api/permission`, model)
+}
+
+/**
+ * 更新权限
+ * @param model
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export const updatePermission = (id, disable) => {
+  return instance.put(`/api/permission/${id}`, {disable})
 }
 
 
@@ -200,3 +286,4 @@ export const getPermissionList = (page,limit) => {
 export const removeThisPermission = id => {
   return instance.delete(`/api/permissions/` + id)
 }
+

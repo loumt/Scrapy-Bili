@@ -38,7 +38,7 @@ let User = sequelize.define(modelProp.name, {
     },
     isAdmin: {
         type: DataTypes.TINYINT,
-        allowNull: false,
+        allowNull: true,
         default: 0,
         comment:"是否为管理员"
     },
