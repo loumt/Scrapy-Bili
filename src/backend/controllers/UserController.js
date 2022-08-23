@@ -29,9 +29,12 @@ class UserController extends BaseController{
                     if(!user) return this.error(res,this.ResultCode.LOGIN_FAIL_WITH_USER_NOT_EXIST)
 
                     let realPassword = cryptoUtil.cryptPwd(username,password, user.salt)
+
+
                     if(realPassword !== user.password ){
                         this.error(res,this.ResultCode.LOGIN_FAIL_WITH_PWD)
                     }else{
+
                         //创建一个Token
                         let serverToken = cryptoUtil.generateToken(user.id, username, token.maxAge )
 
@@ -42,6 +45,9 @@ class UserController extends BaseController{
                         }
                         await LoginLogService.save(createLoginLog)
 
+
+
+                        console.log("LOGIN_FAIL_WITH_PWD");
                         this.success(res, {token: serverToken})
                     }
                 }catch (err) {

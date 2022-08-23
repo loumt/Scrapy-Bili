@@ -144,12 +144,15 @@
             <el-card>
               <el-row>
                 <el-col :span="8">
-                  <el-image :src="'https://images.weserv.nl/?url=https:'+ video.pic" class="image video-img"/>
+                  <el-image :src="'https://images.weserv.nl/?url='+ video.pic" class="image video-img"/>
                 </el-col>
                 <el-col :span="14" :offset="2">
-                  <div>
-                    <a :href="'https://www.bilibili.com/video/av' + video.aid" class="dynamic-link"
+                  <div v-if="video.bvid">
+                    <a :href="'https://www.bilibili.com/video/' + video.bvid" class="dynamic-link"
                        target="_blank">{{video.title}}</a>
+                  </div>
+                  <div v-else="!video.bvid">
+                    <span>{{video.title}}</span>
                   </div>
                   <div style="margin-top: 10px;">
                     <el-tag>{{video.length}}</el-tag>

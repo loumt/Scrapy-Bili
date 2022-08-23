@@ -81,6 +81,7 @@ DROP TABLE IF EXISTS `bl_attention_uper_video`;
 CREATE TABLE `bl_attention_uper_video` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
   `aid` bigint(20) NOT NULL,
+  `bvid` varchar(64) DEFAULT NULL,
   `title` text COMMENT '标题',
   `subtitle` text COMMENT '子标题',
   `coin` int(8) DEFAULT NULL COMMENT '获币数',
@@ -185,9 +186,9 @@ ALTER TABLE bl_attention_uper MODIFY `utime` datetime DEFAULT NULL COMMENT '更�
 DROP TABLE IF EXISTS `bl_system_message`;
 CREATE TABLE `bl_system_message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
-  `bid` bigint(20) NOT NULL,
-  `mid` bigint(20) NOT NULL,
-  `aid` bigint(20) NOT NULL,
+  `bid` bigint(20) DEFAULT NULL,
+  `mid` bigint(20) DEFAULT NULL,
+  `aid` bigint(20) DEFAULT NULL,
   `title` varchar(255) COMMENT '标题',
   `message` varchar(255) COMMENT '消息',
   `type` tinyint DEFAULT 0 COMMENT '消息类型',

@@ -19,7 +19,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
   async run() {
     try {
       //获取任务
-      // console.log('Attention Uper Video Task ..... ' + new Date())
+      console.log('Attention Uper Video Task ..... ' + new Date())
       let nextVideo = await this.getNextTask();
       if (!nextVideo) return this.logger.info('Video list empty.');
 
@@ -40,7 +40,6 @@ class AttentionUperVideoSchedule extends BaseSchedule {
   }
 
   async videoResponseHandler(id, videoResponseHandler) {
-
     if (!videoResponseHandler || videoResponseHandler === "") {
       await AttentionUperVideoService.deleteById(id)
       return this.logger.warn('Video is empty. (warn)')
@@ -64,6 +63,7 @@ class AttentionUperVideoSchedule extends BaseSchedule {
 
       try {
         await AttentionUperVideoService.updateOne({id}, {
+          bvid: data.bvid,
           utime: new Date(),
           coin: data.stat.coin,
           share: data.stat.share,

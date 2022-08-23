@@ -20,7 +20,7 @@ const utils = require('./../utils/utils')
 // trest()
 
 async function trest(){
-  let url = CommonURLConfigure.PLAY_COUNT.url.replace("#MID#", "109678361")
+  let url = CommonURLConfigure.VIDEO.url.replace("#BID#", "25333161")
   // let url = CommonURLConfigure.CONTRIBUTE_DETAIL.url.replace("#MID#", "109678361")
   console.dir(url)
 
@@ -29,6 +29,10 @@ async function trest(){
     let info = utils.parse2Object(infoRes)
     console.dir(info)
     console.dir(info.data)
+
+      let videoList = info.data.list.vlist
+
+
   }catch(e){
     console.log(e)
   }

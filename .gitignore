@@ -10,3 +10,4 @@ src/backend/package-lock.json
 package-lock.json
 log/*.log
 .idea
+node_modules

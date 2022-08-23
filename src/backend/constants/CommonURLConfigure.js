@@ -28,7 +28,7 @@ module.exports = {
     comment: "获取Uper主动态"
   },
   VIDEO: {
-    url: "https://space.bilibili.com/ajax/member/getSubmitVideos?mid=#MID#&pagesize=30&tid=0&page=1&keyword=&order=pubdate",
+    url: "https://api.bilibili.com/x/space/arc/search?mid=#BID#&ps=30&tid=0&pn=1&keyword=&order=pubdate&jsonp=jsonp",
     comment: "获取发布的视频列表"
   },
   VIDEO_DETAIL:{

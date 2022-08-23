@@ -27,8 +27,7 @@ class UperSchedule extends BaseSchedule {
 
       let existUper = await UperService.findByMid(bid)
       let nowTimes = new Date().getTime()
-      if(existUper &&   (nowTimes - existUper.utime.getTime()) >  60 * 60 * 1000)
-        return await UperTaskService.deleteOne({bid: bid})
+      if(existUper &&  (nowTimes - existUper.utime.getTime()) >  60 * 60 * 1000) return;
 
       let uperInfo = {}
 
@@ -49,8 +48,7 @@ class UperSchedule extends BaseSchedule {
       let fansRes = await this.RequestHandler(this.CommonURLConfigure.UP_FOLLOW.url.replace("#MID#", bid))
       let fans =  utils.parse2Object(fansRes)
 
-      if(!fans.data)
-        return this.logger.error(`编号: ${bid} fansRes.data empty!`)
+      if(!fans.data) return this.logger.error(`编号: ${bid} fansRes.data empty!`)
 
       uperInfo.attention = fans.data.following;
       uperInfo.fans = fans.data.follower;
@@ -58,13 +56,14 @@ class UperSchedule extends BaseSchedule {
       //查询投稿数
       let contributesRes = await this.RequestHandler(this.CommonURLConfigure.CONTRIBUTE_DETAIL.url.replace("#MID#", bid))
       let contributes =  utils.parse2Object(contributesRes)
+
       uperInfo.contribute = contributes.data.album + contributes.data.audio + contributes.data.article + contributes.data.video
 
 
       //查询播放数
-      let playRes = await this.RequestHandler(this.CommonURLConfigure.PLAY_COUNT.url.replace("#MID#", bid))
-      let plays =  utils.parse2Object(playRes)
-      uperInfo.play = plays.data.archive.view;
+      // let playRes = await this.RequestHandler(this.CommonURLConfigure.PLAY_COUNT.url.replace("#MID#", bid))
+      // let plays =  utils.parse2Object(playRes)
+      // uperInfo.play = plays.data.archive.view;
 
       //查询关注详情
       // let followDetail = await this.RequestHandler(this.CommonURLConfigure.FOLLOW_DETAIL.url.replace("#MID#", bid))
@@ -97,6 +96,7 @@ class UperSchedule extends BaseSchedule {
       if(err && err.statusCode === 412) return this.logger.error("触发B站风险控制了.")
       this.logger.error("--uperTask run---")
       this.logger.error(err)
+      console.log(err);
     }
   }
 

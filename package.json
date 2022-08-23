@@ -4,5 +4,8 @@
   "description": "Scrapy Web And App",
   "scripts": {
     "web:back": "node ./src/backend/dev.js"
+  },
+  "dependencies": {
+    "electron": "^13.0.1"
   }
 }

@@ -35,7 +35,7 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
       await this.dynamicResponseHandler(dynamicResponse);
 
       logger.info(`正在获取 ${bid} 的视频信息.....`)
-      let videoResponse = await this.RequestHandler(this.CommonURLConfigure.VIDEO.url.replace("#MID#", bid))
+      let videoResponse = await this.RequestHandler(this.CommonURLConfigure.VIDEO.url.replace("#BID#", bid))
       await this.videoResponseHandler(videoResponse);
 
       logger.info(`完成获取 ${bid} 的信息,更新时间变更....`)
@@ -148,7 +148,7 @@ class AttentionUperDynamicSchedule extends BaseSchedule {
 
     let {data: videoData} = video;
     if (!videoData) return logger.error('Video [data] is not found!')
-    let {vlist} = videoData;
+    let {vlist} = videoData.list;
     if (!vlist || vlist.length === 0) return logger.error('Video [vlist] is not found or empty!')
 
     vlist.every(await this.videoHandler)
