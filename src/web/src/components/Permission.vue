@@ -13,7 +13,7 @@
 
         <el-col :span="8" :offset="2">
           <el-button type="primary" size="medium" icon="el-icon-plus" title="新增" round
-                     @click="addPermission" plain></el-button>
+                     @click="showAddPermissionModal" plain></el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -26,9 +26,29 @@
           </template>
         </el-table-column>
 
+        <el-table-column label="类型">
+          <template slot-scope="scope">
+            <el-tag size="medium">{{ scope.row.type}}</el-tag>
+          </template>
+        </el-table-column>
+
+
         <el-table-column label="描述">
           <template slot-scope="scope">
             <el-tag size="medium">{{ scope.row.desc}}</el-tag>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="启用">
+          <template slot-scope="scope">
+            <el-switch
+              @change="disablePermission(scope.row.id, scope.row.disable)"
+              v-model="scope.row.disable"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+              :active-value="0"
+              :inactive-value="1">
+            </el-switch>
           </template>
         </el-table-column>
 
@@ -48,6 +68,25 @@
         </el-pagination>
       </el-row>
     </el-main>
+
+
+    <el-dialog title="新增权限" :visible.sync="newPermission.show" :width="newPermission.width" :show-close="false">
+      <el-form :model="newPermission">
+        <el-form-item label="权限名" :label-width="newPermission.labelWidth">
+          <el-input v-model="newPermission.name" autocomplete="off" placeholder="用户名"></el-input>
+        </el-form-item>
+
+        <el-form-item label="描述" :label-width="newPermission.labelWidth">
+          <el-input v-model="newPermission.desc" autocomplete="off" placeholder="昵称"></el-input>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="newPermission.show = false">取 消</el-button>
+        <el-button type="primary" @click="addPermission">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </el-container>
 </template>
 
@@ -57,7 +96,14 @@
     export default {
         data() {
             return {
-                code: ''
+                code: '',
+                newPermission: {
+                    show:false,
+                    width:'30%',
+                    labelWidth: "4rem",
+                    code: "",
+                    desc: ""
+                }
             }
         },
         mounted() {
@@ -80,12 +126,23 @@
                 this.initData();
             },
             removePermission(row) {
-                this.$store.dispatch('Permission/deletePermission', row.id)
-                this.$message({type: 'info', message: '成功删除'});
-                this.initData();
+                this.biliConfirm('删除', '是否删除 #' + row.code + "# ?", async () => {
+                    this.$store.dispatch('Permission/deletePermission', row.id)
+                    this.$message({type: 'info', message: '成功删除'});
+                    this.initData();
+                }, "删除失败")
+            },
+            showAddPermissionModal(){
+                this.newPermission.show= true
             },
             addPermission(){
-
+                let permission =  {code : this.newPermission.code ,desc: this.newPermission.desc}
+                this.$store.dispatch("Permission/createPermission",permission).then(res=> {
+                    this.newPermission.show = false
+                })
+            },
+            disablePermission(id, disable){
+                this.$store.dispatch('Permission/upPermission', {id , disable})
             }
         }
     }

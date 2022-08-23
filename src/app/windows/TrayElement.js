@@ -8,6 +8,7 @@ class TrayElement extends EventEmitter{
     this.app = app
     this.mainWindow = mainWindow
     this.createTray()
+    this.initEvent()
   }
 
   createTray(){
@@ -31,6 +32,19 @@ class TrayElement extends EventEmitter{
     ]
   }
 
+  initEvent(){
+    this.tray.on("double-click", ()=>{
+      this.mainWindow.show()
+    })
+  }
+
+  get(){
+    return this.tray;
+  }
+
+  destroy(){
+    this.tray.destroy()
+  }
 
 }
 

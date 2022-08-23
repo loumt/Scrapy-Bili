@@ -6,6 +6,10 @@ class PermissionService extends BaseService{
         super(db["Permission"])
     }
 
+
+    findByCode(code){
+        return super.findOne({where : {code}})
+    }
 }
 
 module.exports = new PermissionService();

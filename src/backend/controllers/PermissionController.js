@@ -32,6 +32,26 @@ class PermissionController extends BaseController{
         ]
     }
 
+    update() {
+        return [
+            this.param("id").exists(),
+            this.body("disable").isInt({min:0,max:1}).toInt(),
+            this.utils.checkValidationResult(),
+            async (req, res, next) => {
+                try{
+                    let {id} = req.params
+                    let {disable} = req.body
+                    console.log({id,disable})
+                    await PermissionService.updateOne({id}, {disable})
+                    this.success(res)
+                }catch(err){
+                    this.logger.error(err)
+                    this.systemInError(res)
+                }
+            }
+        ]
+    }
+
 
     remove() {
         return [
@@ -41,6 +61,29 @@ class PermissionController extends BaseController{
                 try{
                     let {id} = req.params
                     await PermissionService.deleteById(id)
+                    this.success(res)
+                }catch(err){
+                    this.logger.error(err)
+                    this.systemInError(res)
+                }
+            }
+        ]
+    }
+
+    add() {
+        return [
+            this.body("code").exists(),
+            this.body("desc").exists(),
+            this.utils.checkValidationResult(),
+            async (req, res, next) => {
+                try{
+                    let {code,desc} = req.body
+                    let permission = await PermissionService.findByCode(code)
+
+                    if(permission) return this.error(res,this.ResultCode.PERMISSION_ALREADY_EXIST)
+
+                    let newPermission = {code, desc}
+                    await PermissionService.save(newPermission)
                     this.success(res)
                 }catch(err){
                     this.logger.error(err)

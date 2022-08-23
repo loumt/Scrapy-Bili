@@ -32,7 +32,6 @@ const CRON = {
             }
         }
     },
-
     //emoji
     EMOJI: '*/30 * * * * *'
 }
@@ -71,5 +70,4 @@ if (schedule.emoji) {
         await Handler.EmojiSchedule.run();
     })
 }
-
 

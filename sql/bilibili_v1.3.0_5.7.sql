@@ -240,6 +240,9 @@ CREATE TABLE `m_permission` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '唯一id',
   `code` varchar(64) NOT NULL  COMMENT '资源代码',
   `desc` varchar(255)  default "" COMMENT '描述',
+  `rule` VARCHAR (255) DEFAULT NULL COMMENT "匹配规则",
+  `type` TINYINT(1) DEFAULT NULL COMMENT "类型",
+  `disable` TINYINT(1) DEFAULT 0 comment "是否禁用",
    `ctime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='权限资源表';

@@ -10,7 +10,7 @@ exports.resJson = function (req, res, next) {
     if (_.findKey(ResultCode, resultModel)) {
       res.status(200).json(resultModel);
     } else {
-      res.status(200).json(ResultCode.SERVER_ERROR);
+      res.status(200).json(ResultCode.SYSTEM_ERROR);
     }
   }
   next();
